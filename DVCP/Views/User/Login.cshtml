@@ -1,0 +1,43 @@
+﻿@model DVCP.ViewModel.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+
+                        <h5 class="card-title text-center">Sign In</h5>
+                        <div class="text-center text-danger">@ViewBag.Error</div>
+                        <form class="form-signin" method="post">
+
+                            <div class="form-label-group">
+                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "UserName" })
+                                <label for="inputEmail">User name</label><br />
+                                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-label-group">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+
+                                <label for="inputPassword">Password</label><br />
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @*<input type="checkbox" class="custom-control-input" id="customCheck1">*@
+                                @Html.CheckBoxFor(m => m.RememberMe, new { @class = "" })
+                                Remember me
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
