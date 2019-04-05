@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Tạo Bài Viết Mới";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Model.post_type = DVCP.ViewModel.PostType.Normal;
 }
 <script src="~/Content/js/popper.min.js"></script>
 <script src="~/Content/js/bootstrap.min.js"></script>
@@ -14,77 +15,89 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
+    <div class="form-horizontal">
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="row">
-                <div class="form-group col-md-6">
-                    @Html.Label("Loại bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-                    <div class="col-md-8">
-                        @Html.EditorFor(model => model.post_type, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.post_type, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group col-md-6">
-                    @Html.Label("Triều đại:", htmlAttributes: new { @class = "control-label col-md-4" })
-                    <div class="col-md-8">
-                        @Html.EditorFor(model => model.dynasty, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.dynasty, "", new { @class = "text-danger" })
-                    </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.Label("Loại bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(x => x.post_type, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.post_type, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="form-group">
-                @Html.Label("Tiêu đề bài viết: ", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.post_title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.post_title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.Label("Teaser ngắn của bài viết", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.post_teaser, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.post_teaser, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.Label("Nội dung bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.post_content, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.post_content, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <script>
-                $('#post_content').summernote({
-                    placeholder: 'Nội dung bài viết...',
-                    tabsize: 2,
-                    height: 100
-                });
-            </script>
-            <div class="form-group">
-                @Html.Label("Đánh giá bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.post_review, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.post_review, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.Label("Thẻ tag bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.post_tag, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.post_tag, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-info" />
+            <div class="form-group col-md-6">
+                @Html.Label("Triều đại:", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(x => x.dynasty, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.dynasty, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            @Html.Label("Thẻ tag bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                <div class="row">
+                    @for (int i = 0; i < Model.post_tag.Count; i++)
+                    {
+                        string title = Model.post_tag[i].Text;
+                        <div class="col-md-2">
+                            @Html.HiddenFor(model => model.post_tag[i].Value)
+                            @Html.CheckBoxFor(model => model.post_tag[i].Selected)
+                            <p style="display:inline">@title</p>
+                        </div>
+
+                    }
+                </div>
+                @Html.ValidationMessageFor(model => model.post_tag, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Tiêu đề bài viết: ", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.post_title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.post_title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Teaser ngắn của bài viết", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.post_teaser, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.post_teaser, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Nội dung bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.post_content, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.post_content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <script>
+            $('#post_content').summernote({
+                placeholder: 'Nội dung bài viết...',
+                tabsize: 2,
+                height: 400
+            });
+        </script>
+        <div class="form-group">
+            @Html.Label("Đánh giá bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.post_review, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.post_review, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
     }
 </div>
 

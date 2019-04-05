@@ -13,6 +13,11 @@ namespace DVCP.Models
 
         public int? userid { get; set; }
 
+        public int Rated { get; set; }
+
+        [StringLength(200)]
+        public string AvatarImage { get; set; }
+
         [Required]
         [StringLength(200)]
         public string post_title { get; set; }

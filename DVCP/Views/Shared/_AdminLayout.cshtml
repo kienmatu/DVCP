@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - Admin Đại Việt Cổ Phong</title>
+    <link rel="icon" href="~/Content/images/dvcp.ico" type="image/x-icon" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -67,7 +68,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="/" class="brand-link">
-                <img src="~/Content/AdminLTE/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                <img src="~/Content/images/apple-icon-120x120.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">Đại Việt Cổ Phong</span>
             </a>
@@ -77,7 +78,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="~/Content/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="~/Content/images/apple-icon-120x120.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">Kiên Đinh</a>
@@ -156,7 +157,13 @@
 
                             </ul>
                         </li>
-                        <li class="nav-header">LABELS</li>
+                        <li class="nav-header">Công cụ</li>
+                        <li class="nav-item">
+                            <a href="/Admin/FileManager" class="nav-link">
+                                <i class="nav-icon fa fa-circle-o text-info"></i>
+                                <p>Quản Lý File</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-circle-o text-danger"></i>
@@ -169,12 +176,7 @@
                                 <p>Warning</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-circle-o text-info"></i>
-                                <p>Informational</p>
-                            </a>
-                        </li>
+
 
                     </ul>
                 </nav>
