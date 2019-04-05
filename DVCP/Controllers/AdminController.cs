@@ -64,12 +64,7 @@ namespace DVCP.Controllers
         [HttpGet]
        public ActionResult FileManager(string subFolder)
         {
-            DirectoryInfo di = new DirectoryInfo(Server.MapPath("~/Files/"));
-            // Enumerating all 1st level directories of a given root folder (MyFolder in this case) and retrieving the folders names.
-            var folders = di.GetDirectories().ToList().Select(d => d.Name);
-
-            FileViewModel model = new FileViewModel(){ Folder = "images", SubFolder = subFolder };
-
+            FileViewModel model = new FileViewModel { Folder = "Files", SubFolder = subFolder };
             return View(model);
         }
     }

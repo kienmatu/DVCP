@@ -1,10 +1,9 @@
-﻿@model DVCP.ViewModel.FileViewModel
-@{
+﻿@{
     ViewBag.Title = "Files";
 }
-@* Bundles with elFinder's CSS and JavaScript files configured in App_Start\BundleConfig.cs*@
-@Styles.Render("~/Content/elfinder")
-@Scripts.Render("~/Scripts/elfinder")
+<link href="~/Content/elfinder/css/elfinder.full.css" rel="stylesheet" />
+<script src="~/Content/elfinder/js/elfinder.min.js"></script>
+
 <script type="text/javascript">
     $(function ()
     {
@@ -38,7 +37,11 @@
                     ['rm'],
                     ['duplicate', 'rename', 'edit'],
                     ['view', 'sort']
-                ]
+                ],
+                navbar: {
+                    minWidth: 150,
+                    maxWidth: 500
+                }
             },
 
             handlers: {
