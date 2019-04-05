@@ -1085,39 +1085,6 @@
     <Content Include="Content\elfinder\js\i18n\help\sk.html.js" />
     <Content Include="Content\elfinder\js\proxy\elFinderSupportVer1.js" />
     <Content Include="Content\elfinder\main.default.js" />
-    <Content Include="Content\elfinder\php\autoload.php" />
-    <Content Include="Content\elfinder\php\editors\editor.php" />
-    <Content Include="Content\elfinder\php\editors\OnlineConvert\editor.php" />
-    <Content Include="Content\elfinder\php\editors\ZipArchive\editor.php" />
-    <Content Include="Content\elfinder\php\editors\ZohoOffice\editor.php" />
-    <Content Include="Content\elfinder\php\elFinder.class.php" />
-    <Content Include="Content\elfinder\php\elFinderConnector.class.php" />
-    <Content Include="Content\elfinder\php\elFinderFlysystemGoogleDriveNetmount.php" />
-    <Content Include="Content\elfinder\php\elFinderPlugin.php" />
-    <Content Include="Content\elfinder\php\elFinderSession.php" />
-    <Content Include="Content\elfinder\php\elFinderSessionInterface.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeBox.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeDriver.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeDropbox.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeDropbox2.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeFTP.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeGoogleDrive.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeGroup.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeLocalFileSystem.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeMySQL.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeOneDrive.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeTrash.class.php" />
-    <Content Include="Content\elfinder\php\elFinderVolumeTrashMySQL.class.php" />
-    <Content Include="Content\elfinder\php\libs\GdBmp.php" />
-    <Content Include="Content\elfinder\php\MySQLStorage.sql" />
-    <Content Include="Content\elfinder\php\plugins\AutoResize\plugin.php" />
-    <Content Include="Content\elfinder\php\plugins\AutoRotate\plugin.php" />
-    <Content Include="Content\elfinder\php\plugins\Normalizer\plugin.php" />
-    <Content Include="Content\elfinder\php\plugins\Sanitizer\plugin.php" />
-    <Content Include="Content\elfinder\php\plugins\Watermark\logo.png" />
-    <Content Include="Content\elfinder\php\plugins\Watermark\plugin.php" />
-    <Content Include="Content\elfinder\php\resources\image.png" />
-    <Content Include="Content\elfinder\php\resources\video.png" />
     <Content Include="Content\elfinder\sounds\rm.wav" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -1337,9 +1304,6 @@
     <Content Include="Content\elfinder\files\.trash\.gitkeep" />
     <Content Include="Content\elfinder\LICENSE.md" />
     <Content Include="Content\elfinder\package.json" />
-    <Content Include="Content\elfinder\php\.tmp\.htaccess" />
-    <Content Include="Content\elfinder\php\connector.minimal.php-dist" />
-    <Content Include="Content\elfinder\php\mime.types" />
     <Content Include="Content\elfinder\README.md" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -1395,7 +1359,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Files\" />
+    <Folder Include="Files\Files\" />
     <Folder Include="Files\images\" />
     <Folder Include="Views\File\" />
   </ItemGroup>

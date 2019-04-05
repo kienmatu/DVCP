@@ -14,17 +14,17 @@ namespace DVCP.Controllers
         {
             var driver = new FileSystemDriver();
 
-            var root = new Root(new DirectoryInfo(Server.MapPath("~/Files/" + folder)),
-                "http://" + Request.Url.Authority + "/Content/" + folder + "/")
+            var root = new Root(new DirectoryInfo(Server.MapPath("~/Upload/" + folder)),
+                "http://" + Request.Url.Authority + "/Upload/" + folder + "/")
             {
                 IsReadOnly = false,
                 Alias = "Root",
-                MaxUploadSizeInMb = 500
+                MaxUploadSizeInMb = 100
             };
 
             if (!string.IsNullOrEmpty(subFolder))
             {
-                root.StartPath = new DirectoryInfo(Server.MapPath("~/Content/" + folder + "/" + subFolder));
+                root.StartPath = new DirectoryInfo(Server.MapPath("~/Upload/" + folder + "/" + subFolder));
             }
 
             driver.AddRoot(root);
@@ -38,8 +38,8 @@ namespace DVCP.Controllers
 
             driver.AddRoot(
                 new Root(
-                    new DirectoryInfo(Server.MapPath("~/Content")),
-                    "http://" + Request.Url.Authority + "/Content")
+                    new DirectoryInfo(Server.MapPath("~/Upload")),
+                    "http://" + Request.Url.Authority + "/Upload")
                 { IsReadOnly = false });
 
             var connector = new Connector(driver);
