@@ -14,7 +14,7 @@ namespace DVCP.Controllers
         {
             var driver = new FileSystemDriver();
 
-            var root = new Root(new DirectoryInfo(Server.MapPath("~/Content/" + folder)),
+            var root = new Root(new DirectoryInfo(Server.MapPath("~/Files/" + folder)),
                 "http://" + Request.Url.Authority + "/Content/" + folder + "/")
             {
                 IsReadOnly = false,
