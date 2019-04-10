@@ -1,0 +1,89 @@
+﻿@model PagedList.IPagedList<DVCP.Models.tbl_POST>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "ListPost";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+
+<div style="margin-top:10px;"></div>
+<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách bài viết</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Ngày tạo</th>
+                            <th>Lượt xem</th>
+                            <th>Ngày tạo</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.post_title)
+                                </td>
+                                <td>
+                                    @String.Format("{0:dd/MM/yyyy}", item.create_date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ViewCount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tbl_User.fullname)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.post_id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.post_id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.post_id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Ngày tạo</th>
+                            <th>Lượt xem</th>
+                            <th>Ngày tạo</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<nav aria-label="Page navigation example" style="text-align:center">
+    @Html.PagedListPager(Model, page => Url.Action("ListPost", new { page }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination" }, LiElementClasses = new string[] { "page-item" } })
+</nav>
+<script src="~/Content/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable();
+        //$('#example2').DataTable({
+        //    "paging": true,
+        //    "lengthChange": false,
+        //    "searching": false,
+        //    "ordering": true,
+        //    "info": true,
+        //    "autoWidth": false
+        //});
+    });
+</script>

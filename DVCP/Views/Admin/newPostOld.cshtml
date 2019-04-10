@@ -5,22 +5,12 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     //Model.post_type = DVCP.ViewModel.PostType.Normal;
 }
-<style>
-    #imganno {
-        display: none;
-    }
-
-</style>
-
-
 <script src="~/Content/js/popper.min.js"></script>
 <script src="~/Content/js/bootstrap.min.js"></script>
 <!-- include summernote css/js -->
 <script src="~/Content/summernote/summernote-bs4.js"></script>
 <link href="~/Content/summernote/summernote-bs4.css" rel="stylesheet" />
 <div class="container-fluid" style="margin-top:15px;padding-top:15px;">
-   
-
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -44,14 +34,6 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <div id="imganno" class="form-group" style="color:red">
-                    Tạo bài viết xong sẽ được chuyển hướng tới trang upload ảnh !
-                </div>
-            </div>
-        </div>
-       
         <div class="form-group">
             @Html.Label("Thẻ tag bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-10">
@@ -85,7 +67,16 @@
                 @Html.ValidationMessageFor(model => model.post_teaser, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div id="slideimg" class="form-group">
+            @*<div class="table-responsive col-md-10">
+                <table class="table table-bordered" id="dynamic_field">
+                    <tr>
+                        <td class="col-md-7"><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
+                        <td class="col-md-2"><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
+                    </tr>
+                </table>
+            </div>*@
+        </div>
         <div class="form-group">
             @Html.Label("Nội dung bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-10">
@@ -107,6 +98,9 @@
                 @Html.ValidationMessageFor(model => model.post_review, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -117,43 +111,46 @@
     }
 </div>
 <script>
-   @* Dropzone.options.myDropzone = {
-        url: '/Admin/newPost',
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 5,
-        maxFiles: 20,
-        maxFilesize: 1,
-        acceptedFiles: 'image/*',
-        addRemoveLinks: true,
-        init: function () {
-            dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+    $(document).ready(function () {
+        var i = 1;
+        $('#slideimg').on('click','#add', function () {
+            i++;
+            $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="name[]" placeholder="Link số ' + i +'" class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+        });
+        //$('#add').click(function () {
+        //    i++;
+        //    $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+        //});
 
-            // for Dropzone to process the queue (instead of default form behavior):
-            document.getElementById("submit-all").addEventListener("click", function (e) {
-                // Make sure that the form isn't actually being sent.
-                e.preventDefault();
-                e.stopPropagation();
-                dzClosure.processQueue();
-            });
+        $(document).on('click', '.btn_remove', function () {
+            var button_id = $(this).attr("id");
+            $('#row' + button_id + '').remove();
+        });
 
-            //send all the form data along with the files:
-            this.on("sendingmultiple", function (data, xhr, formData) {
-                formData.append("post_type", jQuery("#post_type").val());
-                formData.append("dynasty", jQuery("#dynasty").val());
-            });
-        }
-    }*@
-    $("#post_type").change(function () {
-        var type = this.value;
-        if (type == 2) {
-            $('#imganno').show()
-        }
-        else {
-            $('#imganno').hide();
-        }
+        //$('#submit').click(function () {
+        //    $.ajax({
+        //        url: "name.php",
+        //        method: "POST",
+        //        data: $('#add_name').serialize(),
+        //        success: function (data) {
+        //            alert(data);
+        //            $('#add_name')[0].reset();
+        //        }
+        //    });
+        //});
+        $("#post_type").change(function () {
+            var type = this.value;
+            if (type == 2) {
+                $('#slideimg').append('<div id="tblimg" class="table-responsive col-md-10">'+
+                '<table class= "table table-bordered" id = "dynamic_field" >'+
+                    '<label class="control-label col-md-4" for="">Đường dẫn hình ảnh trong slide</label><tr><td class="col-md-7"><input type="text" name="name[]" placeholder="Link số '+i+'" class="form-control name_list" /></td>'
+                        +'<td class="col-md-2"><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>'
+                    +'</tr></table></div>')
+            }
+            else {
+                $('#tblimg').remove();
+            }
+        });
+
     });
-    $(document).load(function () {
-        $('#slideimg').hide()
-    })
 </script>

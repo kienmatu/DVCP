@@ -1,0 +1,98 @@
+﻿@model DVCP.ViewModel.uploadViewModel
+@{
+    ViewBag.Title = "Tải hình ảnh cho slide";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!-- include dropzone css/js -->
+<script src="~/Scripts/dropzone/dropzone.js"></script>
+<link href="~/Scripts/dropzone/dropzone.css" rel="stylesheet" />
+<!-- include popper and bs css/js -->
+@using (Html.BeginForm("UploadImage","Admin"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(x => x.id)
+       
+        <div class="form-group">
+            <div class="row">
+                @Html.Label("Upload hình ảnh cho bài viết: ", htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+            <div class="form-group">
+                <div id="slideimg" class="col-md-10">
+                    <div class="dropzone" id="myDropzone"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" id="submitfile" value="Upload" class="btn btn-info" />
+                </div>
+            </div>
+       
+    </div>
+}
+
+    <script>
+    Dropzone.options.myDropzone = {
+        url: '/Admin/UploadImage',
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 30,
+        maxFiles: 30,
+        maxFilesize: 15,
+        acceptedFiles: 'image/*',
+        addRemoveLinks: true,
+        init: function () {
+            dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+
+            //// for Dropzone to process the queue (instead of default form behavior):
+            document.getElementById("submitfile").addEventListener("click", function (e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+                dzClosure.processQueue();
+            });
+
+            //send all the form data along with the files:
+            this.on("sendingmultiple", function (data, xhr, formData) {
+                formData.append("id", $("#id").val());
+            });
+            this.on("error", function (data, errorMessage, xhr) {
+                alert(errorMessage.Message);
+            });
+            //this.on("success", function (data, eMessage, xhr) {
+            //    alert(eMessage.Message);
+            //});
+            this.on("successmultiple", function (data, eMessage, xhr) {
+                var notify = $.notify('<strong>Thành công</strong><br/>' + eMessage.Message+'<br />', {
+                    type: 'pastel-warning',
+                    allow_dismiss: false,
+                    //showProgressbar: true
+                    //timer: 600,
+                });
+
+                setTimeout(function () {
+                    notify.update('message', '<strong>Thành công</strong><br/>Đang chuyển hướng...<br />');
+                }, 1400);
+                setTimeout(function () {
+                    console.log('x');
+                }, 2400);
+                setTimeout(function () {
+                    redirect(eMessage.Url);
+                }, 1400);
+                
+
+            });
+            
+        },
+    }
+        function redirect(url) {
+            window.location = url;
+        }
+    </script>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,19 +10,31 @@ using System.Web.Mvc;
 
 namespace DVCP.ViewModel
 {
+    public class RequiredSelectListItem : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            var list = value as List<SelectListItem>;
+            if (list != null)
+            {
+                return list.Where(x => x.Selected == true).Count() > 0;
+            }
+            return false;
+        }
+    }
     public enum PostType : int
     {
         [Display(Name = "Bài Viết Bình Thường")]
         Normal = 1, // Bình thường
-        [Display(Name ="Slide Hình Ảnh")]
-        Silde = 2, // Slide ảnh
+        [Display(Name = "Slide Hình Ảnh")]
+        Slide = 2, // Slide ảnh
         [Display(Name = "Tranh Cãi, Thảo Luận")]
         Discuss = 3, // Tranh cãi, thảo luận
     }
     public enum Rated : int
     {
         [Display(Name = "Bài Viết Bình Thường")]
-        Normal = 3, 
+        Normal = 3,
         [Display(Name = "Đề Xuất Cao")]
         HighRated = 2,
         [Display(Name = "Đề Xuất Quan Trọng")]
@@ -29,6 +42,8 @@ namespace DVCP.ViewModel
     }
     public enum Dynasty
     {
+        [Display(Name = "Tất cả")]
+        Timeline,
         [Display(Name = "Thời Hồng Bàng")]
         HongBang,
         [Display(Name = "Nhà Đinh")]
@@ -47,23 +62,23 @@ namespace DVCP.ViewModel
         TaySon,
         [Display(Name = "Nhà Nguyễn")]
         Nguyen,
+
     }
-    
+   
     
     public class newPostViewModel
-
     {
-      
-        
         public int post_id { get; set; }
 
         public int? userid { get; set; }
 
-        [Required]
+        
         [StringLength(200)]
+        [MinLength(10,ErrorMessage = "Ít nhất 10 ký tự")]
+        [Required(ErrorMessage = "Vui lòng nhập tiêu đề !")]
         public string post_title { get; set; }
 
-        [Required]
+        //[Required(ErrorMessage = "Vui lòng nhập teaser ngắn !")]
         [StringLength(500)]
         public string post_teaser { get; set; }
 
@@ -79,13 +94,14 @@ namespace DVCP.ViewModel
         [Required(ErrorMessage ="Vui lòng chọn kiểu bài viết!")]
         public PostType post_type { get; set; }
 
-        
+        [RequiredSelectListItem(ErrorMessage = "Vui lòng chọn ít nhất 1 tag")]
         public List<SelectListItem> post_tag { get; set; }
 
         public DateTime? create_date { get; set; }
 
         public DateTime? edit_date { get; set; }
 
+        public List<string> lstImage { get; set; }
        
         public Dynasty dynasty { get; set; }
         public Rated Rated { get; set; }

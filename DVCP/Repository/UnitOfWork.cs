@@ -40,7 +40,7 @@ namespace DVCP
                 return _userRepository;
             }
         }
-        public void Save()
+        public void Commit()
         {
             context.SaveChanges();
         }

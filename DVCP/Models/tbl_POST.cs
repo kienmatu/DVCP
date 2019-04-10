@@ -45,6 +45,7 @@ namespace DVCP.Models
         public string dynasty { get; set; }
 
         public virtual tbl_User tbl_User { get; set; }
-        public decimal ViewCount { get; set; }
+        public int ViewCount { get; set; }
+        public bool? status { get; set; }
     }
 }

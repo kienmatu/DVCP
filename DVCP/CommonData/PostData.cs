@@ -10,7 +10,7 @@ namespace DVCP.CommonData
 
     public class PostData
     {
-        public static List<SelectListItem> getDynastyList()
+        public static List<SelectListItem> getTagList()
         {
             List<SelectListItem> lstDynasty = new List<SelectListItem>
             {
@@ -26,6 +26,7 @@ namespace DVCP.CommonData
             new SelectListItem {Text = "Thần thoại", Value = "Thần thoại"},
             new SelectListItem {Text = "Văn hóa", Value = "Văn hóa"},
             new SelectListItem {Text = "Phong tục", Value = "Phong tục"},
+            new SelectListItem {Text = "Tôn giáo", Value = "Tôn giáo"},
 
         };
            
