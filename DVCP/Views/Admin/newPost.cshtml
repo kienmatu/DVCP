@@ -51,7 +51,7 @@
                 </div>
             </div>
         </div>
-       
+
         <div class="form-group">
             @Html.Label("Thẻ tag bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-10">
@@ -97,7 +97,7 @@
             $('#post_content').summernote({
                 placeholder: 'Nội dung bài viết...',
                 tabsize: 2,
-                height: 350
+                height: 300
             });
         </script>
         <div class="form-group">
@@ -107,7 +107,17 @@
                 @Html.ValidationMessageFor(model => model.post_review, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.Label("Trạng thái bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                <label class="switch">
+                    <input type="checkbox" id="Status" name="Status" value ="@(Model.Status == true ? "true" : "false")" @(Model.Status == true ? "checked" : "") class="success">
+                    <span class="slider"></span>
+                </label>
+              
+                <p id="showstatus" style="display:inline"> Đăng ngay</p>
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-info" />
@@ -117,43 +127,26 @@
     }
 </div>
 <script>
-   @* Dropzone.options.myDropzone = {
-        url: '/Admin/newPost',
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 5,
-        maxFiles: 20,
-        maxFilesize: 1,
-        acceptedFiles: 'image/*',
-        addRemoveLinks: true,
-        init: function () {
-            dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
-
-            // for Dropzone to process the queue (instead of default form behavior):
-            document.getElementById("submit-all").addEventListener("click", function (e) {
-                // Make sure that the form isn't actually being sent.
-                e.preventDefault();
-                e.stopPropagation();
-                dzClosure.processQueue();
-            });
-
-            //send all the form data along with the files:
-            this.on("sendingmultiple", function (data, xhr, formData) {
-                formData.append("post_type", jQuery("#post_type").val());
-                formData.append("dynasty", jQuery("#dynasty").val());
-            });
-        }
-    }*@
     $("#post_type").change(function () {
         var type = this.value;
         if (type == 2) {
-            $('#imganno').show()
+            $('#imganno').show();
         }
         else {
             $('#imganno').hide();
         }
     });
-    $(document).load(function () {
-        $('#slideimg').hide()
-    })
+    $('#Status').change(function () {
+        var x = $('#Status').prop("checked");
+        if (x == true) {
+            $('#showstatus').text(' Đăng ngay');
+            $('#Status').val('true');
+        }
+        else if (x == false) {
+            $('#showstatus').text(' Đăng nháp (không hiển thị)');
+            $('#Status').val('false');
+        }
+    });
+    
+    
 </script>

@@ -5,7 +5,6 @@
     ViewBag.Title = "ListPost";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 <link href="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
 
 <div style="margin-top:10px;"></div>
@@ -18,13 +17,14 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="lstPost" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Tiêu đề</th>
                             <th>Ngày tạo</th>
                             <th>Lượt xem</th>
-                            <th>Ngày tạo</th>
+                            <th>Người tạo</th>
+                            <th>Trạng thái</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
@@ -33,7 +33,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.post_title)
+                                    @Html.ActionLink(item.post_title, "Details", new { id = item.post_id })
                                 </td>
                                 <td>
                                     @String.Format("{0:dd/MM/yyyy}", item.create_date)
@@ -45,9 +45,16 @@
                                     @Html.DisplayFor(modelItem => item.tbl_User.fullname)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.post_id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.post_id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.post_id })
+                                    <label class="switch">
+                                        <input onchange="changeStt(this)" type="checkbox" id="@item.post_id" @(item.status == true ? "checked" : "") class="success">
+                                        <span class="slider"></span>
+                                    </label>
+                                </td>
+                                <td>
+
+                                    @Html.ActionLink("Sửa", "Edit", new { id = item.post_id }, new { @class = "badge badge-primary" })
+                                    <a onclick="deleteConfirm(@item.post_id,'@item.post_title')" href="#" class="badge badge-danger">Xóa</a>
+
                                 </td>
                             </tr>
                         }
@@ -57,7 +64,8 @@
                             <th>Tiêu đề</th>
                             <th>Ngày tạo</th>
                             <th>Lượt xem</th>
-                            <th>Ngày tạo</th>
+                            <th>Người tạo</th>
+                            <th>Trạng thái</th>
                             <th>Hành động</th>
                         </tr>
                     </tfoot>
@@ -72,18 +80,79 @@
 <nav aria-label="Page navigation example" style="text-align:center">
     @Html.PagedListPager(Model, page => Url.Action("ListPost", new { page }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination" }, LiElementClasses = new string[] { "page-item" } })
 </nav>
+<!-- The delete Modal -->
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Bạn có muốn xóa bài viết ?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-danger" >Xóa</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 <script src="~/Content/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.min.js"></script>
 <script>
     $(function () {
-        $("#example1").DataTable();
-        //$('#example2').DataTable({
-        //    "paging": true,
-        //    "lengthChange": false,
-        //    "searching": false,
-        //    "ordering": true,
-        //    "info": true,
-        //    "autoWidth": false
-        //});
+        $("#lstPost").DataTable();
     });
+    function deleteConfirm(id, title) {
+        var delmodal = $('#deleteModal');
+        delmodal.find('.modal-body').text(title);
+        delmodal.modal('show');
+        $('#deleteBtn').click(function () {
+            delmodal.modal('hide');
+            $.ajax({
+            type: "POST",
+            url: '@Url.Action("DeleteConfirmed", "Admin")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: id }),
+            dataType: "json",
+                success: function (recData) {
+                    var notify = $.notify('<strong>Thành công</strong><br/>' + recData.Message + '<br />', {
+                        type: 'pastel-info',
+                        allow_dismiss: false,
+                    });
+                },
+                error: function () {
+                    var notify = $.notify('<strong>Lỗi</strong><br/>Không xóa được<br />', {
+                        type: 'pastel-warning',
+                        allow_dismiss: false,
+                    });
+                }
+        });
+        });
+    }
+    //$('.slider').click(function () {
+    //    var prev = $(this).prev();
+    //    alert(prev.prop('checked'));
+    //});
+    var changeStt = function (xthis) {
+        
+        var xid = xthis.id;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("changeStatus", "Admin")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid, state: st }),
+            dataType: "json",
+            success: function (recData) { alert(recData.Message); },
+            error: function () { alert('An error occured'); }
+        });
+    }
 </script>

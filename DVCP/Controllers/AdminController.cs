@@ -27,6 +27,7 @@ namespace DVCP.Controllers
             {
                 post_type = PostType.Normal,
                 post_tag = PostData.getTagList(),
+                Status = true,
             };
             
             return View(model);
@@ -53,6 +54,7 @@ namespace DVCP.Controllers
                     ViewCount = 0,
                     Rated = (int)model.Rated,
                     post_teaser = model.post_teaser,
+                    status =  model.Status,
                 };
                 UnitOfWork.postRepository.AddPost(pOST);
                 UnitOfWork.Commit();
@@ -113,28 +115,27 @@ namespace DVCP.Controllers
             return View(post);
         }
 
-        public ActionResult Delete(int id)
-        {
-            
-            tbl_POST tbl_POST = UnitOfWork.postRepository.FindByID(id);
-            if (tbl_POST == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tbl_POST);
-        }
 
-        // POST: tbl_POST/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        //POST: tbl_POST/Delete/5
+        [HttpPost]
+        public JsonResult DeleteConfirmed(int id)
         {
             tbl_POST tbl_POST = UnitOfWork.postRepository.FindByID(id);
+            string title = tbl_POST.post_title;
             UnitOfWork.postRepository.DeletePost(tbl_POST);
             UnitOfWork.Commit();
-            return RedirectToAction("Index");
+            return Json(new { Message = "Xóa '" + title + "' thành công" },JsonRequestBehavior.AllowGet);
         }
-
+        [HttpPost]
+        public JsonResult changeStatus(int id, bool state = false)
+        {
+            tbl_POST tbl_POST = UnitOfWork.postRepository.FindByID(id);
+            string title = tbl_POST.post_title;
+            tbl_POST.status = state;
+            string prefix = state == true ? "Đăng" : "Hủy đăng";
+            UnitOfWork.Commit();
+            return Json(new { Message = prefix +" \"" + title + "\" thành công" }, JsonRequestBehavior.AllowGet);
+        }
 
         /// <summary>
         /// Trình quản lý file

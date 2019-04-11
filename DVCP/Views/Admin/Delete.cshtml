@@ -9,35 +9,13 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>tbl_POST</h4>
+   
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.tbl_User.username)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tbl_User.username)
-        </dd>
+       
 
         <dt>
-            @Html.DisplayNameFor(model => model.Rated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Rated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AvatarImage)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AvatarImage)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.post_title)
+            @Html.DisplayName("Tiêu đề:")
         </dt>
 
         <dd>
@@ -45,19 +23,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.post_teaser)
+            @Html.DisplayName("Teaser:")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.post_teaser)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.post_review)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.post_review)
         </dd>
 
         <dt>
@@ -68,45 +38,7 @@
             @Html.DisplayFor(model => model.post_content)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.post_type)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.post_type)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.post_tag)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.post_tag)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.create_date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.create_date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.edit_date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.edit_date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.dynasty)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.dynasty)
-        </dd>
+        
 
         <dt>
             @Html.DisplayNameFor(model => model.ViewCount)
@@ -131,7 +63,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
