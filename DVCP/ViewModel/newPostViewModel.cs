@@ -88,6 +88,7 @@ namespace DVCP.ViewModel
         public string post_review { get; set; }
 
         [AllowHtml]
+        [Required(ErrorMessage = "Hãy nhập nội dung cho bài viết")]
         public string post_content { get; set; }
 
         [Range(1, 3, ErrorMessage = "Vui lòng chọn đúng kiểu bài viết!")]
@@ -101,10 +102,17 @@ namespace DVCP.ViewModel
 
         public DateTime? edit_date { get; set; }
 
-        public List<string> lstImage { get; set; }
-       
+        public string imagepath { get; set; }
+
+        public bool changeAvatar { get; set; } = false;
+
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase avatarFile { get; set; }
+
         public Dynasty dynasty { get; set; }
+
         public Rated Rated { get; set; }
+
         public bool Status { get; set; }
     }
 }

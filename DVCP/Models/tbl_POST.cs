@@ -46,6 +46,6 @@ namespace DVCP.Models
 
         public virtual tbl_User tbl_User { get; set; }
         public int ViewCount { get; set; }
-        public bool? status { get; set; }
+        public bool status { get; set; }
     }
 }

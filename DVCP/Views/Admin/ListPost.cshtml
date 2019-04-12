@@ -24,7 +24,7 @@
                             <th>Ngày tạo</th>
                             <th>Lượt xem</th>
                             <th>Người tạo</th>
-                            <th>Trạng thái</th>
+                            <th>Đăng</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
@@ -52,7 +52,7 @@
                                 </td>
                                 <td>
 
-                                    @Html.ActionLink("Sửa", "Edit", new { id = item.post_id }, new { @class = "badge badge-primary" })
+                                    @Html.ActionLink("Sửa", "editPost", new { id = item.post_id }, new { @class = "badge badge-primary" })
                                     <a onclick="deleteConfirm(@item.post_id,'@item.post_title')" href="#" class="badge badge-danger">Xóa</a>
 
                                 </td>
@@ -107,52 +107,4 @@
 </div>
 <script src="~/Content/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-<script>
-    $(function () {
-        $("#lstPost").DataTable();
-    });
-    function deleteConfirm(id, title) {
-        var delmodal = $('#deleteModal');
-        delmodal.find('.modal-body').text(title);
-        delmodal.modal('show');
-        $('#deleteBtn').click(function () {
-            delmodal.modal('hide');
-            $.ajax({
-            type: "POST",
-            url: '@Url.Action("DeleteConfirmed", "Admin")',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: id }),
-            dataType: "json",
-                success: function (recData) {
-                    var notify = $.notify('<strong>Thành công</strong><br/>' + recData.Message + '<br />', {
-                        type: 'pastel-info',
-                        allow_dismiss: false,
-                    });
-                },
-                error: function () {
-                    var notify = $.notify('<strong>Lỗi</strong><br/>Không xóa được<br />', {
-                        type: 'pastel-warning',
-                        allow_dismiss: false,
-                    });
-                }
-        });
-        });
-    }
-    //$('.slider').click(function () {
-    //    var prev = $(this).prev();
-    //    alert(prev.prop('checked'));
-    //});
-    var changeStt = function (xthis) {
-        
-        var xid = xthis.id;
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("changeStatus", "Admin")',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: xid, state: st }),
-            dataType: "json",
-            success: function (recData) { alert(recData.Message); },
-            error: function () { alert('An error occured'); }
-        });
-    }
-</script>
+<script src="~/Content/js/ListPost.js"></script>
