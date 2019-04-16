@@ -26,7 +26,12 @@ namespace DVCP.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
-
+        [Authorize(Roles = "admin")]
+        public ActionResult UserManager()
+        {
+           List<tbl_User> lstUser = UnitOfWork.userRepository.AllUsers().ToList();
+           return View(lstUser);
+        }
         public void setCookie(string username, bool rememberme = false, string role = "normal")
         {
             var authTicket = new FormsAuthenticationTicket(
@@ -53,7 +58,7 @@ namespace DVCP.Controllers
                 tbl_User user = UnitOfWork.userRepository.FindByUsername(model.Username);
                 if (user != null)
                 {
-                    if (user.password == model.Password)
+                    if (user.password == model.Password && user.status == true)
                     {
                         setCookie(user.username, model.RememberMe, user.userrole);
                         if (ReturnUrl != null)

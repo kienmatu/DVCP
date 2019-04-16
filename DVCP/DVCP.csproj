@@ -171,6 +171,14 @@
     <Compile Include="Migrations\201904110931172_updatepost.Designer.cs">
       <DependentUpon>201904110931172_updatepost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904160951515_addstatus1.cs" />
+    <Compile Include="Migrations\201904160951515_addstatus1.Designer.cs">
+      <DependentUpon>201904160951515_addstatus1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904160953053_addstatus2.cs" />
+    <Compile Include="Migrations\201904160953053_addstatus2.Designer.cs">
+      <DependentUpon>201904160953053_addstatus2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DVCPContext.cs" />
     <Compile Include="Models\info.cs" />
@@ -184,6 +192,7 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\newPostViewModel.cs" />
     <Compile Include="ViewModel\uploadViewModel.cs" />
+    <Compile Include="ViewModel\userListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AdminLTE\dist\css\adminlte.css" />
@@ -1392,6 +1401,7 @@
     <Content Include="Content\images\ui-icons_777777_256x240.png" />
     <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\images\user.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.structure.css" />
     <Content Include="Content\jquery-ui.theme.css" />
@@ -1682,6 +1692,8 @@
     <Content Include="Views\Admin\UploadImage.cshtml" />
     <Content Include="Views\Admin\editPost.cshtml" />
     <Content Include="Views\Admin\MyPost.cshtml" />
+    <Content Include="Views\User\UserManager.cshtml" />
+    <Content Include="Views\Admin\UserPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1722,6 +1734,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904110931172_updatepost.resx">
       <DependentUpon>201904110931172_updatepost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904160951515_addstatus1.resx">
+      <DependentUpon>201904160951515_addstatus1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904160953053_addstatus2.resx">
+      <DependentUpon>201904160953053_addstatus2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

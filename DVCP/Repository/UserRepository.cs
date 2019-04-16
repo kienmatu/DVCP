@@ -23,6 +23,16 @@ namespace DVCP.Repository
             tbl_User u = entity.tbl_User.Where(x => x.username == user).FirstOrDefault();
             return u;
         }
+        public tbl_User FindByID(int id)
+        {
+            tbl_User u = entity.tbl_User.Find(id);
+            return u;
+        }
+        public IQueryable<tbl_User> AllUsers()
+        {
+            IQueryable<tbl_User> query = entity.tbl_User;
+            return query.AsQueryable();
+        }
         public void Delete(tbl_User user)
         {
             entity.tbl_User.Remove(user);

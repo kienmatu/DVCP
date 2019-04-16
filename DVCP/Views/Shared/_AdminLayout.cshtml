@@ -95,7 +95,7 @@
                
             </ul>
 
-            <!-- SEARCH FORM
+             SEARCH FORM
             <form class="form-inline ml-3">
                 <div class="input-group input-group-sm">
                     <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </form>
-                 -->
+                 
         </nav>
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -125,7 +125,7 @@
                         <img src="~/Content/images/apple-icon-120x120.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Kiên Đinh</a>
+                        <a href="#" class="d-block">@User.Identity.Name</a>
                     </div>
                 </div>
 
@@ -156,12 +156,14 @@
                                         <p>Thêm bài viết mới</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                               @if (User.IsInRole("admin"))
+                               {<li class="nav-item">
                                     <a href="/Admin/ListPost" class="nav-link">
                                         <i class="fa fa-circle-o nav-icon"></i>
                                         <p>Tất cả bài viết</p>
                                     </a>
                                 </li>
+                               }
                                 <li class="nav-item">
                                     <a href="/Admin/MyPost" class="nav-link">
                                         <i class="fa fa-circle-o nav-icon"></i>
@@ -189,7 +191,7 @@
                                 @{ if (User.IsInRole("admin"))
                                     {
                                         <li class="nav-item">
-                                            <a href="pages/UI/icons.html" class="nav-link">
+                                            <a href="/User/UserManager" class="nav-link">
                                                 <i class="fa fa-circle-o nav-icon"></i>
                                                 <p>Quản lý người dùng</p>
                                             </a>

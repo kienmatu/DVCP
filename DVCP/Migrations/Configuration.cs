@@ -35,7 +35,7 @@
                     password = "admin",
                     fullname = "ADMIN ĐVCP",
                     userrole = "admin",
-
+                    status = true,
                 }
                 );
             context.SaveChanges();

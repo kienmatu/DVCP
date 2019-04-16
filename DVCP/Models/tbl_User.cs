@@ -35,5 +35,6 @@ namespace DVCP.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbl_POST> tbl_POST { get; set; }
+        public bool status { get; set; } = false;
     }
 }
