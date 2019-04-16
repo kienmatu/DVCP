@@ -15,7 +15,7 @@
 <div class="container-fluid" style="margin-top:15px;padding-top:15px;">
 
 
-    @using (Html.BeginForm(Html.BeginForm("editPost", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" })))
+    @using (Html.BeginForm("editPost", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 

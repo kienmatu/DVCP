@@ -102,90 +102,248 @@ namespace DVCP.Controllers
 
             return View(model);
         }
-        public ActionResult ListPost(string sortOrder, string CurrentSort, int? page)
+        public ActionResult ListPost(string sortOrder, string CurrentSort, int? page, string titleStr)
         {
-            DVCPContext db = new DVCPContext();
-            int pageSize = 20;
-            int pageIndex = 1;
-            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            ViewBag.CurrentSort = sortOrder;
-            sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
-            IPagedList<tbl_POST> post = null;
-            switch (sortOrder)
-            {
-                case "Title":
-                    if (sortOrder.Equals(CurrentSort))
-                        post = UnitOfWork.postRepository.AllPosts().OrderByDescending
-                                (m => m.post_title).ToPagedList(pageIndex, pageSize);
-                    else
-                        post = UnitOfWork.postRepository.AllPosts().OrderBy
-                                (m => m.post_title).ToPagedList(pageIndex, pageSize);
-                    break;
-                case "CreateDate":
-                    if (sortOrder.Equals(CurrentSort))
-                        post = UnitOfWork.postRepository.AllPosts().OrderByDescending
-                                (m => m.create_date).ToPagedList(pageIndex, pageSize);
-                    else
-                        post = UnitOfWork.postRepository.AllPosts().OrderBy
-                                (m => m.create_date).ToPagedList(pageIndex, pageSize);
-                    break;
-                case "ViewCount":
-                    if (sortOrder.Equals(CurrentSort))
-                        post = UnitOfWork.postRepository.AllPosts().OrderByDescending
-                                (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
-                    else
-                        post = UnitOfWork.postRepository.AllPosts().OrderBy
-                                (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
-                    break;
-                    //case "CreateDate":
-                    //    employees = db.Employees.OrderBy
-                    //        (m => m.Name).ToPagedList(pageIndex, pageSize);
-                    //    break;
-            }
-            return View(post);
-        }
-        public ActionResult MyPost(string sortOrder, string CurrentSort, int? page)
-        {
-            DVCPContext db = new DVCPContext();
+            //DVCPContext db = new DVCPContext();
             int pageSize = 100;
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortOrder;
             sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
             IPagedList<tbl_POST> post = null;
-            tbl_User user = UnitOfWork.userRepository.FindByUsername(User.Identity.Name);
-            switch (sortOrder)
+            ViewBag.Sort = "tăng dần";
+            if (String.IsNullOrWhiteSpace(titleStr))
             {
-                case "Title":
-                    if (sortOrder.Equals(CurrentSort))
-                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderByDescending
-                                (m => m.post_title).ToPagedList(pageIndex, pageSize);
-                    //post = db.tbl_POST.Where(m=>m.tbl_User.userid == user.userid).OrderByDescending
-                    //        (m => m.post_title ).ToPagedList(pageIndex, pageSize);
-                    else
-                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderBy
-                                (m => m.post_title).ToPagedList(pageIndex, pageSize);
-                    break;
-                case "CreateDate":
-                    if (sortOrder.Equals(CurrentSort))
-                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderByDescending
-                                (m => m.create_date).ToPagedList(pageIndex, pageSize);
-                    else
-                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderBy
-                                (m => m.create_date).ToPagedList(pageIndex, pageSize);
-                    break;
-                case "ViewCount":
-                    if (sortOrder.Equals(CurrentSort))
-                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderByDescending
-                                (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
-                    else
-                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderBy
-                                (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
-                    break;
-                    //case "CreateDate":
-                    //    employees = db.Employees.OrderBy
-                    //        (m => m.Name).ToPagedList(pageIndex, pageSize);
+                switch (sortOrder)
+                {
+                    case "Title":
+                        ViewBag.sortname = "tiêu đề";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().OrderByDescending
+                                    (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().OrderBy
+                                    (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                        } 
+                        break;
+                    case "CreateDate":
+                        ViewBag.sortname = "ngày tạo";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().OrderByDescending
+                                    (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                        }
+                            
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().OrderBy
+                                    (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                        }
+                            
+                        break;
+                    case "ViewCount":
+                        ViewBag.sortname = "lượt xem";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().OrderByDescending
+                                    (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                        }
+                            
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().OrderBy
+                                    (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                        }
+                            
+                        break;
+                    //default:
+                    //    post = UnitOfWork.postRepository.AllPosts().ToPagedList(pageIndex, pageSize);
                     //    break;
+                }
+            }
+            else
+            {
+                ViewBag.titleStr = titleStr;
+                switch (sortOrder)
+                {
+                    case "Title":
+                        ViewBag.sortname = "tiêu đề";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                                    (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                        }
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                                      (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                        }
+                        break;
+                    case "CreateDate":
+                        ViewBag.sortname = "ngày tạo";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                                    (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                                   (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                        }
+                        break;
+                    case "ViewCount":
+                        ViewBag.sortname = "lượt xem";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                                    (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                                     (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                        }
+                        break;
+                    //default:
+                    //    post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).ToPagedList(pageIndex, pageSize);
+                    //    break;
+                }
+            }
+            return View(post);
+        }
+        public ActionResult MyPost(string sortOrder, string CurrentSort, int? page,string titleStr)
+        {
+            //DVCPContext db = new DVCPContext();
+            int pageSize = 100;
+            int pageIndex = 1;
+            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            ViewBag.CurrentSort = sortOrder;
+            sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
+            IPagedList<tbl_POST> post = null;
+            ViewBag.Sort = "tăng dần";
+            tbl_User user = UnitOfWork.userRepository.FindByUsername(User.Identity.Name);
+            if (String.IsNullOrWhiteSpace(titleStr))
+            {
+                switch (sortOrder)
+                {
+                    case "Title":
+                        ViewBag.sortname = "tiêu đề";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == u.userid).OrderByDescending
+                                    (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == u.userid).OrderBy
+                                    (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                        }
+                        break;
+                    case "CreateDate":
+                        ViewBag.sortname = "ngày tạo";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == u.userid).OrderByDescending
+                                    (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == u.userid).OrderBy
+                                    (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        break;
+                    case "ViewCount":
+                        ViewBag.sortname = "lượt xem";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == u.userid).OrderByDescending
+                                    (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == u.userid).OrderBy
+                                    (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        break;
+                        //default:
+                        //    post = UnitOfWork.postRepository.AllPosts().ToPagedList(pageIndex, pageSize);
+                        //    break;
+                }
+            }
+            else
+            {
+                ViewBag.titleStr = titleStr;
+                switch (sortOrder)
+                {
+                    case "Title":
+                        ViewBag.sortname = "tiêu đề";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                                    (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                        }
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                                      (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                        }
+                        break;
+                    case "CreateDate":
+                        ViewBag.sortname = "ngày tạo";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                                    (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                                   (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                        }
+                        break;
+                    case "ViewCount":
+                        ViewBag.sortname = "lượt xem";
+                        if (sortOrder.Equals(CurrentSort))
+                        {
+                            ViewBag.Sort = "giảm dần";
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                                    (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                        }
+
+                        else
+                        {
+                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                                     (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                        }
+                        break;
+                        //default:
+                        //    post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).ToPagedList(pageIndex, pageSize);
+                        //    break;
+                }
             }
             return View(post);
         }

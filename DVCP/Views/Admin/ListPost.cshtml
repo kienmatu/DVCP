@@ -17,18 +17,28 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-5">
                         <div>
-                            <label style="display:inline-block;font-weight:normal">Sắp xếp theo</label>
+                            <label style="display:inline-block;font-weight:normal">Sắp xếp theo <b>@ViewBag.sortname</b> @ViewBag.Sort</label>
                         </div>
-                        @Html.ActionLink("Tiêu đề", "ListPost", new { sortOrder = "Title", CurrentSort = ViewBag.CurrentSort }) |
-                        @Html.ActionLink("Ngày đăng", "ListPost", new { sortOrder = "CreateDate", CurrenSort = ViewBag.CurrentSort }) |
-                        @Html.ActionLink("Lượt xem", "ListPost", new { sortOrder = "ViewCount", CurrenSort = ViewBag.CurrentSort }) |
+                        @Html.ActionLink("Tiêu đề", "ListPost", new { sortOrder = "Title", CurrentSort = ViewBag.CurrentSort,titleStr = ViewBag.titleStr }) |
+                        @Html.ActionLink("Ngày đăng", "ListPost", new { sortOrder = "CreateDate", CurrentSort = ViewBag.CurrentSort, titleStr = ViewBag.titleStr }) |
+                        @Html.ActionLink("Lượt xem", "ListPost", new { sortOrder = "ViewCount", CurrentSort = ViewBag.CurrentSort, titleStr = ViewBag.titleStr }) |
                     </div>
                     <div class="col-sm-12 col-md-4">
-                        <label style="display:inline-block;font-weight:normal">
-                            Search:
-                            <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="lstPost">
-                        </label>
+                        @using (Html.BeginForm("ListPost", "Admin", FormMethod.Get, new { enctype = "multipart/form-data" }))
+                        {
+                            <label style="display:inline-block;font-weight:normal;">
+                                Tìm theo tiêu đề:
+                                <input name="titleStr" type="search" value="@(ViewBag.titleStr as string)" class="form-control">
+                            </label>
+                            <label style="display:inline-block;font-weight:normal;">
+                                <input style="margin-top:-4.4px" class="btn btn-info" type="submit" value="Tìm kiếm" />
+                            </label>
+                        }
 
+</div>
+                    <div class="col-md-1">
+                        <br/>
+                        <a href="/Admin/ListPost" style="font-size: 14px;font-weight: normal;" class="badge badge-danger">RESET bộ lọc</a>
                     </div>
                 </div>
             </div>
@@ -123,7 +133,7 @@
         if (Model.PageCount > 1)
         {
             <nav aria-label="Page navigation example" style="text-align:center">
-                @Html.PagedListPager(Model, page => Url.Action("ListPost", new { page,sortOrder = Request.Params["sortOrder"],CurrentSort = Request.Params["CurrentSort"] }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination" }, LiElementClasses = new string[] { "page-item" } })
+                @Html.PagedListPager(Model, page => Url.Action("ListPost", new { page,sortOrder = Request.Params["sortOrder"],CurrentSort = Request.Params["CurrentSort"], titleStr = ViewBag.titleStr }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination" }, LiElementClasses = new string[] { "page-item" } })
             </nav>
         }
     }
