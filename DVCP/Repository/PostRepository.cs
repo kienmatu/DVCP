@@ -18,6 +18,11 @@ namespace DVCP.Repository
         {
             entity.tbl_POST.Add(post);
         }
+        public IQueryable<tbl_POST> AllPosts()
+        {
+            IQueryable<tbl_POST> query = entity.tbl_POST;
+            return query.AsQueryable();
+        }
         public void DeletePost(tbl_POST post)
         {
             entity.tbl_POST.Remove(post);

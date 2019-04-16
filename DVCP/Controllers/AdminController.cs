@@ -105,7 +105,7 @@ namespace DVCP.Controllers
         public ActionResult ListPost(string sortOrder, string CurrentSort, int? page)
         {
             DVCPContext db = new DVCPContext();
-            int pageSize = 100;
+            int pageSize = 20;
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortOrder;
@@ -115,26 +115,71 @@ namespace DVCP.Controllers
             {
                 case "Title":
                     if (sortOrder.Equals(CurrentSort))
-                        post = db.tbl_POST.OrderByDescending
+                        post = UnitOfWork.postRepository.AllPosts().OrderByDescending
                                 (m => m.post_title).ToPagedList(pageIndex, pageSize);
                     else
-                        post = db.tbl_POST.OrderBy
+                        post = UnitOfWork.postRepository.AllPosts().OrderBy
                                 (m => m.post_title).ToPagedList(pageIndex, pageSize);
                     break;
                 case "CreateDate":
                     if (sortOrder.Equals(CurrentSort))
-                        post = db.tbl_POST.OrderByDescending
+                        post = UnitOfWork.postRepository.AllPosts().OrderByDescending
                                 (m => m.create_date).ToPagedList(pageIndex, pageSize);
                     else
-                        post = db.tbl_POST.OrderBy
+                        post = UnitOfWork.postRepository.AllPosts().OrderBy
                                 (m => m.create_date).ToPagedList(pageIndex, pageSize);
                     break;
                 case "ViewCount":
                     if (sortOrder.Equals(CurrentSort))
-                        post = db.tbl_POST.OrderByDescending
+                        post = UnitOfWork.postRepository.AllPosts().OrderByDescending
                                 (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                     else
-                        post = db.tbl_POST.OrderBy
+                        post = UnitOfWork.postRepository.AllPosts().OrderBy
+                                (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                    break;
+                    //case "CreateDate":
+                    //    employees = db.Employees.OrderBy
+                    //        (m => m.Name).ToPagedList(pageIndex, pageSize);
+                    //    break;
+            }
+            return View(post);
+        }
+        public ActionResult MyPost(string sortOrder, string CurrentSort, int? page)
+        {
+            DVCPContext db = new DVCPContext();
+            int pageSize = 100;
+            int pageIndex = 1;
+            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            ViewBag.CurrentSort = sortOrder;
+            sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
+            IPagedList<tbl_POST> post = null;
+            tbl_User user = UnitOfWork.userRepository.FindByUsername(User.Identity.Name);
+            switch (sortOrder)
+            {
+                case "Title":
+                    if (sortOrder.Equals(CurrentSort))
+                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderByDescending
+                                (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                    //post = db.tbl_POST.Where(m=>m.tbl_User.userid == user.userid).OrderByDescending
+                    //        (m => m.post_title ).ToPagedList(pageIndex, pageSize);
+                    else
+                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderBy
+                                (m => m.post_title).ToPagedList(pageIndex, pageSize);
+                    break;
+                case "CreateDate":
+                    if (sortOrder.Equals(CurrentSort))
+                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderByDescending
+                                (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                    else
+                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderBy
+                                (m => m.create_date).ToPagedList(pageIndex, pageSize);
+                    break;
+                case "ViewCount":
+                    if (sortOrder.Equals(CurrentSort))
+                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderByDescending
+                                (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
+                    else
+                        post = UnitOfWork.postRepository.AllPosts().Where(m => m.tbl_User.userid == user.userid).OrderBy
                                 (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                     break;
                     //case "CreateDate":
@@ -151,40 +196,44 @@ namespace DVCP.Controllers
             {
                 return RedirectToAction("ListPost");
             }
-            Dynasty dn;
-            Enum.TryParse(post.dynasty, out dn);
-            Rated rated;
-            Enum.TryParse(post.Rated.ToString(), out rated);
-            PostType type;
-            Enum.TryParse(post.post_type.ToString(), out type);
-            List<SelectListItem> tag = PostData.getTagList();
-            string[] oldtag = post.post_tag.Split(',');
-            foreach (var x in tag)
+            newPostViewModel model = new newPostViewModel();
+            if (post.tbl_User.username == User.Identity.Name || User.IsInRole("admin") )
             {
-                foreach (var t in oldtag)
+                Dynasty dn;
+                Enum.TryParse(post.dynasty, out dn);
+                Rated rated;
+                Enum.TryParse(post.Rated.ToString(), out rated);
+                PostType type;
+                Enum.TryParse(post.post_type.ToString(), out type);
+                List<SelectListItem> tag = PostData.getTagList();
+                string[] oldtag = post.post_tag.Split(',');
+                foreach (var x in tag)
                 {
-                    if (x.Value == t)
+                    foreach (var t in oldtag)
                     {
-                        x.Selected = true;
+                        if (x.Value == t)
+                        {
+                            x.Selected = true;
+                        }
                     }
                 }
+                 model = new newPostViewModel
+                {
+                    post_id = post.post_id,
+                    dynasty = dn,
+                    post_content = post.post_content,
+                    AvatarImage = post.AvatarImage,
+                    post_review = post.post_review,
+                    changeAvatar = false,
+                    imagepath = "/images/slides/" + post.post_id,
+                    Rated = rated,
+                    Status = post.status,
+                    post_tag = tag,
+                    post_teaser = post.post_teaser,
+                    post_title = post.post_title,
+                    post_type = type,
+                };
             }
-            newPostViewModel model = new newPostViewModel
-            {
-                post_id = post.post_id,
-                dynasty = dn,
-                post_content = post.post_content,
-                AvatarImage = post.AvatarImage,
-                post_review = post.post_review,
-                changeAvatar = false,
-                imagepath = "/images/slides/"+post.post_id,
-                Rated = rated,
-                Status = post.status,
-                post_tag = tag,
-                post_teaser = post.post_teaser,
-                post_title = post.post_title,
-                post_type = type,
-            };
             return View(model);
         }
         [HttpPost]
@@ -283,10 +332,15 @@ namespace DVCP.Controllers
                         System.IO.Directory.Delete(subPath, true);
                     }
                 }
+                //xóa ảnh đại diện cũ
+                bool exist = System.IO.File.Exists(Server.MapPath("~/Upload/images/" + tbl_POST.AvatarImage));
+                if (exist)
+                {
+                    System.IO.File.Delete(Server.MapPath("~/Upload/images/" + tbl_POST.AvatarImage));
+                }
                 UnitOfWork.Commit();
                 return Json(new { Message = "Xóa '" + title + "' thành công" }, JsonRequestBehavior.AllowGet);
             }
-            
             return Json(new { Message = "Không thể xóa '" + title + "' <br /> vì đó không phải bài viết của bạn." },JsonRequestBehavior.AllowGet);
         }
         [HttpPost]

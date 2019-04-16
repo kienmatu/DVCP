@@ -30,7 +30,7 @@ $('#changeAvatar').change(function () {
         $('#changeAvtText').text(' Giữ nguyên');
         $('#changeAvatar').val('false');
         $('#avatarPost').hide();
-        $('#avtpreview').hide();
+        //$('#avtpreview').hide();
         $("#avatarFile").val(null);
     }
 });

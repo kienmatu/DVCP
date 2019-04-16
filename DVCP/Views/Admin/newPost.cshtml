@@ -12,11 +12,8 @@
 </style>
 
 
-<script src="~/Content/js/popper.min.js"></script>
-<script src="~/Content/js/bootstrap.min.js"></script>
-<!-- include summernote css/js -->
-<script src="~/Content/summernote/summernote-bs4.js"></script>
-<link href="~/Content/summernote/summernote-bs4.css" rel="stylesheet" />
+<script src="~/Content/ckeditor/ckeditor.js"></script>
+
 <div class="container-fluid" style="margin-top:15px;padding-top:15px;">
 
 
@@ -24,117 +21,113 @@
     {
         @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+        <div class="form-horizontal">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="row">
-            <div class="form-group col-md-6">
-                @Html.Label("Loại bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-8">
-                    @Html.EnumDropDownListFor(x => x.post_type, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.post_type, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group col-md-6">
+                    @Html.Label("Loại bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EnumDropDownListFor(x => x.post_type, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.post_type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    @Html.Label("Triều đại:", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EnumDropDownListFor(x => x.dynasty, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.dynasty, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-            <div class="form-group col-md-6">
-                @Html.Label("Triều đại:", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-8">
-                    @Html.EnumDropDownListFor(x => x.dynasty, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.dynasty, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div id="imganno" class="form-group" style="color:red">
+                        Tạo bài viết xong sẽ được chuyển hướng tới trang upload ảnh !
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Thẻ tag bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    <div class="row">
+                        @for (int i = 0; i < Model.post_tag.Count; i++)
+                        {
+                            string title = Model.post_tag[i].Text;
+                            <div class="col-md-2">
+                                @Html.HiddenFor(model => model.post_tag[i].Text)
+                                @Html.HiddenFor(model => model.post_tag[i].Value)
+                                @Html.CheckBoxFor(model => model.post_tag[i].Selected)
+                                <p style="display:inline">@title</p>
+                            </div>
+
+                        }
+                    </div>
+                    @Html.ValidationMessageFor(model => model.post_tag, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Tiêu đề bài viết: ", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.post_title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.post_title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Ảnh đại diện bài viết: ", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    <input type="file" id="avatarFile" name="avatarFile" class="form-control-file" />
+                    @Html.ValidationMessageFor(model => model.avatarFile, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10" style="text-align:center">
+                    <img class="img-responsive" style="max-width:60%;text-align:center" id="avtpreview" src="~/Content/images/no-image-available.jpg" alt="Ảnh đại diện" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Teaser ngắn của bài viết", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.post_teaser, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.post_teaser, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Nội dung bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.post_content, new { @class = "form-control", required = "true" })
+                    @Html.ValidationMessageFor(model => model.post_content, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <script>
+                var editor = CKEDITOR.replace('post_content', { width: '100%', height: '450' });
+            </script>
+            <div class="form-group">
+                @Html.Label("Đánh giá bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.post_review, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.post_review, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Trạng thái bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    <label class="switch">
+                        <input type="checkbox" id="Status" name="Status" value="@(Model.Status == true ? "true" : "false")" @(Model.Status == true ? "checked" : "") class="success">
+                        <span class="slider"></span>
+                    </label>
+
+                    <p id="showstatus" style="display:inline"> Đăng ngay</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-info" />
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <div id="imganno" class="form-group" style="color:red">
-                    Tạo bài viết xong sẽ được chuyển hướng tới trang upload ảnh !
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Thẻ tag bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
-                <div class="row">
-                    @for (int i = 0; i < Model.post_tag.Count; i++)
-                    {
-                        string title = Model.post_tag[i].Text;
-                        <div class="col-md-2">
-                            @Html.HiddenFor(model => model.post_tag[i].Text)
-                            @Html.HiddenFor(model => model.post_tag[i].Value)
-                            @Html.CheckBoxFor(model => model.post_tag[i].Selected)
-                            <p style="display:inline">@title</p>
-                        </div>
-
-                    }
-                </div>
-                @Html.ValidationMessageFor(model => model.post_tag, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Tiêu đề bài viết: ", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.post_title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.post_title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Ảnh đại diện bài viết: ", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
-                <input type="file" id="avatarFile" name="avatarFile" class="form-control-file" />
-                @Html.ValidationMessageFor(model => model.avatarFile, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10" style="text-align:center">
-                <img class="img-responsive" style="max-width:60%;text-align:center" id="avtpreview" src="~/Content/images/no-image-available.jpg" alt="Ảnh đại diện" />
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Teaser ngắn của bài viết", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.post_teaser, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.post_teaser, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Nội dung bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.post_content, new { @class = "form-control", required = "true" })
-                @Html.ValidationMessageFor(model => model.post_content, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <script>
-            $('#post_content').summernote({
-                placeholder: 'Nội dung bài viết...',
-                tabsize: 2,
-                height: 350
-            });
-        </script>
-        <div class="form-group">
-            @Html.Label("Đánh giá bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.post_review, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.post_review, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Trạng thái bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
-                <label class="switch">
-                    <input type="checkbox" id="Status" name="Status" value="@(Model.Status == true ? "true" : "false")" @(Model.Status == true ? "checked" : "") class="success">
-                    <span class="slider"></span>
-                </label>
-
-                <p id="showstatus" style="display:inline"> Đăng ngay</p>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-info" />
-            </div>
-        </div>
-    </div>
     }
 </div>
 <div style="margin-bottom:50px"></div>

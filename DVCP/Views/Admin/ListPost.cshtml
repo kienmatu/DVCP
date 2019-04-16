@@ -2,109 +2,156 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "ListPost";
+    ViewBag.Title = "Tất cả bài viết";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <link href="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
 
 <div style="margin-top:10px;"></div>
+
 <div class="row">
+    
     <div class="col-12">
-
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Danh sách bài viết</h3>
+            <div style="padding: 0.75rem 1.25rem;">
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div>
+                            <label style="display:inline-block;font-weight:normal">Sắp xếp theo</label>
+                        </div>
+                        @Html.ActionLink("Tiêu đề", "ListPost", new { sortOrder = "Title", CurrentSort = ViewBag.CurrentSort }) |
+                        @Html.ActionLink("Ngày đăng", "ListPost", new { sortOrder = "CreateDate", CurrenSort = ViewBag.CurrentSort }) |
+                        @Html.ActionLink("Lượt xem", "ListPost", new { sortOrder = "ViewCount", CurrenSort = ViewBag.CurrentSort }) |
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label style="display:inline-block;font-weight:normal">
+                            Search:
+                            <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="lstPost">
+                        </label>
+
+                    </div>
+                </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <table id="lstPost" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Tiêu đề</th>
-                            <th>Ngày tạo</th>
-                            <th>Lượt xem</th>
-                            <th>Người tạo</th>
-                            <th>Đăng</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+        </div>
+    </div>
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-header">
+                    @if (Model.PageNumber > 1)
+                    {
+                        <h3 class="card-title">
+                            100 bài viết thứ @Model.PageNumber
+                        </h3>
+                    }
+                    else
+                    {
+                        <h3 class="card-title">
+                            100 bài viết đầu tiên
+                        </h3>
+                    }
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="lstPost" class="table table-bordered table-striped">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.ActionLink(item.post_title, "Details", new { id = item.post_id })
-                                </td>
-                                <td>
-                                    @String.Format("{0:dd/MM/yyyy}", item.create_date)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ViewCount)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.tbl_User.fullname)
-                                </td>
-                                <td>
-                                    <label class="switch">
-                                        <input onchange="changeStt(this)" type="checkbox" id="@item.post_id" @(item.status == true ? "checked" : "") class="success">
-                                        <span class="slider"></span>
-                                    </label>
-                                </td>
-                                <td>
-
-                                    @Html.ActionLink("Sửa", "editPost", new { id = item.post_id }, new { @class = "badge badge-primary" })
-                                    <a onclick="deleteConfirm(@item.post_id,'@item.post_title')" href="#" class="badge badge-danger">Xóa</a>
-
-                                </td>
+                                <th>Tiêu đề</th>
+                                <th>Ngày tạo</th>
+                                <th>Views</th>
+                                <th>Người tạo</th>
+                                <th>Hiển thị</th>
+                                <th>Hành động</th>
                             </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Tiêu đề</th>
-                            <th>Ngày tạo</th>
-                            <th>Lượt xem</th>
-                            <th>Người tạo</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.post_title, "Details", new { id = item.post_id })
+                                    </td>
+                                    <td>
+                                        @String.Format("{0:dd/MM/yyyy}", item.create_date)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ViewCount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tbl_User.fullname)
+                                    </td>
+                                    <td>
+                                        <label class="switch">
+                                            <input onchange="changeStt(this)" type="checkbox" id="@item.post_id" @(item.status == true ? "checked" : "") class="success">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (User.Identity.Name == item.tbl_User.username || User.IsInRole("admin"))
+                                            {
+                                                @Html.ActionLink("Sửa", "editPost", new { id = item.post_id }, new { @class = "badge badge-primary" })
+                                                <a onclick="deleteConfirm(@item.post_id,'@item.post_title')" href="#" class="badge badge-danger">Xóa</a>
+
+                                            }
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Tiêu đề</th>
+                                <th>Ngày tạo</th>
+                                <th>Lượt xem</th>
+                                <th>Người tạo</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.card-body -->
+            <!-- /.card -->
         </div>
-        <!-- /.card -->
+        <!-- /.col -->
     </div>
-    <!-- /.col -->
-</div>
-<nav aria-label="Page navigation example" style="text-align:center">
-    @Html.PagedListPager(Model, page => Url.Action("ListPost", new { page }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination" }, LiElementClasses = new string[] { "page-item" } })
-</nav>
-<!-- The delete Modal -->
-<div class="modal fade" id="deleteModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    @{
+        if (Model.PageCount > 1)
+        {
+            <nav aria-label="Page navigation example" style="text-align:center">
+                @Html.PagedListPager(Model, page => Url.Action("ListPost", new { page,sortOrder = Request.Params["sortOrder"],CurrentSort = Request.Params["CurrentSort"] }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination" }, LiElementClasses = new string[] { "page-item" } })
+            </nav>
+        }
+    }
+    <!-- The delete Modal -->
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Bạn có muốn xóa bài viết ?</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Bạn có muốn xóa bài viết ?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Modal body..
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="deleteBtn" class="btn btn-danger">Xóa</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                Modal body..
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" id="deleteBtn" class="btn btn-danger" >Xóa</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
         </div>
     </div>
-</div>
-<script src="~/Content/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="~/Content/js/ListPost.js"></script>
+    <script src="~/Content/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/js/ListPost.js"></script>
