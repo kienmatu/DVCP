@@ -32,7 +32,7 @@
                 new tbl_User
                 {
                     username = "admin",
-                    password = "admin",
+                    password = "0192023A7BBD73250516F069DF18B500", // = admin123
                     fullname = "ADMIN ĐVCP",
                     userrole = "admin",
                     status = true,

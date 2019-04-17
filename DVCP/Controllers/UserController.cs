@@ -58,14 +58,14 @@ namespace DVCP.Controllers
                 tbl_User user = UnitOfWork.userRepository.FindByUsername(model.Username);
                 if (user != null)
                 {
-                    if (user.password == model.Password && user.status == true)
+                    if (user.password == CommonData.CommonFunction.CalculateMD5Hash(model.Password) && user.status == true)
                     {
                         setCookie(user.username, model.RememberMe, user.userrole);
                         if (ReturnUrl != null)
                             return Redirect(ReturnUrl);
                         return RedirectToAction("Index", "Home");
                     }
-                    ViewBag.Error = "Wrong username or password!";
+                    ViewBag.Error = "Sai tài khoản hoặc mật khẩu!";
                     return View();
 
                 }
@@ -74,6 +74,66 @@ namespace DVCP.Controllers
             ViewBag.Error = "Wrong username or password!";
             return View();
         }
-
+        [Authorize(Roles="admin")]
+        public ActionResult createUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult createUser(userListViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                tbl_User user = UnitOfWork.userRepository.FindByUsername(model.username);
+                if(user == null)
+                {
+                    tbl_User nuser = new tbl_User
+                    {
+                        username = model.username,
+                        fullname = model.fullname,
+                        status = true,
+                        userrole = "editor",
+                        password = CommonData.CommonFunction.CalculateMD5Hash(model.password)
+                    };
+                    UnitOfWork.userRepository.Add(nuser);
+                    UnitOfWork.Commit();
+                    return RedirectToAction("UserManager");
+                }
+                else
+                {
+                    ViewBag.anno = "Tên người dùng này đã tồn tại";
+                    return View();
+                }
+            }
+            return View();
+        }
+        [Authorize]
+        public ActionResult ChangePass()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ChangePass(changepassViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                if(model.oldpassword == model.password)
+                {
+                    ViewBag.anno = "Mật khẩu mới không được trùng mật khẩu cũ !";
+                    return View();
+                }
+                else
+                {
+                    tbl_User user = UnitOfWork.userRepository.FindByUsername(User.Identity.Name);
+                    if(user != null)
+                    {
+                        user.password = CommonData.CommonFunction.CalculateMD5Hash(model.password);
+                        UnitOfWork.Commit();
+                        return RedirectToAction("Logout");
+                    }
+                }
+            }
+            return View();
+        }
     }
 }

@@ -1,0 +1,57 @@
+﻿@model DVCP.ViewModel.changepassViewModel
+@{
+    ViewBag.Title = "ChangePass";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-4">
+        <div class="card" style="margin-top:20px">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Tạo user mới</p>
+                <p class="text-danger">@ViewBag.anno</p>
+                @using (Html.BeginForm())
+                {
+                    <div class="input-group mb-3">
+
+                        @Html.PasswordFor(m => m.oldpassword, new { @class = "form-control", placeholder = "Nhập mật khẩu cũ" })
+                        <div class="input-group-append">
+                            <span class="fa fa-lock input-group-text"></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.oldpassword, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="input-group mb-3">
+
+                        @Html.PasswordFor(m => m.password, new { @class = "form-control", placeholder = "Mật khẩu mới" })
+                        <div class="input-group-append">
+                            <span class="fa fa-lock input-group-text"></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="input-group mb-3">
+
+                        @Html.PasswordFor(m => m.repassword, new { @class = "form-control", placeholder = "Nhập lại mật khẩu mới" })
+                        <div class="input-group-append">
+                            <span class="fa fa-lock input-group-text"></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.repassword, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Đổi</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                }
+
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+    <div class="col-md-4"></div>
+</div>
+

@@ -95,10 +95,9 @@
                
             </ul>
 
-             SEARCH FORM
-            <form class="form-inline ml-3">
+            <form class="form-inline ml-3" action="/Admin/ListPost">
                 <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                    <input name="titleStr" value="@(ViewBag.titleStr as string)" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                     <div class="input-group-append">
                         <button class="btn btn-navbar" type="submit">
                             <i class="fa fa-search"></i>
@@ -152,21 +151,21 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="/Admin/newPost" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <i class="fa fa-circle-o nav-icon text-success"></i>
                                         <p>Thêm bài viết mới</p>
                                     </a>
                                 </li>
                                @if (User.IsInRole("admin"))
                                {<li class="nav-item">
                                     <a href="/Admin/ListPost" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <i class="fa fa-circle-o nav-icon text-primary"></i>
                                         <p>Tất cả bài viết</p>
                                     </a>
                                 </li>
                                }
                                 <li class="nav-item">
                                     <a href="/Admin/MyPost" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
+                                        <i class="fa fa-circle-o nav-icon text-info"></i>
                                         <p>Bài viết của tôi</p>
                                     </a>
                                 </li>
@@ -183,8 +182,8 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/UI/general.html" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
+                                    <a href="/User/ChangePass" class="nav-link">
+                                        <i class="fa fa-circle-o nav-icon text-danger"></i>
                                         <p>Đổi mật khẩu</p>
                                     </a>
                                 </li>
@@ -192,8 +191,14 @@
                                     {
                                         <li class="nav-item">
                                             <a href="/User/UserManager" class="nav-link">
-                                                <i class="fa fa-circle-o nav-icon"></i>
+                                                <i class="fa fa-circle-o nav-icon text-success"></i>
                                                 <p>Quản lý người dùng</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="/User/createUser" class="nav-link">
+                                                <i class="fa fa-circle-o nav-icon text-info"></i>
+                                                <p>Tạo người dùng</p>
                                             </a>
                                         </li>
                                     }
@@ -205,25 +210,12 @@
                         </li>
                         <li class="nav-header">Công cụ</li>
                         <li class="nav-item">
-                            <a href="/Admin/FileManager" class="nav-link">
+                            <a href="/Admin/FileManager" target="_blank" class="nav-link">
                                 <i class="nav-icon fa fa-circle-o text-info"></i>
                                 <p>Quản Lý File</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-circle-o text-danger"></i>
-                                <p class="text">Important</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-circle-o text-warning"></i>
-                                <p>Warning</p>
-                            </a>
-                        </li>
-
-
+                        
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
