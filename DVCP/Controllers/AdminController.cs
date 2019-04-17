@@ -707,5 +707,31 @@ namespace DVCP.Controllers
             }
             return View();
         }
+        [Authorize(Roles ="admin")]
+        public ActionResult InfoChange()
+        {
+            info info = UnitOfWork.infoRepository.FindByID();
+            infoViewModel model = new infoViewModel
+            {
+                web_name = info.web_name,
+                web_about = info.web_about,
+                web_des = info.web_des
+            };
+            return View(model);
+        }
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public ActionResult InfoChange(infoViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                info info = UnitOfWork.infoRepository.FindByID();
+                info.web_des = model.web_des;
+                info.web_name = model.web_name;
+                info.web_about = model.web_about;
+                UnitOfWork.Commit();
+            }
+            return View();
+        }
     }
 }

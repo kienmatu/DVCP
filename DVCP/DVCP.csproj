@@ -184,12 +184,14 @@
     <Compile Include="Models\info.cs" />
     <Compile Include="Models\tbl_POST.cs" />
     <Compile Include="Models\tbl_User.cs" />
+    <Compile Include="Repository\InfoRepository.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\PostRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="ViewModel\changepassViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
+    <Compile Include="ViewModel\infoViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\newPostViewModel.cs" />
     <Compile Include="ViewModel\uploadViewModel.cs" />
@@ -1697,6 +1699,7 @@
     <Content Include="Views\Admin\UserPost.cshtml" />
     <Content Include="Views\User\createUser.cshtml" />
     <Content Include="Views\User\ChangePass.cshtml" />
+    <Content Include="Views\Admin\InfoChange.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

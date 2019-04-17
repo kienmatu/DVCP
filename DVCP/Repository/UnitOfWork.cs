@@ -11,6 +11,7 @@ namespace DVCP
     {
         private DVCPContext context = new DVCPContext();
         private UserRepository _userRepository;
+        private InfoRepository _infoRepository;
         private PostRepository _postRepository;
         public UnitOfWork(DVCPContext _context)
         {
@@ -26,6 +27,18 @@ namespace DVCP
                     
                 }
                 return _postRepository;
+            }
+        }
+        public InfoRepository infoRepository
+        {
+            get
+            {
+                if (_infoRepository == null)
+                {
+                    _infoRepository = new InfoRepository(context);
+
+                }
+                return _infoRepository;
             }
         }
         public UserRepository userRepository

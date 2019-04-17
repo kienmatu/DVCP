@@ -155,14 +155,15 @@
                                         <p>Thêm bài viết mới</p>
                                     </a>
                                 </li>
-                               @if (User.IsInRole("admin"))
-                               {<li class="nav-item">
-                                    <a href="/Admin/ListPost" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon text-primary"></i>
-                                        <p>Tất cả bài viết</p>
-                                    </a>
-                                </li>
-                               }
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a href="/Admin/ListPost" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon text-primary"></i>
+                                            <p>Tất cả bài viết</p>
+                                        </a>
+                                    </li>
+                                }
                                 <li class="nav-item">
                                     <a href="/Admin/MyPost" class="nav-link">
                                         <i class="fa fa-circle-o nav-icon text-info"></i>
@@ -208,14 +209,23 @@
 
                             </ul>
                         </li>
-                        <li class="nav-header">Công cụ</li>
+                        <li class="nav-header" style="font-size:1.1rem">Công cụ</li>
                         <li class="nav-item">
                             <a href="/Admin/FileManager" target="_blank" class="nav-link">
                                 <i class="nav-icon fa fa-circle-o text-info"></i>
                                 <p>Quản Lý File</p>
                             </a>
                         </li>
-                        
+                        @if (User.IsInRole("admin"))
+                        {
+                            <li class="nav-item">
+                                <a href="/Admin/InfoChange" class="nav-link">
+                                    <i class="nav-icon fa fa-circle-o text-success"></i>
+                                    <p>Thông tin website</p>
+                                </a>
+                            </li>
+                        }
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
