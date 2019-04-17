@@ -135,5 +135,18 @@ namespace DVCP.Controllers
             }
             return View();
         }
+        [Authorize(Roles="admin")]
+        public JsonResult changeStatus(int userid,bool state = true)
+        {
+            string prefix = state ? "Đã bỏ cấm" : "Đã cấm";
+            tbl_User u = UnitOfWork.userRepository.FindByID(userid);
+            if(u.username != "admin")
+            {
+                u.status = state;
+                UnitOfWork.Commit();
+                return Json(new { Message = prefix + " \"" + u.username + "\"" }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Message = "Không được cấm admin" }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

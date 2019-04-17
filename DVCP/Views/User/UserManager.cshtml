@@ -24,7 +24,14 @@
                             <li class="list-group-item">
                                 <b>Số bài viết:</b> <a class="float-right">@item.tbl_POST.Count</a>
                             </li>
-
+                            <li class="list-group-item">
+                                <b>Trạng thái:</b> <a class="float-right">
+                                    <label class="switch">
+                                        <input onchange="changeStt(this)" type="checkbox" id="@item.userid" @(item.status == true ? "checked" : "") class="primary">
+                                        <span class="slider"></span>
+                                    </label>
+                                </a>
+                            </li>
                         </ul>
                         <a href="/Admin/UserPost?id=@item.userid" class="btn btn-primary btn-block"><b>Các bài đã đăng</b></a>
                     </div>
@@ -39,3 +46,30 @@
 
     </div>
 </div>
+<script>
+    var changeStt = function (xthis) {
+        var xid = xthis.id;
+        var st = xthis.checked;
+        $.ajax({
+            type: "POST",
+            url: '/User/changeStatus',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ userid: xid, state: st }),
+            dataType: "json",
+            success: function (recData) {
+                var notify = $.notify('<strong>Thành công</strong><br/>' + recData.Message + '<br />', {
+                    type: 'pastel-info',
+                    allow_dismiss: false,
+                    timer: 500,
+                });
+            },
+            error: function () {
+                var enotify = $.notify('<strong>Lỗi</strong><br />', {
+                    type: 'pastel-info',
+                    allow_dismiss: false,
+                    timer: 500,
+                });
+            }
+        });
+    }
+</script>
