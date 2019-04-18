@@ -30,6 +30,9 @@
 /* ---------------------------------
 1. PRIMARY STYLES
 --------------------------------- */
+.h-100f {
+    height: 100% !important;
+}
 .img-bg-head {
     background-size: cover;
 }
@@ -238,8 +241,11 @@ header .main-menu2 li.drop-down a.mouseover + ul.drop-down-menu{ display: block;
 /* RESPONSIVE */
 
 @media only screen and (max-width: 992px) {
-	
-	header .logo{ height: 16px; margin: 32px 0; }
+
+    header .logo {
+        height: 64px;
+        margin: 32px 0;
+    }
 	
 	header ul.main-menu2 > li > a{ padding: 0 5px; }
 }
@@ -247,7 +253,7 @@ header .main-menu2 li.drop-down a.mouseover + ul.drop-down-menu{ display: block;
 
 @media only screen and (max-width: 767px) {
 	
-	header .logo{ height: 16px; margin: 22px 0; }
+	header .logo{ height: 64px; margin: 22px 0; }
 	
 	header .right-area{ line-height: 50px; }
 	
@@ -420,9 +426,18 @@ header .main-menu2 li.drop-down a.mouseover + ul.drop-down-menu{ display: block;
 .toplink a:hover {
       color: #F9B500;
 }
+.popular-post a,.popular-post h5 {
+    color: black;
+    font-size:1.05rem;
+}
+    .popular-post a:hover, .popular-post h5:hover {
+        color: #F9B500;
+        text-decoration: none;
+    }
 /* BACKGROUND COLOR*/
-
-.bg-191{ background: #191919; }
+.bg-191 {
+    background: #191919;
+}
 .bg-primary{ background: #F9B500!important; }
 
 
