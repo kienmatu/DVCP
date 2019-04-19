@@ -30,6 +30,51 @@
 /* ---------------------------------
 1. PRIMARY STYLES
 --------------------------------- */
+a{
+    text-decoration:none;
+}
+/*LINK*/
+.link a,.link h5 {
+    color: black;
+}
+
+.link a:hover,.link h5:hover {
+        color: #F9B500;
+        text-decoration:none;
+}
+
+.toplink {
+    margin-bottom: 0;
+}
+
+    .toplink a {
+        color: #aaa;
+    }
+
+        .toplink a:hover {
+            color: #F9B500;
+        }
+
+.popular-post a, .popular-post h5 {
+    color: black;
+    font-size: 1.05rem;
+}
+
+    .popular-post a:hover, .popular-post h5:hover {
+        color: #F9B500;
+        text-decoration: none;
+    }
+ .latest {
+    display: inline-block;
+    color: #777777;
+    margin-right: 10px;
+    font-weight: 370;
+    font-size: 13px;
+}
+.wh-300x {
+    width: 300px;
+    height: 100% !important;
+}
 .h-100f {
     height: 100% !important;
 }
@@ -49,6 +94,13 @@
     }
     .h-md-50 {
         height: 300px !important;
+    }
+}
+@media only screen and (min-width: 767px) and (max-width: 992px) {
+    .container {
+        max-width: 760px !important;
+        padding-left: 2px !important;
+        padding-right: 2px !important;
     }
 }
 @media only screen and (min-width: 767px) {
@@ -409,31 +461,7 @@ header .main-menu2 li.drop-down a.mouseover + ul.drop-down-menu{ display: block;
 .color-primary{ color: #F9B500; }
 .color-black{ color: #111; }
 .color-lite-black{ color: #888; }
-/*LINK*/
-.link a {
-    color: black;
-}
-.link a:hover {
-    color: #F9B500;
-}
-.toplink {
-    margin-bottom:0;
-}
-.toplink a {
-        color: #aaa;
-  }
 
-.toplink a:hover {
-      color: #F9B500;
-}
-.popular-post a,.popular-post h5 {
-    color: black;
-    font-size:1.05rem;
-}
-    .popular-post a:hover, .popular-post h5:hover {
-        color: #F9B500;
-        text-decoration: none;
-    }
 /* BACKGROUND COLOR*/
 .bg-191 {
     background: #191919;
