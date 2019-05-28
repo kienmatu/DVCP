@@ -13,9 +13,22 @@ namespace DVCP
         private UserRepository _userRepository;
         private InfoRepository _infoRepository;
         private PostRepository _postRepository;
+        private SeriesRepository _seriesRepository;
         public UnitOfWork(DVCPContext _context)
         {
             this.context = _context;
+        }
+        public SeriesRepository seriesRepository
+        {
+            get
+            {
+                if (_seriesRepository == null)
+                {
+                    _seriesRepository = new SeriesRepository(context);
+
+                }
+                return _seriesRepository;
+            }
         }
         public PostRepository postRepository
         {

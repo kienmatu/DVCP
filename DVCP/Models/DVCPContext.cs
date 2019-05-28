@@ -12,12 +12,19 @@ namespace DVCP.Models
         {
         }
 
-        public virtual DbSet<info> infoes { get; set; }
+        public virtual DbSet<info> info { get; set; }
+        public virtual DbSet<Tbl_HotPost> Tbl_HotPost { get; set; }
         public virtual DbSet<tbl_POST> tbl_POST { get; set; }
+        public virtual DbSet<Tbl_Series> Tbl_Series { get; set; }
         public virtual DbSet<tbl_User> tbl_User { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<tbl_POST>()
+                .HasMany(e => e.Tbl_Series)
+                .WithMany(e => e.tbl_POST)
+                .Map(m => m.ToTable("Tbl_SeriesPost").MapLeftKey("PostID").MapRightKey("seriesID"));
+
             modelBuilder.Entity<tbl_User>()
                 .Property(e => e.username)
                 .IsUnicode(false);
@@ -29,9 +36,6 @@ namespace DVCP.Models
             modelBuilder.Entity<tbl_User>()
                 .Property(e => e.userrole)
                 .IsUnicode(false);
-            modelBuilder.Entity<tbl_User>()
-                .HasIndex(x => x.username)
-                .IsUnique();
         }
     }
 }

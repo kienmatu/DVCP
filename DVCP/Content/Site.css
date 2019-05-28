@@ -1,4 +1,6 @@
-﻿
+﻿a:hover {
+    text-decoration: none !important;
+}
 
 /* Set padding to keep content from hitting the edges */
 .body-content {

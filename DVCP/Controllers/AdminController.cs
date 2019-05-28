@@ -648,6 +648,70 @@ namespace DVCP.Controllers
             UnitOfWork.Commit();
             return Json(new { Message = prefix +" \"" + title + "\" thành công" }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ListSeries(string name,int? page)
+        {
+            int pageSize = 100;
+            int pageIndex = 1;
+            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            IPagedList<Tbl_Series> sr = null;
+            if (!String.IsNullOrWhiteSpace(name))
+            {
+                ViewBag.name = name;
+                sr = UnitOfWork.seriesRepository.AllSeries().Where(m => m.seriesName.Contains(name)).OrderBy(x=>x.seriesID).ToPagedList(pageIndex,pageSize);
+            }
+            else
+            {
+                sr = UnitOfWork.seriesRepository.AllSeries().OrderBy(x => x.seriesID).ToPagedList(pageIndex, pageSize);
+            }
+            return View(sr);
+        }
+        /// <summary>
+        /// Thêm series mới
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public JsonResult addSerie(string name)
+        {
+            if(String.IsNullOrWhiteSpace(name))
+            {
+                return Json(new { Message = "Không được để trống tiêu đề series" }, JsonRequestBehavior.AllowGet);
+
+            }
+            else
+            {
+                UnitOfWork.seriesRepository.AddSeries(new Tbl_Series
+                {
+                    seriesName = name,
+                });
+                UnitOfWork.Commit();
+                return Json(new { Message = "Tạo series" + " \"" + name + "\" thành công" }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public JsonResult editSerie(int id,string name)
+        {
+            if (string.IsNullOrWhiteSpace(name) || id == null)
+            {
+                return Json(new { Message = "Không được để trống tiêu đề series hoặc id" }, JsonRequestBehavior.AllowGet);
+
+            }
+            else
+            {
+                Tbl_Series series = UnitOfWork.seriesRepository.FindByID(id);
+                series.seriesName = name;
+                UnitOfWork.Commit();
+                return Json(new { Message = "Edit series" + " \"" + series.seriesName + "\" thành công" }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public JsonResult DeleteSeries(int id)
+        {
+            Tbl_Series cate = UnitOfWork.seriesRepository.FindByID(id);
+            string title = cate.seriesName;
+            UnitOfWork.seriesRepository.Delete(cate);
+            UnitOfWork.Commit();
+            return Json(new { reload = true, Message = "Xóa '" + title + "' thành công" }, JsonRequestBehavior.AllowGet);
+        }
 
         /// <summary>
         /// Trình quản lý file

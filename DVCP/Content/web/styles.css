@@ -30,6 +30,21 @@
 /* ---------------------------------
 1. PRIMARY STYLES
 --------------------------------- */
+
+/*.parent:hover .child,
+.parent:focus .child {
+    transform: scale(1.2);
+}
+.child {
+    width: 100%;
+    height: 100%;
+    background-color: black;  fallback color 
+    background-image: url("images/city.jpg");
+    background-position: center;
+    background-size: cover;
+    transition: all .5s;
+}
+    */
 a{
     text-decoration:none;
 }

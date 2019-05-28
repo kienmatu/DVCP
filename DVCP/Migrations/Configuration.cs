@@ -13,13 +13,13 @@
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DVCP.Models.DVCPContext context)
+        protected override void Seed(DVCPContext context)
         {
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-            context.infoes.AddOrUpdate( x =>x.id,
+            context.info.AddOrUpdate( x =>x.id,
                 new info
                 {
                     id = 1,

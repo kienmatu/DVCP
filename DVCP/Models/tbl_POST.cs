@@ -8,15 +8,17 @@ namespace DVCP.Models
 
     public partial class tbl_POST
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tbl_POST()
+        {
+            Tbl_HotPost = new HashSet<Tbl_HotPost>();
+            Tbl_Series = new HashSet<Tbl_Series>();
+        }
+
         [Key]
         public int post_id { get; set; }
 
         public int? userid { get; set; }
-
-        public int Rated { get; set; }
-
-        [StringLength(200)]
-        public string AvatarImage { get; set; }
 
         [Required]
         [StringLength(200)]
@@ -44,8 +46,21 @@ namespace DVCP.Models
         [StringLength(50)]
         public string dynasty { get; set; }
 
-        public virtual tbl_User tbl_User { get; set; }
         public int ViewCount { get; set; }
+
+        public int Rated { get; set; }
+
+        [StringLength(200)]
+        public string AvatarImage { get; set; }
+
         public bool status { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tbl_HotPost> Tbl_HotPost { get; set; }
+
+        public virtual tbl_User tbl_User { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tbl_Series> Tbl_Series { get; set; }
     }
 }

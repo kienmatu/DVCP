@@ -17,7 +17,7 @@ namespace DVCP.Repository
         
         public info FindByID(int id = 1)
         {
-            info u = entity.infoes.Find(id);
+            info u = entity.info.Find(id);
             return u;
         }
        

@@ -6,33 +6,20 @@ namespace DVCP.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class tbl_User
+    public partial class Tbl_Series
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tbl_User()
+        public Tbl_Series()
         {
             tbl_POST = new HashSet<tbl_POST>();
         }
 
         [Key]
-        public int userid { get; set; }
+        public int seriesID { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string username { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string password { get; set; }
-
-        [Required]
-        [StringLength(30)]
-        public string fullname { get; set; }
-
-        [StringLength(20)]
-        public string userrole { get; set; }
-
-        public bool status { get; set; }
+        [StringLength(200)]
+        public string seriesName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbl_POST> tbl_POST { get; set; }
