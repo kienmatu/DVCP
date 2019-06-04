@@ -12,10 +12,7 @@ namespace DVCP.CommonData
     {
         public static List<SelectListItem> getTagList()
         {
-            List<SelectListItem> lstDynasty = new List<SelectListItem>
-            {
-                //"Kiến trúc","Chất liệu","Trang phục","Binh bị","Quân sự","Thần thoại","Văn hóa","Dã sử","Phong tục"
-            };
+
             return new List<SelectListItem>
         {
             new SelectListItem {Text = "Kiến trúc", Value = "Kiến trúc"},
@@ -29,7 +26,10 @@ namespace DVCP.CommonData
             new SelectListItem {Text = "Tôn giáo", Value = "Tôn giáo"},
 
         };
-           
+            List<SelectListItem> lstDynasty = new List<SelectListItem>
+            {
+                //"Kiến trúc","Chất liệu","Trang phục","Binh bị","Quân sự","Thần thoại","Văn hóa","Dã sử","Phong tục"
+            };
         }
     }
 }

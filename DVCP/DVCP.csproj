@@ -153,6 +153,7 @@
     <Compile Include="Models\Tbl_HotPost.cs" />
     <Compile Include="Models\tbl_POST.cs" />
     <Compile Include="Models\Tbl_Series.cs" />
+    <Compile Include="Models\Tbl_SeriesPost.cs" />
     <Compile Include="Models\tbl_User.cs" />
     <Compile Include="Repository\InfoRepository.cs" />
     <Compile Include="Repository\SeriesRepository.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="ViewModel\infoViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\newPostViewModel.cs" />
+    <Compile Include="ViewModel\SeriesPostViewModel.cs" />
     <Compile Include="ViewModel\uploadViewModel.cs" />
     <Compile Include="ViewModel\userListViewModel.cs" />
   </ItemGroup>
@@ -1388,6 +1390,7 @@
     <Content Include="Content\js\ListSeries.js" />
     <Content Include="Content\js\newPost.js" />
     <Content Include="Content\js\popper.min.js" />
+    <Content Include="Content\js\SeriDetail.js" />
     <Content Include="Content\Notify.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
@@ -1617,6 +1620,8 @@
     <Content Include="Views\User\ChangePass.cshtml" />
     <Content Include="Views\Admin\InfoChange.cshtml" />
     <Content Include="Views\Admin\ListSeries.cshtml" />
+    <Content Include="Views\Shared\FilesForm.cshtml" />
+    <Content Include="Views\Admin\SerieDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

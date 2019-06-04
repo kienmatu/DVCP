@@ -68,6 +68,8 @@ namespace DVCP.ViewModel
     
     public class newPostViewModel
     {
+        [RequiredSelectListItem(ErrorMessage = "Vui lòng chọn ít nhất 1 tag")]
+        public List<SelectListItem> post_tag { get; set; }
         public int post_id { get; set; }
 
         public int? userid { get; set; }
@@ -95,8 +97,7 @@ namespace DVCP.ViewModel
         [Required(ErrorMessage ="Vui lòng chọn kiểu bài viết!")]
         public PostType post_type { get; set; }
 
-        [RequiredSelectListItem(ErrorMessage = "Vui lòng chọn ít nhất 1 tag")]
-        public List<SelectListItem> post_tag { get; set; }
+       
 
         public DateTime? create_date { get; set; }
 
