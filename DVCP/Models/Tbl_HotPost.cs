@@ -14,6 +14,6 @@ namespace DVCP.Models
 
         public int? post_id { get; set; }
 
-        public virtual tbl_POST tbl_POST { get; set; }
+        public virtual Tbl_POST Tbl_POST { get; set; }
     }
 }

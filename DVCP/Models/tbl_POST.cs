@@ -6,13 +6,14 @@ namespace DVCP.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class tbl_POST
+    public partial class Tbl_POST
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tbl_POST()
+        public Tbl_POST()
         {
             Tbl_HotPost = new HashSet<Tbl_HotPost>();
             Tbl_Series = new HashSet<Tbl_Series>();
+            Tbl_Tags = new HashSet<Tbl_Tags>();
         }
 
         [Key]
@@ -36,8 +37,8 @@ namespace DVCP.Models
 
         public int post_type { get; set; }
 
-        [StringLength(200)]
-        public string post_tag { get; set; }
+        //[StringLength(200)]
+        //public string post_tag { get; set; }
 
         public DateTime? create_date { get; set; }
 
@@ -54,6 +55,7 @@ namespace DVCP.Models
         public string AvatarImage { get; set; }
 
         public bool status { get; set; }
+        
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_HotPost> Tbl_HotPost { get; set; }
@@ -62,5 +64,8 @@ namespace DVCP.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_Series> Tbl_Series { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tbl_Tags> Tbl_Tags { get; set; }
     }
 }

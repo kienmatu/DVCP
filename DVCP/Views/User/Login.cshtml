@@ -15,16 +15,16 @@
                         <form class="form-signin" method="post">
 
                             <div class="form-label-group">
+                                <label for="Username">User name</label><br />
                                 @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "UserName" })
-                                <label for="inputEmail">User name</label><br />
                                 @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
 
                             </div>
 
                             <div class="form-label-group">
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
 
-                                <label for="inputPassword">Password</label><br />
+                                <label for="Password">Password</label><br />
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
                                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
                             </div>

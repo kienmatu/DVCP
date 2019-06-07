@@ -7,35 +7,33 @@ using System.Web;
 
 namespace DVCP.Repository
 {
-    public class PostRepository
+    public class TagRepository
     {
         private DVCPContext entity;
-        public PostRepository(DVCPContext context)
+        public TagRepository(DVCPContext context)
         {
             this.entity = context;
         }
-        public void AddPost(Tbl_POST post)
+        public void AddTag(Tbl_Tags tag)
         {
-            entity.Tbl_POST.Add(post);
+            entity.Tbl_Tags.Add(tag);
         }
-        public IQueryable<Tbl_POST> AllPosts()
+        public IQueryable<Tbl_Tags> AllTags()
         {
-            IQueryable<Tbl_POST> query = entity.Tbl_POST;
+            IQueryable<Tbl_Tags> query = entity.Tbl_Tags;
             return query.AsQueryable();
         }
-        public void DeletePost(Tbl_POST post)
+        public void DeletePost(Tbl_Tags post)
         {
-            //entity.Tbl_Tags.Remove(post.Tbl_Tags);
-            entity.Tbl_POST.Remove(post);
-           
+            entity.Tbl_Tags.Remove(post);
         }
-        public void UpdatePost(Tbl_POST post)
+        public void UpdateTag(Tbl_Tags tag)
         {
-            entity.Entry(post).State = EntityState.Modified;
+            entity.Entry(tag).State = EntityState.Modified;
         }
-        public Tbl_POST FindByID(int id)
+        public Tbl_Tags FindByID(int id)
         {
-            return entity.Tbl_POST.Find(id);
+            return entity.Tbl_Tags.Find(id);
         }
         public void SaveChanges()
         {

@@ -45,6 +45,36 @@
     transition: all .5s;
 }
     */
+#title_post {
+    font-size: 27px;
+    font-weight: bold;
+}
+
+#author_time {
+    font-size: small;
+}
+
+#teaser-post {
+    font-size: 16px;
+    padding-left: 10px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+#main-content {
+    padding-left: 10px;
+    text-align: justify;
+    /*font-size: 15px;*/
+}
+
+.content {
+    margin-bottom: 10px;
+}
+
+.banner-right img {
+    width: 100%;
+}
 a{
     text-decoration:none;
 }

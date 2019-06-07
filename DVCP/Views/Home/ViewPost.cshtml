@@ -1,0 +1,67 @@
+﻿@model DVCP.Models.Tbl_POST
+@{
+    //var imagepath = "http://nghean-aptech.com/uploaded/images";
+    ViewBag.Title = Model.post_title;
+    ViewBag.Description = Model.post_teaser;
+    //ViewBag.Image = Model.ImageName;
+    //ViewBag.Tag = Model.MetaTag != null ? Model.MetaTag : "INTEC,aptech,nghean-aptech,nghean-aptech.com, Aptech Việt nam,IT,programing, aptech, lập trình, tin học, đào tạo, tuyen sinh, ky thuat vien, programming, software, download, ebook, asp, jsp, dao tao lap trinh vien quoc te, lap trinh vien quoc te, lập trình, đào tạo, tuyển sinh,Aptech Services - IT Training &amp; Education,Web design, graphic, multimedia, e-commerce,VietNam, Aptech-Vietnam, Đào tạo lập trình, Dao tao lap trinh, Dao tao lap trinh vien, Đào tạo CNTT, Dao tao CNTT";
+    GetData data = new GetData();
+}
+
+<div class="col-12  pl-md-0 pr-md-0">
+    <section class="pt-md-4">
+            <div class="row">
+                <!-- Nội dung chính-->
+                <div class="col-md-8">
+                    <div id="title_post">@Model.post_title</div>
+                    <div id="author_time"><i class="fa fa-clock-o mr-1"></i>@String.Format("{0:dd/MM/yyyy}", Model.create_date)  - <i class="fa fa-eye mr-1"></i> @Model.ViewCount views</div>
+                    <hr />
+                    <div class="content">
+                        <div id="teaser-post">
+                            @Model.post_teaser
+                        </div>
+                        <div class="imagepost pb-3" style="max-width:80%;margin-left: auto;margin-right: auto;">
+                            <img src="~/Upload/images/@Model.AvatarImage" onerror="this.onerror=null;this.style.display = 'none';" alt="@SlugGenerator.SlugGenerator.GenerateSlug(Model.post_title," ")" />
+                        </div>
+                        <div id="main-content">
+                            @Html.Raw(Model.post_content)
+                        </div>
+                    </div>
+                    <hr />
+                    @*@GetData.IncreaseView(Model.ID)*@
+                    <div class="float-left-right text-center mt-40 mt-sm-20">
+
+                        <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
+                            @*<li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(Model.post_tag.CateName.ToLower())-@Model.CateID">@Model.tb_Category.CateName</a></li>*@
+
+                        </ul>
+                        <ul class="mb-30 list-a-bg-grey list-a-hw-radial-35 list-a-hvr-primary list-li-ml-5">
+                            <li class="mr-10 ml-0">Share</li>
+                            <li><a onclick="return buildFbURL(this)" target="_blank" href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a onclick="return buildTwURL(this)" target="_blank" href="#"><i class="fa fa-twitter"></i></a></li>
+
+                        </ul>
+
+                    </div><!-- float-left-right -->
+                    @*@Html.Partial("_RelatedPost", data.GetRelatedPost())*@
+                </div>
+                <!-- ./ Nội dung chính-->
+                <!-- Phổ biến -->
+                <div class="col-md-4">
+                    @Html.Partial("_PopularPost",data.GetPopularPost())
+                </div>
+            </div>
+    </section>
+</div>
+<script>
+    baseurl = "https://www.facebook.com/sharer/sharer.php?u=";
+    baseTweeturl = "http://twitter.com/share?text=Dai Viet Co Phong&url=";
+    function buildFbURL(item) {
+        item.href = baseurl + window.location.href;
+        return true;
+    }
+    function buildTwURL(item) {
+        item.href = baseTweeturl + window.location.href + "&hashtags=dvcp,daivietcophong";
+        return true;
+    }
+</script>

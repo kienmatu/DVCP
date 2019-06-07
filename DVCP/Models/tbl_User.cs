@@ -11,7 +11,7 @@ namespace DVCP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tbl_User()
         {
-            tbl_POST = new HashSet<tbl_POST>();
+            Tbl_POST = new HashSet<Tbl_POST>();
         }
 
         [Key]
@@ -35,6 +35,6 @@ namespace DVCP.Models
         public bool status { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbl_POST> tbl_POST { get; set; }
+        public virtual ICollection<Tbl_POST> Tbl_POST { get; set; }
     }
 }

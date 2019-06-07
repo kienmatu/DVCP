@@ -1,0 +1,30 @@
+﻿@model IEnumerable<DVCP.Models.Tbl_POST>
+<div class="pl-20 pl-md-0">
+    <div class="popular-post">
+        <h4 class="p-title"><b>PHỔ BIẾN</b></h4>
+        @foreach(var item in Model)
+        {
+            <a class="link oflow-hidden pos-relative mb-20 dplay-block" href="#">
+            <div style="background-image:url(/Content/web/images/top-post2.jpg)" class="wh-100x abs-tlr img-bg-head"></div>
+            <div class="ml-120 min-h-100x">
+                <h5><b>@item.post_title</b></h5>
+                <h6 class="color-lite-black pt-2">@String.Format("{0:dd-MM-yyyy}", item.create_date)</h6>
+            </div>
+        </a> 
+        }
+        
+
+        
+    </div>
+    <div class="mtb-50 mb-md-0">
+        <h4 class="p-title"><b>CẬP NHẬT THÔNG TIN</b></h4>
+        <p class="mb-20">
+            Đăng ký để nhận những thông tin, cập nhật và những bài viết mới của chúng tôi
+        </p>
+        <form class="nwsltr-primary-1">
+            <input type="text" placeholder="Your email" />
+            <button type="submit"><i class="fa fa-send"></i></button>
+        </form>
+    </div>
+
+</div>

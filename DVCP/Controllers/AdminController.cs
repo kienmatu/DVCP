@@ -14,7 +14,7 @@ namespace DVCP.Controllers
     [Authorize(Roles = "admin,editor")]
     public class AdminController : Controller
     {
-        UnitOfWork UnitOfWork = new UnitOfWork(new DVCPContext());
+        UnitOfWork db = new UnitOfWork(new DVCPContext());
         //[Authorize(Roles ="admin,editor")]
         public ActionResult Index()
         {
@@ -25,7 +25,7 @@ namespace DVCP.Controllers
             newPostViewModel model = new newPostViewModel
             {
                 post_type = PostType.Normal,
-                post_tag = PostData.getTagList(),
+                post_tag = PostData.getTagList(), //PostData.getTagList(),
                 Status = true,
                 changeAvatar = true,
             };
@@ -36,8 +36,12 @@ namespace DVCP.Controllers
         [HttpPost]
         public ActionResult newPost(newPostViewModel model)
         {
-            var tag = string.Join(",", model.post_tag.Where(x => x.Selected == true).Select(i => i.Value));
-            if (ModelState.IsValid && !String.IsNullOrWhiteSpace(tag))
+            List<Tbl_Tags> taglist = new List<Tbl_Tags>();
+            taglist.AddRange(model.post_tag.Where(m => m.Selected)
+                .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
+                );
+           
+            if (ModelState.IsValid && taglist.Count > 0)
             {
                 // Nếu như teaser trống hoặc quá ngắn, sẽ dùng content thay thế từ content bài viết
                 if (model.post_teaser == null || model.post_teaser.Length <= 20)
@@ -67,8 +71,8 @@ namespace DVCP.Controllers
                 }
                 if (isSavedSuccessfully == true)
                 {
-                    tbl_User user = UnitOfWork.userRepository.FindByUsername(User.Identity.Name);
-                    tbl_POST pOST = new tbl_POST
+                    tbl_User user = db.userRepository.FindByUsername(User.Identity.Name);
+                    Tbl_POST pOST = new Tbl_POST
                     {
                         userid = user.userid,
                         dynasty = model.dynasty.ToString(),
@@ -76,7 +80,6 @@ namespace DVCP.Controllers
                         AvatarImage = model.AvatarImage,
                         post_content = model.post_content,
                         post_review = model.post_review,
-                        post_tag = tag,
                         post_title = model.post_title,
                         post_type = (int)model.post_type,
                         ViewCount = 0,
@@ -84,8 +87,14 @@ namespace DVCP.Controllers
                         post_teaser = model.post_teaser,
                         status = model.Status,
                     };
-                    UnitOfWork.postRepository.AddPost(pOST);
-                    UnitOfWork.Commit();
+                    foreach(var i in taglist)
+                    {
+                        Tbl_Tags tags = db.tagRepository.FindByID(i.TagID);
+                        pOST.Tbl_Tags.Add(tags);
+                        tags.Tbl_POST.Add(pOST);
+                    }
+                    db.postRepository.AddPost(pOST);
+                    db.Commit();
                     if (model.post_type.Equals(PostType.Slide))
                     {
                         return View("UploadImage", new uploadViewModel { id = pOST.post_id, title = pOST.post_title });
@@ -111,7 +120,7 @@ namespace DVCP.Controllers
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortOrder;
             sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
-            IPagedList<tbl_POST> post = null;
+            IPagedList<Tbl_POST> post = null;
             ViewBag.Sort = "tăng dần";
             if (String.IsNullOrWhiteSpace(titleStr))
             {
@@ -122,13 +131,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().OrderByDescending
+                            post = db.postRepository.AllPosts().OrderByDescending
                                     (m => m.post_title).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().OrderBy
+                            post = db.postRepository.AllPosts().OrderBy
                                     (m => m.post_title).ToPagedList(pageIndex, pageSize);
                         }
                         break;
@@ -137,13 +146,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().OrderByDescending
+                            post = db.postRepository.AllPosts().OrderByDescending
                                     (m => m.create_date).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().OrderBy
+                            post = db.postRepository.AllPosts().OrderBy
                                     (m => m.create_date).ToPagedList(pageIndex, pageSize);
                         }
 
@@ -153,13 +162,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().OrderByDescending
+                            post = db.postRepository.AllPosts().OrderByDescending
                                     (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().OrderBy
+                            post = db.postRepository.AllPosts().OrderBy
                                     (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                         }
 
@@ -179,12 +188,12 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
                                     (m => m.post_title).ToPagedList(pageIndex, pageSize);
                         }
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
                                       (m => m.post_title).ToPagedList(pageIndex, pageSize);
                         }
                         break;
@@ -193,13 +202,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
                                     (m => m.create_date).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
                                    (m => m.create_date).ToPagedList(pageIndex, pageSize);
                         }
                         break;
@@ -208,13 +217,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderByDescending
                                     (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower())).OrderBy
                                      (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                         }
                         break;
@@ -233,9 +242,9 @@ namespace DVCP.Controllers
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortOrder;
             sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
-            IPagedList<tbl_POST> post = null;
+            IPagedList<Tbl_POST> post = null;
             ViewBag.Sort = "tăng dần";
-            tbl_User user = UnitOfWork.userRepository.FindByUsername(User.Identity.Name);
+            tbl_User user = db.userRepository.FindByUsername(User.Identity.Name);
             if (String.IsNullOrWhiteSpace(titleStr))
             {
                 switch (sortOrder)
@@ -245,13 +254,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
                                     (m => m.post_title).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
+                            post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
                                     (m => m.post_title).ToPagedList(pageIndex, pageSize);
                         }
                         break;
@@ -260,13 +269,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
                                     (m => m.create_date).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
+                            post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
                                     (m => m.create_date).ToPagedList(pageIndex, pageSize);
                         }
 
@@ -276,13 +285,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
                                     (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
+                            post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
                                     (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                         }
 
@@ -302,12 +311,12 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
                                     (m => m.post_title).ToPagedList(pageIndex, pageSize);
                         }
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
                                       (m => m.post_title).ToPagedList(pageIndex, pageSize);
                         }
                         break;
@@ -316,13 +325,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
                                     (m => m.create_date).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
                                    (m => m.create_date).ToPagedList(pageIndex, pageSize);
                         }
                         break;
@@ -331,13 +340,13 @@ namespace DVCP.Controllers
                         if (sortOrder.Equals(CurrentSort))
                         {
                             ViewBag.Sort = "giảm dần";
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
                                     (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                         }
 
                         else
                         {
-                            post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
+                            post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
                                      (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                         }
                         break;
@@ -356,9 +365,9 @@ namespace DVCP.Controllers
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortOrder;
             sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
-            IPagedList<tbl_POST> post = null;
+            IPagedList<Tbl_POST> post = null;
             ViewBag.Sort = "tăng dần";
-            tbl_User user = UnitOfWork.userRepository.FindByID(id);
+            tbl_User user = db.userRepository.FindByID(id);
             if (user != null)
             {
                 if (String.IsNullOrWhiteSpace(titleStr))
@@ -370,13 +379,13 @@ namespace DVCP.Controllers
                             if (sortOrder.Equals(CurrentSort))
                             {
                                 ViewBag.Sort = "giảm dần";
-                                post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
+                                post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
                                         (m => m.post_title).ToPagedList(pageIndex, pageSize);
                             }
 
                             else
                             {
-                                post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
+                                post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
                                         (m => m.post_title).ToPagedList(pageIndex, pageSize);
                             }
                             break;
@@ -385,13 +394,13 @@ namespace DVCP.Controllers
                             if (sortOrder.Equals(CurrentSort))
                             {
                                 ViewBag.Sort = "giảm dần";
-                                post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
+                                post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
                                         (m => m.create_date).ToPagedList(pageIndex, pageSize);
                             }
 
                             else
                             {
-                                post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
+                                post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
                                         (m => m.create_date).ToPagedList(pageIndex, pageSize);
                             }
 
@@ -401,13 +410,13 @@ namespace DVCP.Controllers
                             if (sortOrder.Equals(CurrentSort))
                             {
                                 ViewBag.Sort = "giảm dần";
-                                post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
+                                post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderByDescending
                                         (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                             }
 
                             else
                             {
-                                post = UnitOfWork.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
+                                post = db.postRepository.AllPosts().Where(u => u.userid == user.userid).OrderBy
                                         (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                             }
 
@@ -427,12 +436,12 @@ namespace DVCP.Controllers
                             if (sortOrder.Equals(CurrentSort))
                             {
                                 ViewBag.Sort = "giảm dần";
-                                post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
+                                post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
                                         (m => m.post_title).ToPagedList(pageIndex, pageSize);
                             }
                             else
                             {
-                                post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
+                                post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
                                           (m => m.post_title).ToPagedList(pageIndex, pageSize);
                             }
                             break;
@@ -441,13 +450,13 @@ namespace DVCP.Controllers
                             if (sortOrder.Equals(CurrentSort))
                             {
                                 ViewBag.Sort = "giảm dần";
-                                post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
+                                post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
                                         (m => m.create_date).ToPagedList(pageIndex, pageSize);
                             }
 
                             else
                             {
-                                post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
+                                post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
                                        (m => m.create_date).ToPagedList(pageIndex, pageSize);
                             }
                             break;
@@ -456,13 +465,13 @@ namespace DVCP.Controllers
                             if (sortOrder.Equals(CurrentSort))
                             {
                                 ViewBag.Sort = "giảm dần";
-                                post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
+                                post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderByDescending
                                         (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                             }
 
                             else
                             {
-                                post = UnitOfWork.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
+                                post = db.postRepository.AllPosts().Where(m => m.post_title.ToLower().Contains(titleStr.ToLower()) && m.userid == user.userid).OrderBy
                                          (m => m.ViewCount).ToPagedList(pageIndex, pageSize);
                             }
                             break;
@@ -482,7 +491,7 @@ namespace DVCP.Controllers
         }
         public ActionResult editPost(int id)
         {
-            tbl_POST post = UnitOfWork.postRepository.FindByID(id);
+            Tbl_POST post = db.postRepository.FindByID(id);
             if (post == null)
             {
                 return RedirectToAction("ListPost");
@@ -497,12 +506,12 @@ namespace DVCP.Controllers
                 PostType type;
                 Enum.TryParse(post.post_type.ToString(), out type);
                 List<SelectListItem> tag = PostData.getTagList();
-                string[] oldtag = post.post_tag.Split(',');
+                //string[] oldtag = post.post_tag.Split(',');
                 foreach (var x in tag)
                 {
-                    foreach (var t in oldtag)
+                    foreach (var t in post.Tbl_Tags)
                     {
-                        if (x.Value == t)
+                        if (x.Value == t.TagID.ToString())
                         {
                             x.Selected = true;
                         }
@@ -534,8 +543,15 @@ namespace DVCP.Controllers
         [HttpPost]
         public ActionResult editPost(newPostViewModel model)
         {
-            var tag = string.Join(",", model.post_tag.Where(x => x.Selected == true).Select(i => i.Value));
-            if (ModelState.IsValid && !String.IsNullOrWhiteSpace(tag))
+            List<Tbl_Tags> taglist = new List<Tbl_Tags>();
+            taglist.AddRange(model.post_tag.Where(m => m.Selected)
+                .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
+                );
+            List<Tbl_Tags> untaglist = new List<Tbl_Tags>();
+            untaglist.AddRange(model.post_tag.Where(m => m.Selected == false)
+                .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
+                );
+            if (ModelState.IsValid && taglist.Count > 0)
             {
                 // Nếu như teaser trống hoặc quá ngắn, sẽ dùng content thay thế từ content bài viết
                 if (model.post_teaser == null || model.post_teaser.Length <= 20)
@@ -573,7 +589,7 @@ namespace DVCP.Controllers
                 }
                 if (isSavedSuccessfully)
                 {
-                    tbl_POST pOST = UnitOfWork.postRepository.FindByID(model.post_id);
+                    Tbl_POST pOST = db.postRepository.FindByID(model.post_id);
                     if (pOST.tbl_User.username != User.Identity.Name)
                     {
                         return RedirectToAction("ListPost");
@@ -583,14 +599,37 @@ namespace DVCP.Controllers
                     pOST.AvatarImage = model.AvatarImage;
                     pOST.post_content = model.post_content;
                     pOST.post_review = model.post_review;
-                    pOST.post_tag = tag;
                     pOST.post_title = model.post_title;
                     pOST.post_type = (int)model.post_type;
                     pOST.Rated = (int)model.Rated;
                     pOST.post_teaser = model.post_teaser;
                     pOST.status = model.Status;
-                    UnitOfWork.postRepository.UpdatePost(pOST);
-                    UnitOfWork.Commit();
+                    foreach (var i in taglist)
+                    {
+                        Tbl_Tags tags = db.tagRepository.FindByID(i.TagID);
+                        if (!pOST.Tbl_Tags.Contains(tags))
+                        {
+                            pOST.Tbl_Tags.Add(tags);
+                            tags.Tbl_POST.Add(pOST);
+                        }
+                        //else if(pOST.Tbl_Tags.Contains(tags))
+                        //{
+                        //    pOST.Tbl_Tags.Remove(tags);
+                        //    tags.Tbl_POST.Remove(pOST);
+                        //}
+                        
+                    }
+                    foreach(var i in untaglist)
+                    {
+                        Tbl_Tags tags = db.tagRepository.FindByID(i.TagID);
+                        if (pOST.Tbl_Tags.Contains(tags))
+                        {
+                            pOST.Tbl_Tags.Remove(tags);
+                            tags.Tbl_POST.Remove(pOST);
+                        }
+                    }
+                    db.postRepository.UpdatePost(pOST);
+                    db.Commit();
                     if (model.post_type.Equals(PostType.Slide))
                     {
                         return View("UploadImage", new uploadViewModel { id = pOST.post_id, title = pOST.post_title });
@@ -609,18 +648,18 @@ namespace DVCP.Controllers
 
             return View(nmodel);
         }
-        //POST: tbl_POST/Delete/5
+        //POST: Tbl_POST/Delete/5
         [HttpPost]
         public JsonResult DeleteConfirmed(int id)
         {
-            tbl_POST tbl_POST = UnitOfWork.postRepository.FindByID(id);
-            string title = tbl_POST.post_title;
-            if ((tbl_POST.tbl_User.username == User.Identity.Name) || User.IsInRole("admin"))
+            Tbl_POST Tbl_POST = db.postRepository.FindByID(id);
+            string title = Tbl_POST.post_title;
+            if ((Tbl_POST.tbl_User.username == User.Identity.Name) || User.IsInRole("admin"))
             {
-                UnitOfWork.postRepository.DeletePost(tbl_POST);
-                if (tbl_POST.post_type == (int)PostType.Slide)
+                db.postRepository.DeletePost(Tbl_POST);
+                if (Tbl_POST.post_type == (int)PostType.Slide)
                 {
-                    string subPath = Server.MapPath("~/Files/images/slides/" + tbl_POST.post_id);
+                    string subPath = Server.MapPath("~/Files/images/slides/" + Tbl_POST.post_id);
                     bool exists = System.IO.Directory.Exists(subPath);
                     if (exists)
                     {
@@ -628,12 +667,13 @@ namespace DVCP.Controllers
                     }
                 }
                 //xóa ảnh đại diện cũ
-                bool exist = System.IO.File.Exists(Server.MapPath("~/Upload/images/" + tbl_POST.AvatarImage));
+                bool exist = System.IO.File.Exists(Server.MapPath("~/Upload/images/" + Tbl_POST.AvatarImage));
                 if (exist)
                 {
-                    System.IO.File.Delete(Server.MapPath("~/Upload/images/" + tbl_POST.AvatarImage));
+                    System.IO.File.Delete(Server.MapPath("~/Upload/images/" + Tbl_POST.AvatarImage));
                 }
-                UnitOfWork.Commit();
+
+                db.Commit();
                 return Json(new { Message = "Xóa '" + title + "' thành công" }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Message = "Không thể xóa '" + title + "' <br /> vì đó không phải bài viết của bạn." }, JsonRequestBehavior.AllowGet);
@@ -641,11 +681,11 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult changeStatus(int id, bool state = false)
         {
-            tbl_POST tbl_POST = UnitOfWork.postRepository.FindByID(id);
-            string title = tbl_POST.post_title;
-            tbl_POST.status = state;
+            Tbl_POST Tbl_POST = db.postRepository.FindByID(id);
+            string title = Tbl_POST.post_title;
+            Tbl_POST.status = state;
             string prefix = state == true ? "Đăng" : "Hủy đăng";
-            UnitOfWork.Commit();
+            db.Commit();
             return Json(new { Message = prefix + " \"" + title + "\" thành công" }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult ListSeries(string name, int? page)
@@ -657,17 +697,17 @@ namespace DVCP.Controllers
             if (!String.IsNullOrWhiteSpace(name))
             {
                 ViewBag.name = name;
-                sr = UnitOfWork.seriesRepository.AllSeries().Where(m => m.seriesName.Contains(name)).OrderBy(x => x.seriesID).ToPagedList(pageIndex, pageSize);
+                sr = db.seriesRepository.AllSeries().Where(m => m.seriesName.Contains(name)).OrderBy(x => x.seriesID).ToPagedList(pageIndex, pageSize);
             }
             else
             {
-                sr = UnitOfWork.seriesRepository.AllSeries().OrderBy(x => x.seriesID).ToPagedList(pageIndex, pageSize);
+                sr = db.seriesRepository.AllSeries().OrderBy(x => x.seriesID).ToPagedList(pageIndex, pageSize);
             }
             return View(sr);
         }
         public ActionResult SerieDetail(int id, string name)
         {
-            Tbl_Series sr = UnitOfWork.seriesRepository.FindByID(id);
+            Tbl_Series sr = db.seriesRepository.FindByID(id);
             if (sr != null)
             {
 
@@ -679,9 +719,9 @@ namespace DVCP.Controllers
                                 // instance from context
                             from a in conn.Tbl_Series
                                     // instance from navigation property
-                            from b in a.tbl_POST
+                            from b in a.Tbl_POST
                                     //join to bring useful data
-                            join c in conn.tbl_POST on b.post_id equals c.post_id
+                            join c in conn.Tbl_POST on b.post_id equals c.post_id
                                 //where a.seriesID == c.Tbl_Series.s
                             where a.seriesID.Equals(id)
                             where b.post_title.Contains(name)
@@ -715,9 +755,9 @@ namespace DVCP.Controllers
                             // instance from context
                             from a in conn.Tbl_Series
                                 // instance from navigation property
-                            from b in a.tbl_POST
+                            from b in a.Tbl_POST
                                 //join to bring useful data
-                            join c in conn.tbl_POST on b.post_id equals c.post_id
+                            join c in conn.Tbl_POST on b.post_id equals c.post_id
                             //where a.seriesID == c.Tbl_Series.s
                             where a.seriesID.Equals(id)
                             select new SeriesPost
@@ -762,11 +802,11 @@ namespace DVCP.Controllers
             }
             else
             {
-                UnitOfWork.seriesRepository.AddSeries(new Tbl_Series
+                db.seriesRepository.AddSeries(new Tbl_Series
                 {
                     seriesName = name,
                 });
-                UnitOfWork.Commit();
+                db.Commit();
                 return Json(new { Message = "Tạo series" + " \"" + name + "\" thành công" }, JsonRequestBehavior.AllowGet);
             }
 
@@ -781,19 +821,19 @@ namespace DVCP.Controllers
             }
             else
             {
-                Tbl_Series series = UnitOfWork.seriesRepository.FindByID(id);
+                Tbl_Series series = db.seriesRepository.FindByID(id);
                 series.seriesName = name;
-                UnitOfWork.Commit();
+                db.Commit();
                 return Json(new { Message = "Edit series" + " \"" + series.seriesName + "\" thành công" }, JsonRequestBehavior.AllowGet);
             }
 
         }
         public JsonResult DeleteSeries(int id)
         {
-            Tbl_Series cate = UnitOfWork.seriesRepository.FindByID(id);
+            Tbl_Series cate = db.seriesRepository.FindByID(id);
             string title = cate.seriesName;
-            UnitOfWork.seriesRepository.Delete(cate);
-            UnitOfWork.Commit();
+            db.seriesRepository.Delete(cate);
+            db.Commit();
             return Json(new { reload = true, Message = "Xóa '" + title + "' thành công" }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult AddToSerie(int? id,int? seriid)
@@ -809,8 +849,8 @@ namespace DVCP.Controllers
                 using (DVCPContext conn = new DVCPContext())
                 {
                     Tbl_Series sr = conn.Tbl_Series.Find(seriid);
-                    tbl_POST post = conn.tbl_POST.Find(id);
-                    foreach(var x in sr.tbl_POST)
+                    Tbl_POST post = conn.Tbl_POST.Find(id);
+                    foreach(var x in sr.Tbl_POST)
                     {
                         if(x.post_id.Equals(id))
                         {
@@ -818,7 +858,7 @@ namespace DVCP.Controllers
                             return Json(new { Message = "Trùng lặp bài viết" }, JsonRequestBehavior.AllowGet);
                         }
                     }
-                    sr.tbl_POST.Add(post);
+                    sr.Tbl_POST.Add(post);
                     post.Tbl_Series.Add(sr);
                     conn.SaveChanges();
                 }
@@ -828,7 +868,7 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult checkPost(int id)
         {
-            tbl_POST p = UnitOfWork.postRepository.FindByID(id);
+            Tbl_POST p = db.postRepository.FindByID(id);
             if (p != null)
             {
                 return Json(new { valid = true, Message = p.post_title }, JsonRequestBehavior.AllowGet);
@@ -849,8 +889,8 @@ namespace DVCP.Controllers
                 using (DVCPContext conn = new DVCPContext())
                 {
                     Tbl_Series sr = conn.Tbl_Series.Find(seriid);
-                    tbl_POST post = conn.tbl_POST.Find(id);
-                    sr.tbl_POST.Remove(post);
+                    Tbl_POST post = conn.Tbl_POST.Find(id);
+                    sr.Tbl_POST.Remove(post);
                     post.Tbl_Series.Remove(sr);
                     conn.SaveChanges();
                 }
@@ -918,7 +958,7 @@ namespace DVCP.Controllers
         [Authorize(Roles ="admin")]
         public ActionResult InfoChange()
         {
-            info info = UnitOfWork.infoRepository.FindByID();
+            info info = db.infoRepository.FindByID();
             infoViewModel model = new infoViewModel
             {
                 web_name = info.web_name,
@@ -933,12 +973,16 @@ namespace DVCP.Controllers
         {
             if(ModelState.IsValid)
             {
-                info info = UnitOfWork.infoRepository.FindByID();
+                info info = db.infoRepository.FindByID();
                 info.web_des = model.web_des;
                 info.web_name = model.web_name;
                 info.web_about = model.web_about;
-                UnitOfWork.Commit();
+                db.Commit();
             }
+            return View();
+        }
+        public ActionResult ListTags()
+        {
             return View();
         }
     }

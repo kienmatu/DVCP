@@ -135,6 +135,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CommonData\CommonFunction.cs" />
+    <Compile Include="CommonData\GetData.cs" />
     <Compile Include="CommonData\PostData.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -143,20 +144,27 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905220234148_initial.cs" />
-    <Compile Include="Migrations\201905220234148_initial.Designer.cs">
-      <DependentUpon>201905220234148_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201906070311035_khoi_tao.cs" />
+    <Compile Include="Migrations\201906070311035_khoi_tao.Designer.cs">
+      <DependentUpon>201906070311035_khoi_tao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906070408490_fix.cs" />
+    <Compile Include="Migrations\201906070408490_fix.Designer.cs">
+      <DependentUpon>201906070408490_fix.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DVCPContext.cs" />
     <Compile Include="Models\info.cs" />
+    <Compile Include="Models\Tbl_PostTags.cs" />
     <Compile Include="Models\Tbl_HotPost.cs" />
-    <Compile Include="Models\tbl_POST.cs" />
+    <Compile Include="Models\Tbl_POST.cs" />
     <Compile Include="Models\Tbl_Series.cs" />
     <Compile Include="Models\Tbl_SeriesPost.cs" />
+    <Compile Include="Models\Tbl_Tags.cs" />
     <Compile Include="Models\tbl_User.cs" />
     <Compile Include="Repository\InfoRepository.cs" />
     <Compile Include="Repository\SeriesRepository.cs" />
+    <Compile Include="Repository\TagRepository.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\PostRepository.cs" />
@@ -1371,6 +1379,7 @@
     <Content Include="Content\images\apple-icon-120x120.png" />
     <Content Include="Content\images\dvcp.ico" />
     <Content Include="Content\images\no-image-available.jpg" />
+    <Content Include="Content\images\thumbnail-default.jpg" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
     <Content Include="Content\images\ui-icons_777620_256x240.png" />
@@ -1411,6 +1420,7 @@
     <Content Include="Content\web\scripts.js" />
     <Content Include="Content\web\styles.css" />
     <Content Include="Content\web\tether.min.js" />
+    <Content Include="Content\web\web.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -1622,6 +1632,10 @@
     <Content Include="Views\Admin\ListSeries.cshtml" />
     <Content Include="Views\Shared\FilesForm.cshtml" />
     <Content Include="Views\Admin\SerieDetail.cshtml" />
+    <Content Include="Views\Home\_HotPost.cshtml" />
+    <Content Include="Views\Home\_PopularPost.cshtml" />
+    <Content Include="Views\Home\ViewPost.cshtml" />
+    <Content Include="Views\Home\_RelatedPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1651,8 +1665,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905220234148_initial.resx">
-      <DependentUpon>201905220234148_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906070311035_khoi_tao.resx">
+      <DependentUpon>201906070311035_khoi_tao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906070408490_fix.resx">
+      <DependentUpon>201906070408490_fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

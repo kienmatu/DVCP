@@ -38,6 +38,17 @@
                     status = true,
                 }
                 );
+            context.Tbl_Tags.AddOrUpdate(x => x.TagID,
+                new Tbl_Tags { TagID = 1, TagName = "Kiến trúc" },
+                new Tbl_Tags { TagID = 2, TagName = "Chất liệu" },
+                new Tbl_Tags { TagID = 3, TagName = "Binh bị" },
+                new Tbl_Tags { TagID = 4, TagName = "Quân sự" },
+                new Tbl_Tags { TagID = 5, TagName = "Thần thoại" },
+                new Tbl_Tags { TagID = 6, TagName = "Văn hóa" },
+                new Tbl_Tags { TagID = 7, TagName = "Phong tục" },
+                new Tbl_Tags { TagID = 8, TagName = "Tôn giáo" },
+                new Tbl_Tags { TagID = 9, TagName = "Trang phục" }
+                );
             context.SaveChanges();
         }
     }
