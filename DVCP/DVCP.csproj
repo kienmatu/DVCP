@@ -162,6 +162,7 @@
     <Compile Include="Models\Tbl_SeriesPost.cs" />
     <Compile Include="Models\Tbl_Tags.cs" />
     <Compile Include="Models\tbl_User.cs" />
+    <Compile Include="Repository\HotPostRepository.cs" />
     <Compile Include="Repository\InfoRepository.cs" />
     <Compile Include="Repository\SeriesRepository.cs" />
     <Compile Include="Repository\TagRepository.cs" />
@@ -1395,6 +1396,7 @@
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\editPost.js" />
+    <Content Include="Content\js\HotPost.js" />
     <Content Include="Content\js\ListPost.js" />
     <Content Include="Content\js\ListSeries.js" />
     <Content Include="Content\js\ListTag.js" />

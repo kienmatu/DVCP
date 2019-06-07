@@ -15,9 +15,22 @@ namespace DVCP
         private PostRepository _postRepository;
         private SeriesRepository _seriesRepository;
         private TagRepository _tagRepository;
+        private HotPostRepository _hotPostRepository;
         public UnitOfWork(DVCPContext _context)
         {
             this.context = _context;
+        }
+        public HotPostRepository hotPostRepository
+        {
+            get
+            {
+                if (_hotPostRepository == null)
+                {
+                    _hotPostRepository = new HotPostRepository(context);
+
+                }
+                return _hotPostRepository;
+            }
         }
         public TagRepository tagRepository
         {

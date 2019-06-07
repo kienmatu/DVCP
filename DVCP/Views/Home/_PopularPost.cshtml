@@ -5,10 +5,10 @@
         @foreach(var item in Model)
         {
             <a class="link oflow-hidden pos-relative mb-20 dplay-block" href="#">
-            <div style="background-image:url(/Content/web/images/top-post2.jpg)" class="wh-100x abs-tlr img-bg-head"></div>
+            <div style="background-image:url(/Upload/images/@item.AvatarImage),url(/Content/web/images/top-post2.jpg)" class="wh-100x abs-tlr img-bg-head"></div>
             <div class="ml-120 min-h-100x">
                 <h5><b>@item.post_title</b></h5>
-                <h6 class="color-lite-black pt-2">@String.Format("{0:dd-MM-yyyy}", item.create_date)</h6>
+                <h6 class="color-lite-black pt-2"><i class="fa fa-calendar-o mr-1"></i>@String.Format("{0:dd/MM/yyyy}", item.create_date)  - <i class="fa fa-eye mr-1"></i> @item.ViewCount </h6>
             </div>
         </a> 
         }

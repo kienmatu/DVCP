@@ -873,7 +873,7 @@ namespace DVCP.Controllers
             {
                 return Json(new { valid = true, Message = p.post_title }, JsonRequestBehavior.AllowGet);
             }
-            Response.StatusCode = 500;
+            //Response.StatusCode = 500;
             return Json(new { valid = false, Message = "ID nhập không hợp lệ" }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult RemoveFromSerie(int? id,int? seriid)
@@ -1031,7 +1031,38 @@ namespace DVCP.Controllers
         [Authorize(Roles = "admin")]
         public ViewResult HotPostManager()
         {
-            return View();
+            List<Tbl_HotPost> posts = db.hotPostRepository.AllPosts().ToList();
+            return View(posts);
         }
+        [HttpPost]
+        public JsonResult editHotPost(int id, int priority)
+        {
+            Tbl_HotPost hotPost = db.hotPostRepository.FindByID(id);
+            hotPost.priority = priority;
+            db.hotPostRepository.SaveChanges();
+            return Json(new { reload = true, Message = "Sửa '" + hotPost.Tbl_POST.post_title + "' thành công" }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult deleteHotPost(int id)
+        {
+            Tbl_HotPost hotPost = db.hotPostRepository.FindByID(id);
+            string tit = hotPost.Tbl_POST.post_title;
+            db.hotPostRepository.DeletePost(hotPost);
+            db.hotPostRepository.SaveChanges();
+            return Json(new { reload = true, Message = "Gỡ bài ghim '" + tit + "' thành công" }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult addhotPost(int id, int priority)
+        {
+            Tbl_HotPost hotPost = new Tbl_HotPost
+            {
+                post_id = id,
+                priority = priority,
+            };
+            db.hotPostRepository.AddHotPost(hotPost);
+            db.hotPostRepository.SaveChanges();
+            return Json(new { reload = true, Message = "Ghim bài thành công" }, JsonRequestBehavior.AllowGet);
+        }
+        
     }
 }

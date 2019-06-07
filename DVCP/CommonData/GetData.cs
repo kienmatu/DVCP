@@ -18,5 +18,10 @@ namespace DVCP
             Tbl_Tags tags = db.tagRepository.FindByID(tag);
             return db.postRepository.AllPosts().Take(count > 3 ? count : 3 ).Where(m => m.Tbl_Tags.Contains(tags)).ToList();
         }
+        public Tbl_HotPost[] GetHotPosts()
+        {
+            Tbl_HotPost[] post = db.hotPostRepository.AllPosts().OrderBy(m => m.priority).Take(3).ToArray();
+            return post;
+        }
     }
 }

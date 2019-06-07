@@ -43,7 +43,7 @@
                                 <td>@item.priority</td>
                                 <td>
                                     @{
-                                        <a onclick="editPost(@item.id,@item.priority,'@item.Tbl_POST.post_title')" href="#" class="badge badge-warning">Đổi bài</a>
+                                    <a onclick="editPost(@item.id,@item.priority,'@item.Tbl_POST.post_title')" href="#" class="badge badge-warning">Sửa</a>
 
                                         if (User.IsInRole("admin"))
                                         {
@@ -131,7 +131,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Chọn bài ghim</h4>
+                <h4 class="modal-title">Sửa bài ghim</h4>
                 <button type="button" class="close cleardt" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->

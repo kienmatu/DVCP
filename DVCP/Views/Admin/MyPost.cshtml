@@ -80,7 +80,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.ActionLink(item.post_title, "Details", new { id = item.post_id })
+                                    <a href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id">@item.post_title</a>
                                 </td>
                                 <td>
                                     @String.Format("{0:dd/MM/yyyy}", item.create_date)

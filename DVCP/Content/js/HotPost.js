@@ -7,7 +7,6 @@ var emodal = $('#editModal');
 var idde;
 var idfix;
 var deleteConfirm = function (id, title) {
-
     delmodal.find('.modal-body').text(title);
     delmodal.modal('show');
     idde = id;
@@ -42,7 +41,6 @@ $('#deleteBtn').click(function () {
     });
 });
 $('#addHot').click(function () {
-
     $('#IDPost').val(null);
     amodal.modal('show');
 
@@ -128,8 +126,9 @@ $('#IDPost').change(function () {
 $('#btnCheck').click(function () {
     checkPost()
 });
+var idz;
 var checkPost = function () {
-    var idz = $('#IDPost').val();
+    idz = $('#IDPost').val();
     $.ajax({
         type: "POST",
         url: '/Admin/checkPost',
@@ -143,7 +142,7 @@ var checkPost = function () {
                 $('#postName').addClass('text-primary');
                 $('#addBtn').removeAttr('disabled');
             }
-            if (recData.valid == false) {
+            else if (recData.valid == false) {
                 $('#postName').text(recData.Message);
                 $('#postName').removeClass('text-primary');
                 $('#postName').addClass('text-danger');
