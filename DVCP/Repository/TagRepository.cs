@@ -23,7 +23,7 @@ namespace DVCP.Repository
             IQueryable<Tbl_Tags> query = entity.Tbl_Tags;
             return query.AsQueryable();
         }
-        public void DeletePost(Tbl_Tags post)
+        public void DeleteTag(Tbl_Tags post)
         {
             entity.Tbl_Tags.Remove(post);
         }

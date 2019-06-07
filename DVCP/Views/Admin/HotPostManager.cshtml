@@ -1,0 +1,155 @@
+﻿@model IEnumerable<DVCP.Models.Tbl_HotPost>
+@{
+    /**/
+
+    ViewBag.Title = "Quản lý bài ghim trang chủ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+
+<div style="margin-top:10px;"></div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Quản lý bài ghim trang chủ (3 bài)</h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+                        <button id="addHot" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm bài mới</button>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="lstPost" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tiêu đề</th>
+                            <th>Độ ưu tiên (nhỏ tới lớn)</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.id</td>
+                                <td>@item.Tbl_POST.post_title</td>
+                                <td>@item.priority</td>
+                                <td>
+                                    @{
+                                        <a onclick="editPost(@item.id,@item.priority,'@item.Tbl_POST.post_title')" href="#" class="badge badge-warning">Đổi bài</a>
+
+                                        if (User.IsInRole("admin"))
+                                        {
+                                            <a onclick="deleteConfirm(@item.id,'@item.Tbl_POST.post_title')" href="#" class="badge badge-danger">Xóa</a>
+
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div><!-- /.row -->
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Bạn có muốn xóa bài ghim ?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-danger cleardt">Xóa</button>
+                <button type="button" class="btn btn-secondary cleardt" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Add cate -->
+<div class="modal fade" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm bài ghim</h4>
+                <button type="button" class="close cleardt" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-9">
+                        <input type="number" required id="IDPost" placeholder="Nhập id bài viết" class="form-control" />
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-info" id="btnCheck">Check</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Bài viết gốc:</label>
+                    <p id="postName" class="text-primary bold">ID không hợp lệ</p>
+                </div>
+                <input type="number" required id="newPri" placeholder="Nhập priority" class="form-control" />
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="addBtn" disabled class="btn btn-success">Thêm</button>
+                <button type="button" class="btn btn-secondary cleardt" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--edit cate -->
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Chọn bài ghim</h4>
+                <button type="button" class="close cleardt" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <label for="message-text" class="col-form-label">Nhập priority:</label>
+                <input type="number" required id="Txtpriority" placeholder="Nhập thứ tự ưu tiên..." class="form-control" />
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="editBtn" class="btn btn-success">Sửa</button>
+                <button type="button" class="btn btn-secondary cleardt" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Content/AdminLTE/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/js/HotPost.js"></script>

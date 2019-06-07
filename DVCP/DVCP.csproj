@@ -1397,6 +1397,7 @@
     <Content Include="Content\js\editPost.js" />
     <Content Include="Content\js\ListPost.js" />
     <Content Include="Content\js\ListSeries.js" />
+    <Content Include="Content\js\ListTag.js" />
     <Content Include="Content\js\newPost.js" />
     <Content Include="Content\js\popper.min.js" />
     <Content Include="Content\js\SeriDetail.js" />
@@ -1636,6 +1637,8 @@
     <Content Include="Views\Home\_PopularPost.cshtml" />
     <Content Include="Views\Home\ViewPost.cshtml" />
     <Content Include="Views\Home\_RelatedPost.cshtml" />
+    <Content Include="Views\Admin\ListTags.cshtml" />
+    <Content Include="Views\Admin\HotPostManager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

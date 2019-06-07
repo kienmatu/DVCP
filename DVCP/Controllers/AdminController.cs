@@ -981,7 +981,55 @@ namespace DVCP.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "admin")]
         public ActionResult ListTags()
+        {
+            return View(db.tagRepository.AllTags().ToList());
+        }
+        [HttpPost]
+        public JsonResult DeleteTag(int id)
+        {
+            Tbl_Tags tags = db.tagRepository.FindByID(id);
+            if(tags.Tbl_POST.Count > 0)
+            {
+                Response.StatusCode = 500;
+                return Json(new { reload = false, Message = "Tags còn chứa bài viết. Không xóa được!" }, JsonRequestBehavior.AllowGet);
+            }
+            db.tagRepository.DeleteTag(tags);
+            db.tagRepository.SaveChanges();
+            return Json(new { reload = true, Message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult UpdateTag(int id,string name)
+        {
+            Tbl_Tags tags = db.tagRepository.FindByID(id);
+            if(String.IsNullOrWhiteSpace(name))
+            {
+                Response.StatusCode = 500;
+                return Json(new { reload = true, Message = "Chưa nhập tên" }, JsonRequestBehavior.AllowGet);
+            }
+            tags.TagName = name;
+            db.tagRepository.SaveChanges();
+            return Json(new { reload = true, Message = "Sửa '"+tags.TagName+"' thành công" }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult NewTag(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                Response.StatusCode = 500;
+                return Json(new { reload = true, Message = "Chưa nhập tên" }, JsonRequestBehavior.AllowGet);
+            }
+            Tbl_Tags tags = new Tbl_Tags
+            {
+                TagName = name,
+            };
+            db.tagRepository.AddTag(tags);
+            db.tagRepository.SaveChanges();
+            return Json(new { reload = true, Message = "Thêm '" + tags.TagName + "' thành công" }, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize(Roles = "admin")]
+        public ViewResult HotPostManager()
         {
             return View();
         }
