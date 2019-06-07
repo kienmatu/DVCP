@@ -20,6 +20,13 @@ namespace DVCP
         {
             this.context = _context;
         }
+        public DVCPContext Context
+        {
+            get
+            {
+                return context;
+            }
+        }
         public HotPostRepository hotPostRepository
         {
             get

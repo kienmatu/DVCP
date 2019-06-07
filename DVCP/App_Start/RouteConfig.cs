@@ -19,6 +19,11 @@ namespace DVCP
                 defaults: new { controller = "Home", action = "ViewPost", id = UrlParameter.Optional }
             );
             routes.MapRoute(
+                name: "Category",
+                url: "danh-muc/{title}-{id}",
+                defaults: new { controller = "Home", action = "Category", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

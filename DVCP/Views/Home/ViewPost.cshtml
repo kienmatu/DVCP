@@ -32,8 +32,10 @@
                     <div class="float-left-right text-center mt-40 mt-sm-20">
 
                         <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
-                            @*<li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(Model.post_tag.CateName.ToLower())-@Model.CateID">@Model.tb_Category.CateName</a></li>*@
-
+                            @foreach (var i in Model.Tbl_Tags)
+                            {
+                                <li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(i.TagName.ToLower())-@i.TagID">@i.TagName</a></li>
+                            }
                         </ul>
                         <ul class="mb-30 list-a-bg-grey list-a-hw-radial-35 list-a-hvr-primary list-li-ml-5">
                             <li class="mr-10 ml-0">Share</li>
