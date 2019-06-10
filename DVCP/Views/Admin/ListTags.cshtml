@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DVCP.Models.Tbl_Tags>
+﻿@model IEnumerable<DVCP.ViewModel.ListTagViewModel>
 @{
     ViewBag.Title = "Quản Lý Tag";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -44,7 +44,7 @@
                                 @item.TagName
                             </td>
                             <td>
-                                @item.Tbl_POST.Count
+                                @item.PostCount
                             </td>
                             <td>
                                 @{

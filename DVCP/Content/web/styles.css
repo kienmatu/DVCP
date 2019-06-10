@@ -45,6 +45,10 @@
     transition: all .5s;
 }
     */
+.txtSearch {
+    color: #9f9f9f;
+    background-color: #f5f5f5;
+}
 #title_post {
     font-size: 27px;
     font-weight: bold;

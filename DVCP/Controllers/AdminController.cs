@@ -984,7 +984,14 @@ namespace DVCP.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult ListTags()
         {
-            return View(db.tagRepository.AllTags().ToList());
+            List<ListTagViewModel> listTags = db.tagRepository.AllTags()
+                .Select(m => new ListTagViewModel
+                {
+                    TagID = m.TagID,
+                    TagName = m.TagName,
+                    PostCount = m.Tbl_POST.Count,
+                }).ToList();
+            return View(listTags);
         }
         [HttpPost]
         public JsonResult DeleteTag(int id)

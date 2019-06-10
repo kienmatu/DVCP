@@ -1,9 +1,8 @@
 ﻿@model DVCP.Models.Tbl_POST
 @{
-    //var imagepath = "http://nghean-aptech.com/uploaded/images";
     ViewBag.Title = Model.post_title;
     ViewBag.Description = Model.post_teaser;
-    //ViewBag.Image = Model.ImageName;
+    ViewBag.Image = "~/Upload/images/"+Model.AvatarImage;
     //ViewBag.Tag = Model.MetaTag != null ? Model.MetaTag : "INTEC,aptech,nghean-aptech,nghean-aptech.com, Aptech Việt nam,IT,programing, aptech, lập trình, tin học, đào tạo, tuyen sinh, ky thuat vien, programming, software, download, ebook, asp, jsp, dao tao lap trinh vien quoc te, lap trinh vien quoc te, lập trình, đào tạo, tuyển sinh,Aptech Services - IT Training &amp; Education,Web design, graphic, multimedia, e-commerce,VietNam, Aptech-Vietnam, Đào tạo lập trình, Dao tao lap trinh, Dao tao lap trinh vien, Đào tạo CNTT, Dao tao CNTT";
     GetData data = new GetData();
 }

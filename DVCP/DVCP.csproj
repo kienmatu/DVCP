@@ -176,6 +176,7 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\lstPostViewModel.cs" />
     <Compile Include="ViewModel\newPostViewModel.cs" />
+    <Compile Include="ViewModel\SearchViewModel.cs" />
     <Compile Include="ViewModel\SeriesPostViewModel.cs" />
     <Compile Include="ViewModel\uploadViewModel.cs" />
     <Compile Include="ViewModel\userListViewModel.cs" />
@@ -1414,7 +1415,6 @@
     <Content Include="Content\tether\tether-theme-basic.min.css" />
     <Content Include="Content\tether\tether.css" />
     <Content Include="Content\tether\tether.min.css" />
-    <Content Include="Content\web\bootstrap.css" />
     <Content Include="Content\web\images\12.jpg" />
     <Content Include="Content\web\images\logo-black.png" />
     <Content Include="Content\web\images\logo-white.png" />
@@ -1643,6 +1643,7 @@
     <Content Include="Views\Admin\ListTags.cshtml" />
     <Content Include="Views\Admin\HotPostManager.cshtml" />
     <Content Include="Views\Home\Category.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

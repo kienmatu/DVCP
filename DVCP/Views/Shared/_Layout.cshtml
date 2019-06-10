@@ -7,7 +7,12 @@
     <link rel="icon" href="~/Content/images/dvcp.ico" type="image/x-icon" />
     <link href="~/Content/web/styles.css" rel="stylesheet" />
     <link href="~/Content/web/web.css" rel="stylesheet" />
-
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:description" content="@ViewBag.Description" />
+    <meta property="og:image" content="@ViewBag.Image" />
+    <meta name="Description" content="@ViewBag.Description" />
+    <meta name="keywords" content="@ViewBag.Tag">
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Expanded:400,600,700" rel="stylesheet">
     <!-- Font Awesome -->
@@ -22,24 +27,28 @@
                 <div class="oflow-hidden color-ash font-9 text-sm-center ptb-sm-5">
 
                     <ul class="float-left list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-10 toplink">
-                        <li><a class="pl-0 pl-sm-10" href="#">Về chúng tôi</a></li>
-                        <li><a href="#">Liên hệ</a></li>
+                        <li><a class="pl-0 pl-sm-10" href="https://www.facebook.com/groups/Vietnam.ancient">Về chúng tôi</a></li>
+                        <li><a href="https://www.facebook.com/daivietcophong">Liên hệ</a></li>
                         @if (Request.IsAuthenticated)
                         {
                             <li>@Html.ActionLink("Admin Panel", "Index", "Admin", null, new { @class = "nav-link" })</li>
                             <li>@Html.ActionLink("Logout", "Logout", "User", null, new { @class = "nav-link" })</li>
                         }
                     </ul>
+                    <div class="d-inline-block float-right mt-2 mr-4">
+                        <form action="/tim-kiem" method="GET">
+                            <input type="text" name="title" placeholder="Tìm kiếm" class="mr-2 txtSearch" /><button class="text-white" type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
                     @*<ul class="float-right float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-5">
-                        <li><a class="pl-0 pl-sm-10" href="#"><i class="ion-social-facebook"></i></a></li>
-                        <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                        <li><a href="#"><i class="ion-social-google"></i></a></li>
-                        <li><a href="#"><i class="ion-social-instagram"></i></a></li>
-                        <li><a href="#"><i class="ion-social-bitcoin"></i></a></li>
-                    </ul>*@
-                </div><!-- top-menu -->
-            </div><!-- container -->
-        </div><!-- bg-191 -->
+                            <li><a class="pl-0 pl-sm-10" href="#"><i class="fa fa-facebook-official"></i></a></li>
+                           
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        </ul>*@
+                </div> 
+            </div>
+            <!-- container -->
+        </div>
 
         <div class="container back-white">
             <a class="logo" href="/"><img src="~/Content/web/images/logo-black.png" alt="Logo"></a>
@@ -48,18 +57,27 @@
             <a class="menu-nav-icon" data-menu="#main-menu" href="#"><i class="ion-navicon"></i></a>
 
             <ul class="main-menu2 link" id="main-menu">
-                <li><a href="02_archive-page.html">NEWS</a></li>
+                <li><a href="/">HOME</a></li>
                 <li class="drop-down">
-                    <a href="03_single-post.html">GUIDES & ANALYTICS<i class="ion-arrow-down-b"></i></a>
+                    <a href="/">TRIỀU ĐẠI<i class="fa fa-caret-down"></i></a>
                     <ul class="drop-down-menu drop-down-inner">
-                        <li><a href="#">PAGE 1</a></li>
-                        <li><a href="#">PAGE 2</a></li>
+                        <li><a href="#">Hồng Bàng</a></li>
+                        <li><a href="#">Đinh</a></li>
+                        <li><a href="#">Lý</a></li>
                     </ul>
                 </li>
-                <li><a href="04_FAQS.html">EVENTS</a></li>
+                <li class="drop-down">
+                    <a href="/">DANH MỤC<i class="fa fa-caret-down"></i></a>
+                    <ul class="drop-down-menu drop-down-inner">
+                        <li><a href="#">TRANG PHỤC</a></li>
+                        <li><a href="#">KIẾN TRÚC</a></li>
+                        <li><a href="#">PHONG TỤC</a></li>
+                    </ul>
+                </li>
                 <li><a href="05_FAQS-single.html">EXPLAINED</a></li>
                 <li><a href="06_contact-us.html">ICON CLAENDER</a></li>
             </ul>
+
             <div class="clearfix"></div>
         </div><!-- container -->
     </header>

@@ -47,14 +47,14 @@ namespace DVCP.Controllers
             }
             return RedirectToAction("Index");
         }
-        public ActionResult Category(int id,int? page)
+        public ActionResult Category(int id, int? page)
         {
             int pageSize = 15;
             int pageIndex = 1;
-            IPagedList<Tbl_POST> post = null;
+            //IPagedList<Tbl_POST> post = null;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             Tbl_Tags tag = db.tagRepository.FindByID(id);
-            if(tag!=null)
+            if (tag != null)
             {
                 using (DVCPContext conn = db.Context)
                 {
@@ -62,9 +62,9 @@ namespace DVCP.Controllers
                         // instance from context
                         from a in conn.Tbl_Tags
                             // instance from navigation property
-                    from b in a.Tbl_POST
-                        //join to bring useful data
-                    join c in conn.Tbl_POST on b.post_id equals c.post_id
+                        from b in a.Tbl_POST
+                            //join to bring useful data
+                        join c in conn.Tbl_POST on b.post_id equals c.post_id
                         where a.TagID == id && b.status == true
                         orderby b.create_date descending
                         select new lstPostViewModel
@@ -81,7 +81,34 @@ namespace DVCP.Controllers
                 }
             }
             return HttpNotFound();
+
+        }
+
+        public ActionResult Search(SearchViewModel model,int? page)
+        {
+            int pageSize = 2;
+            int pageIndex = 1;
+            IPagedList<lstPostViewModel> post = null;
+            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            if (model.Dynasty == null && model.tags == null)
+            {
+                post = db.postRepository.AllPosts()
+                    .Where(m => m.status && m.post_title.Contains(model.title))
+                    .OrderBy(m => m.post_title.Contains(model.title))
+                    .Select(m => new lstPostViewModel
+                    {
+                        post_id = m.post_id,
+                        post_title = m.post_title,
+                        post_teaser = m.post_teaser,
+                        ViewCount = m.ViewCount,
+                        AvatarImage = m.AvatarImage,
+                        create_date = m.create_date
+                    }
+                    ).ToPagedList(pageIndex, pageSize);
+                ViewBag.stitle = model.title;
+            }
             
+            return View(post);
         }
     }
 }

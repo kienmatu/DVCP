@@ -6,10 +6,8 @@
 	// ACCORDIAN
 	if(isExists('[data-accordian]')){
 		$('[data-accordian]').on('click', function(){
-			
 			var $this = $(this),
 				accordianBody = $this.data('accordian');
-			
 			$(this).find('i').toggleClass('ion-minus').toggleClass('ion-plus');
 			$(accordianBody).toggleClass('active');
 			
@@ -198,7 +196,7 @@ function dropdownMenu(winWidth){
 	
 	if(winWidth > 767){
 		
-		$('.main-menu li.drop-down').on('mouseover', function(){
+		$('.main-menu2 li.drop-down').on('mouseover', function(){
 			var $this = $(this),
 				menuAnchor = $this.children('a');
 				
@@ -213,7 +211,7 @@ function dropdownMenu(winWidth){
 		
 	}else{
 		
-		$('.main-menu li.drop-down > a').on('click', function(){
+		$('.main-menu2 li.drop-down > a').on('click', function(){
 			
 			if($(this).attr('href') == '#') return false;
 			if($(this).hasClass('mouseover')){ $(this).removeClass('mouseover'); }
