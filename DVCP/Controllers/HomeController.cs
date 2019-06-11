@@ -119,17 +119,27 @@ namespace DVCP.Controllers
                 {
                     post = (
                         // instance from context
-                        from z in taglist 
+                        from z in taglist
                         // join list tìm kiếm
                         join a in conn.Tbl_Tags on z.TagID equals a.TagID
                         // instance from navigation property
                         from b in a.Tbl_POST
-                        //join to bring useful data
-                        join c in conn.Tbl_POST on b.post_id equals c.post_id 
+                         //join to bring useful data
+                        join c in conn.Tbl_POST on b.post_id equals c.post_id
                         where b.status == true
+                        where b.dynasty == model.Dynasty.ToString()
                         // sắp theo ngày đăng mới nhất
                         orderby b.create_date descending
-                        select new lstPostViewModel
+                        select new 
+                        {
+                            c.post_id,
+                            c.post_title,
+                            c.post_teaser,
+                            c.ViewCount,
+                            c.AvatarImage,
+                            c.create_date
+                        })
+                        .Distinct().Select(c=> new lstPostViewModel
                         {
                             post_id = c.post_id,
                             post_title = c.post_title,
