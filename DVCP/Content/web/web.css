@@ -107,9 +107,9 @@ a:hover {
 /* =================================== */
 /*  Menu Styles
 /* =================================== */
-header {
-    /**/
-}
+/*header {
+   
+}*/
 
 .header-top {
     background: #032b71;
@@ -396,11 +396,11 @@ header {
 /*----------------------------*\
         hot post
     \*----------------------------*/
-
+/*
 .hot-post {
-    /*padding: 0 15px;*/
+    padding: 0 15px;
 }
-
+    */
     .hot-post .hot-post-left {
         padding-right: 0px;
         padding-left: 0px;
@@ -532,6 +532,11 @@ header {
     padding-left: 0;
     margin: 20px 0;
     border-radius: 4px;
+    /*width: 640px; 
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;*/
 }
 
     .pagination > li {
@@ -693,3 +698,4 @@ header {
         cursor: not-allowed;
         background-color: #ffffff;
     }
+/*CUSTOM CHECKBOX*/

@@ -8,14 +8,14 @@ namespace DVCP.Models
 
     public partial class Tbl_SeriesPost
     {
-        [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int PostID { get; set; }
+        //[Key]
+        //[Column(Order = 0)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //public int PostID { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int seriesID { get; set; }
+        //[Key]
+        //[Column(Order = 1)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //public int seriesID { get; set; }
     }
 }

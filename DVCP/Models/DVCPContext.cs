@@ -13,7 +13,7 @@ namespace DVCP.Models
         }
 
         public virtual DbSet<info> info { get; set; }
-
+     
         public virtual DbSet<Tbl_HotPost> Tbl_HotPost { get; set; }
         public virtual DbSet<Tbl_Tags> Tbl_Tags { get; set; }
         public virtual DbSet<Tbl_POST> Tbl_POST { get; set; }

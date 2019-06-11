@@ -1,10 +1,10 @@
 ﻿@model PagedList.PagedList<DVCP.ViewModel.lstPostViewModel>
 @using PagedList.Mvc;
 @{
-    ViewBag.Title =  ViewBag.stitle == "" ? "Kết quả tìm kiếm " : ViewBag.stitle + " | Đại Việt Cổ Phong";
+    ViewBag.Title =  ViewBag.stitle == "" ? "Kết quả tìm kiếm " : ViewBag.stitle;
     Layout = "~/Views/Shared/_Layout.cshtml";
     GetData data = new GetData();
-    var tt = String.IsNullOrWhiteSpace(ViewBag.stitle) ? "" : "CHO " + ViewBag.stitle;
+    string tt = String.IsNullOrWhiteSpace(ViewBag.stitle) ? "" : "CHO: " + ViewBag.stitle;
 }
 
 <div class="row">
@@ -13,7 +13,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 class="p-title ml-md-1"><b>KẾT QUẢ TÌM KIẾM @tt</b></h4>
+                        <!--KHU VỰC TÌM KIẾM-->
+                        @Html.Partial("_Search",new DVCP.ViewModel.SearchViewModel())
+                        <!--kết thúc tìm kiếm-->
+
+                        <h4 class="p-title ml-md-1 pt-4"><b>KẾT QUẢ TÌM KIẾM @tt.ToUpper()</b></h4>
                         @foreach (var item in Model)
                         {
                             <a class="link row oflow-hidden pos-relative mb-md-2 mb-1 dplay-block ml-md-1" href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id">
@@ -35,7 +39,7 @@
                             if (Model.PageCount > 1)
                             {
                                 <nav aria-label="Page navigation example" style="text-align:center">
-                                    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, title = Request.Params["title"] }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination" }, LiElementClasses = new string[] { "page-item" } })
+                                    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, title = ViewBag.stitle }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination" }, LiElementClasses = new string[] { "page-item" } })
                                 </nav>
                             }
                         }

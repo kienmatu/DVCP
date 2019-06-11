@@ -86,11 +86,16 @@ namespace DVCP.Controllers
 
         public ActionResult Search(SearchViewModel model,int? page)
         {
-            int pageSize = 2;
+            int pageSize = 8;
             int pageIndex = 1;
-            IPagedList<lstPostViewModel> post = null;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            if (model.Dynasty == null && model.tags == null)
+            IPagedList<lstPostViewModel> post = new List<lstPostViewModel>().ToPagedList(pageIndex, pageSize);
+            List<Tbl_Tags> taglist = new List<Tbl_Tags>();
+            taglist.AddRange(model.post_tag.Where(m => m.Selected)
+                .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
+                );
+            ViewBag.stitle = model.title;
+            if ((model.Dynasty == null || model.Dynasty == Dynasty.Timeline) && taglist.Count == 0)
             {
                 post = db.postRepository.AllPosts()
                     .Where(m => m.status && m.post_title.Contains(model.title))
@@ -105,7 +110,55 @@ namespace DVCP.Controllers
                         create_date = m.create_date
                     }
                     ).ToPagedList(pageIndex, pageSize);
-                ViewBag.stitle = model.title;
+                
+            }
+            else if(taglist.Count > 0)
+            {
+
+                using (DVCPContext conn = db.Context)
+                {
+                    post = (
+                        // instance from context
+                        from z in taglist 
+                        // join list tìm kiếm
+                        join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                        // instance from navigation property
+                        from b in a.Tbl_POST
+                        //join to bring useful data
+                        join c in conn.Tbl_POST on b.post_id equals c.post_id 
+                        where b.status == true
+                        // sắp theo ngày đăng mới nhất
+                        orderby b.create_date descending
+                        select new lstPostViewModel
+                        {
+                            post_id = c.post_id,
+                            post_title = c.post_title,
+                            post_teaser = c.post_teaser,
+                            ViewCount = c.ViewCount,
+                            AvatarImage = c.AvatarImage,
+                            create_date = c.create_date
+                        })
+                        .ToPagedList(pageIndex, pageSize);
+                }
+
+            }
+            else
+            {
+                post = db.postRepository.AllPosts()
+                    .Where(m => m.status && m.post_title.Contains(model.title))
+                    .Where(m => m.dynasty == model.Dynasty.ToString())
+                    .OrderBy(m => m.post_title.Contains(model.title))
+                    .Select(m => new lstPostViewModel
+                    {
+                        post_id = m.post_id,
+                        post_title = m.post_title,
+                        post_teaser = m.post_teaser,
+                        ViewCount = m.ViewCount,
+                        AvatarImage = m.AvatarImage,
+                        create_date = m.create_date
+                    }
+                    ).ToPagedList(pageIndex, pageSize);
+                
             }
             
             return View(post);

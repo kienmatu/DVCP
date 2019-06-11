@@ -152,6 +152,10 @@
     <Compile Include="Migrations\201906070408490_fix.Designer.cs">
       <DependentUpon>201906070408490_fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906100646568_collatelatin.cs" />
+    <Compile Include="Migrations\201906100646568_collatelatin.Designer.cs">
+      <DependentUpon>201906100646568_collatelatin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DVCPContext.cs" />
     <Compile Include="Models\info.cs" />
@@ -173,6 +177,7 @@
     <Compile Include="ViewModel\changepassViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
     <Compile Include="ViewModel\infoViewModel.cs" />
+    <Compile Include="ViewModel\ListTagViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\lstPostViewModel.cs" />
     <Compile Include="ViewModel\newPostViewModel.cs" />
@@ -1644,6 +1649,7 @@
     <Content Include="Views\Admin\HotPostManager.cshtml" />
     <Content Include="Views\Home\Category.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Home\_Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1678,6 +1684,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906070408490_fix.resx">
       <DependentUpon>201906070408490_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906100646568_collatelatin.resx">
+      <DependentUpon>201906100646568_collatelatin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

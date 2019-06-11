@@ -1,0 +1,50 @@
+﻿@model DVCP.ViewModel.SearchViewModel
+@using (Html.BeginForm("Search", "Home", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-7 pr-1">
+            <input type="text" name="title" value="@ViewBag.stitle" class="form-control" />
+        </div>
+        <div class="col-5 pl-1">
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-search"></i>
+            </button>
+            <button data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch" type="button" class="btn btn-light">Nâng cao</button>
+        </div>
+    </div>
+    <div class="mt-1"></div>
+    <div class="collapse pt-2" id="collapseSearch">
+        <div class="form-group col-md-7 pl-0 mb-0 pb-0">
+            @Html.Label("Triều đại:", htmlAttributes: new { @class = "control-label col-md-4 pl-0" })
+            <div class="col-md-8 pb-0 mb-0">
+                @Html.EnumDropDownListFor(x => x.Dynasty, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Dynasty, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-7 pl-0 pt-1">
+            @Html.Label("Danh mục:", htmlAttributes: new { @class = "control-label col-md-4 pl-0" })
+            
+                <div class="row pl-3">
+                    @for (int i = 0; i < Model.post_tag.Count; i++)
+                    {
+                        string title = Model.post_tag[i].Text;
+                        <div class="col-md-4">
+                            @Html.HiddenFor(model => model.post_tag[i].Text)
+                            @Html.HiddenFor(model => model.post_tag[i].Value)
+                            @Html.CheckBoxFor(model => model.post_tag[i].Selected)
+                            <p style="display:inline">@title</p>
+                        </div>
+
+                    }
+                </div>
+                @Html.ValidationMessageFor(model => model.post_tag, "", new { @class = "text-danger" })
+           
+        </div>
+    </div>
+}
+<script>
+    var include;
+    $('#expandbtn').click(function () {
+
+    });
+</script>
