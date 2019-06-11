@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/font-awesome/css/font-awesome.min.css">
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     @* @Scripts.Render("~/bundles/modernizr")*@
+    @{ 
+        GetData data = new GetData();
+    }
 </head>
 <body>
     <header>
@@ -59,19 +62,22 @@
             <ul class="main-menu2 link" id="main-menu">
                 <li><a href="/">HOME</a></li>
                 <li class="drop-down">
-                    <a href="/">TRIỀU ĐẠI<i class="fa fa-caret-down"></i></a>
+                    <a href="/trieu-dai">TRIỀU ĐẠI<i class="fa fa-caret-down"></i></a>
                     <ul class="drop-down-menu drop-down-inner">
-                        <li><a href="#">Hồng Bàng</a></li>
-                        <li><a href="#">Đinh</a></li>
-                        <li><a href="#">Lý</a></li>
+                        @foreach (var i in data.GetEnumShowList().Take(6))
+                        {
+                            <li><a href="/trieu-dai/@i.slug-@i.value">@i.showname</a></li>
+                        }
+                        <li><a href="/trieu-dai/">XEM TẤT CẢ</a></li>
                     </ul>
                 </li>
                 <li class="drop-down">
                     <a href="/">DANH MỤC<i class="fa fa-caret-down"></i></a>
                     <ul class="drop-down-menu drop-down-inner">
-                        <li><a href="#">TRANG PHỤC</a></li>
-                        <li><a href="#">KIẾN TRÚC</a></li>
-                        <li><a href="#">PHONG TỤC</a></li>
+                        @foreach (var i in data.GetListTags())
+                        {
+                            <li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(i.TagName.ToLower())-@i.TagID">@i.TagName</a></li>
+                        }
                     </ul>
                 </li>
                 <li><a href="05_FAQS-single.html">EXPLAINED</a></li>
@@ -159,8 +165,8 @@
                         <li><a href="#"><i class="ion-social-bitcoin"></i></a></li>
                     </ul>*@
 
-            </div><!-- oflow-hidden -->
-        </div><!-- container -->
+            </div> 
+        </div>
     </footer>
 
     @Scripts.Render("~/bundles/jquery")

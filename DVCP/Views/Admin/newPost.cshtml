@@ -1,5 +1,5 @@
 ﻿@model DVCP.ViewModel.newPostViewModel
-
+<link href="~/Content/web/awesome-bootstrap-checkbox.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Tạo Bài Viết Mới";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -55,12 +55,11 @@
                         @for (int i = 0; i < Model.post_tag.Count; i++)
                         {
                             string title = Model.post_tag[i].Text;
-                            <div class="col-md-2">
-                                @Html.HiddenFor(model => model.post_tag[i].Text)
-                                @Html.HiddenFor(model => model.post_tag[i].Value)
-                                @Html.CheckBoxFor(model => model.post_tag[i].Selected)
-                                <p style="display:inline">@title</p>
-                            </div>
+                        <div class="col-md-2 form-check abc-checkbox abc-checkbox-primary">
+                            @Html.HiddenFor(model => model.post_tag[i].Value)
+                            @Html.CheckBoxFor(model => model.post_tag[i].Selected, new { @class = "form-check-input" })
+                            @Html.LabelFor(model => model.post_tag[i].Selected, title, new { @class = "form-check-label" })
+                        </div>
 
                         }
                     </div>

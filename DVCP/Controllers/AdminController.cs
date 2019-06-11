@@ -1052,7 +1052,8 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult deleteHotPost(int id)
         {
-            Tbl_HotPost hotPost = db.hotPostRepository.FindByID(id);
+            
+            Tbl_HotPost hotPost =  db.hotPostRepository.FindByID(id);
             string tit = hotPost.Tbl_POST.post_title;
             db.hotPostRepository.DeletePost(hotPost);
             db.hotPostRepository.SaveChanges();

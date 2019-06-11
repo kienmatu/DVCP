@@ -135,6 +135,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CommonData\CommonFunction.cs" />
+    <Compile Include="CommonData\EnumExtension.cs" />
     <Compile Include="CommonData\GetData.cs" />
     <Compile Include="CommonData\PostData.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -1574,6 +1575,7 @@
     <Content Include="Content\ckeditor\plugins\wsc\LICENSE.md" />
     <Content Include="Content\ckeditor\plugins\wsc\README.md" />
     <Content Include="Content\ckeditor\skins\moono-lisa\readme.md" />
+    <Content Include="Content\web\awesome-bootstrap-checkbox.css" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1610,8 +1612,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -1650,6 +1650,8 @@
     <Content Include="Views\Home\Category.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Home\_Search.cshtml" />
+    <Content Include="Views\Home\Dynasty.cshtml" />
+    <Content Include="Views\Home\DynastyAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,8 +8,10 @@ using System.Web;
 
 namespace DVCP.CommonData
 {
+
     public class CommonFunction
     {
+
         public static string GetTeaserFromContent(string htmlString, int characterCount)
         {
             string htmlTagPattern = "<.*?>";

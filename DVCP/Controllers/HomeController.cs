@@ -83,6 +83,36 @@ namespace DVCP.Controllers
             return HttpNotFound();
 
         }
+        public ActionResult Dynasty(int? dynasty, int? page)
+        {
+            if(dynasty != null)
+            {
+                int pageSize = 10;
+                int pageIndex = 1;
+                IPagedList<lstPostViewModel> post = null;
+                Dynasty d = (Dynasty)dynasty;
+                ViewBag.catname = d.GetDisplayName();
+                pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+                post = db.postRepository.AllPosts()
+                    .Where(m => m.status)
+                    .Where(m => m.dynasty.Equals(d.ToString()))
+                    .OrderByDescending(m => m.create_date)
+                    .Select(c => new lstPostViewModel
+                    {
+                        post_id = c.post_id,
+                        post_title = c.post_title,
+                        post_teaser = c.post_teaser,
+                        ViewCount = c.ViewCount,
+                        AvatarImage = c.AvatarImage,
+                        create_date = c.create_date
+                    }).ToPagedList(pageIndex, pageSize);
+
+                return View(post);
+            }
+            return View("DynastyAll");
+            
+
+        }
 
         public ActionResult Search(SearchViewModel model,int? page)
         {
@@ -95,7 +125,7 @@ namespace DVCP.Controllers
                 .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
                 );
             ViewBag.stitle = model.title;
-            if ((model.Dynasty == null || model.Dynasty == Dynasty.Timeline) && taglist.Count == 0)
+            if (model.Dynasty == null && taglist.Count == 0 && !String.IsNullOrWhiteSpace(model.title))
             {
                 post = db.postRepository.AllPosts()
                     .Where(m => m.status && m.post_title.Contains(model.title))
@@ -112,9 +142,8 @@ namespace DVCP.Controllers
                     ).ToPagedList(pageIndex, pageSize);
                 
             }
-            else if(taglist.Count > 0)
+            else if(taglist.Count > 0 && model.Dynasty != null && !String.IsNullOrWhiteSpace(model.title))
             {
-
                 using (DVCPContext conn = db.Context)
                 {
                     post = (
@@ -139,6 +168,8 @@ namespace DVCP.Controllers
                             c.AvatarImage,
                             c.create_date
                         })
+                        //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
+                        //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
                         .Distinct().Select(c=> new lstPostViewModel
                         {
                             post_id = c.post_id,
@@ -152,12 +183,49 @@ namespace DVCP.Controllers
                 }
 
             }
-            else
+            else if (model.Dynasty == null && taglist.Count > 0 && String.IsNullOrWhiteSpace(model.title))
             {
                 post = db.postRepository.AllPosts()
-                    .Where(m => m.status && m.post_title.Contains(model.title))
-                    .Where(m => m.dynasty == model.Dynasty.ToString())
-                    .OrderBy(m => m.post_title.Contains(model.title))
+                    .Where(m => m.status)
+                    .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
+                    .OrderByDescending(m => m.create_date)
+                    .Select(m => new lstPostViewModel
+                    {
+                        post_id = m.post_id,
+                        post_title = m.post_title,
+                        post_teaser = m.post_teaser,
+                        ViewCount = m.ViewCount,
+                        AvatarImage = m.AvatarImage,
+                        create_date = m.create_date
+                    }
+                    ).ToPagedList(pageIndex, pageSize);
+
+            }
+            else if (model.Dynasty != null && taglist.Count == 0 && !String.IsNullOrWhiteSpace(model.title))
+            {
+                post = db.postRepository.AllPosts()
+                    .Where(m => m.status)
+                    .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
+                    .Where(m=> m.post_title.Contains(model.title))
+                    .OrderByDescending(m => m.post_title.Contains(model.title))
+                    .Select(m => new lstPostViewModel
+                    {
+                        post_id = m.post_id,
+                        post_title = m.post_title,
+                        post_teaser = m.post_teaser,
+                        ViewCount = m.ViewCount,
+                        AvatarImage = m.AvatarImage,
+                        create_date = m.create_date
+                    }
+                    ).ToPagedList(pageIndex, pageSize);
+
+            }
+            else if (String.IsNullOrWhiteSpace(model.title))
+            {
+                post = db.postRepository.AllPosts()
+                    .Where(m => m.status)
+                    .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
+                    .OrderByDescending(m => m.create_date)
                     .Select(m => new lstPostViewModel
                     {
                         post_id = m.post_id,
@@ -170,7 +238,25 @@ namespace DVCP.Controllers
                     ).ToPagedList(pageIndex, pageSize);
                 
             }
-            
+            else
+            {
+                post = db.postRepository.AllPosts()
+                    .Where(m => m.status && m.post_title.Contains(model.title))
+                    .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
+                    .OrderBy(m => m.post_title.Contains(model.title))
+                    .Select(m => new lstPostViewModel
+                    {
+                        post_id = m.post_id,
+                        post_title = m.post_title,
+                        post_teaser = m.post_teaser,
+                        ViewCount = m.ViewCount,
+                        AvatarImage = m.AvatarImage,
+                        create_date = m.create_date
+                    }
+                    ).ToPagedList(pageIndex, pageSize);
+
+            }
+
             return View(post);
         }
     }

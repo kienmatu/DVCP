@@ -29,6 +29,16 @@ namespace DVCP
                 defaults: new { controller = "Home", action = "Search", title = UrlParameter.Optional }
             );
             routes.MapRoute(
+                name: "trieudai",
+                url: "trieu-dai/{title}-{dynasty}",
+                defaults: new { controller = "Home", action = "Dynasty", dynasty = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "trieudai2",
+                url: "trieu-dai/",
+                defaults: new { controller = "Home", action = "Dynasty" }
+            );
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

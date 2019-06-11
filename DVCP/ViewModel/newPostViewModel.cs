@@ -43,27 +43,30 @@ namespace DVCP.ViewModel
     }
     public enum Dynasty
     {
-        [Display(Name = "Tất cả")]
-        Timeline,
+        //0
+        [Display(Name = "Timeline")]
+        Timeline = 0,
+        //1.. etc
         [Display(Name = "Thời Hồng Bàng")]
-        HongBang,
+        HongBang = 1,
         [Display(Name = "Nhà Đinh")]
-        Dinh,
+        Dinh = 2,
         [Display(Name = "Nhà Tiền Lê")]
-        Early_Le,
+        Early_Le = 3,
         [Display(Name = "Nhà Lý")]
-        Ly,
+        Ly = 4,
         [Display(Name = "Nhà Trần")]
-        Tran,
+        Tran = 5,
         [Display(Name = "Nhà Hậu Lê")]
-        Later_Le,
+        Later_Le = 6,
         [Display(Name = "Nhà Lê Trung Hưng")]
-        LeTrungHung,
+        LeTrungHung = 7,
         [Display(Name = "Nhà Tây Sơn")]
-        TaySon,
+        TaySon = 8,
         [Display(Name = "Nhà Nguyễn")]
-        Nguyen,
-
+        Nguyen = 9,
+        [Display(Name = "Triều Khác")]
+        Khac = 10,
     }
    
     
