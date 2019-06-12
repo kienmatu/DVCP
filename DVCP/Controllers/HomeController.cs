@@ -125,69 +125,56 @@ namespace DVCP.Controllers
                 .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
                 );
             ViewBag.stitle = model.title;
-            if (model.Dynasty == null && taglist.Count == 0 && !String.IsNullOrWhiteSpace(model.title))
+            bool title = String.IsNullOrWhiteSpace(model.title);
+            bool tag = taglist.Count == 0;
+            bool dynasty = model.Dynasty == null;
+            var check = 0;
+            if(title && tag &&  dynasty)
             {
-                post = db.postRepository.AllPosts()
-                    .Where(m => m.status && m.post_title.Contains(model.title))
-                    .OrderBy(m => m.post_title.Contains(model.title))
-                    .Select(m => new lstPostViewModel
-                    {
-                        post_id = m.post_id,
-                        post_title = m.post_title,
-                        post_teaser = m.post_teaser,
-                        ViewCount = m.ViewCount,
-                        AvatarImage = m.AvatarImage,
-                        create_date = m.create_date
-                    }
-                    ).ToPagedList(pageIndex, pageSize);
-                
+                // cả 3 cái đều null
+                check = 1;
             }
-            else if(taglist.Count > 0 && model.Dynasty != null && !String.IsNullOrWhiteSpace(model.title))
+            else if (!title && !tag && !dynasty)
             {
-                using (DVCPContext conn = db.Context)
-                {
-                    post = (
-                        // instance from context
-                        from z in taglist
-                        // join list tìm kiếm
-                        join a in conn.Tbl_Tags on z.TagID equals a.TagID
-                        // instance from navigation property
-                        from b in a.Tbl_POST
-                         //join to bring useful data
-                        join c in conn.Tbl_POST on b.post_id equals c.post_id
-                        where b.status == true
-                        where b.dynasty == model.Dynasty.ToString()
-                        // sắp theo ngày đăng mới nhất
-                        orderby b.create_date descending
-                        select new 
-                        {
-                            c.post_id,
-                            c.post_title,
-                            c.post_teaser,
-                            c.ViewCount,
-                            c.AvatarImage,
-                            c.create_date
-                        })
-                        //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
-                        //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
-                        .Distinct().Select(c=> new lstPostViewModel
-                        {
-                            post_id = c.post_id,
-                            post_title = c.post_title,
-                            post_teaser = c.post_teaser,
-                            ViewCount = c.ViewCount,
-                            AvatarImage = c.AvatarImage,
-                            create_date = c.create_date
-                        })
-                        .ToPagedList(pageIndex, pageSize);
-                }
-
+                // cả 3 cái đều ko null
+                check = 2;
             }
-            else if (model.Dynasty == null && taglist.Count > 0 && String.IsNullOrWhiteSpace(model.title))
+            else if(!title && tag && dynasty)
             {
-                post = db.postRepository.AllPosts()
+                // chỉ title
+                check = 3;
+            }
+            else if(title && !tag && dynasty)
+            {
+                // chỉ tag
+                check = 4;
+            }
+            else if (title && tag && !dynasty)
+            {
+                // chỉ DN
+                check = 5;
+            }
+            else if (!title && !tag && dynasty)
+            {
+                // title và tag
+                check = 6;
+            }
+            else if (!title && tag && !dynasty)
+            {
+                // title và dn
+                check = 7;
+            }
+            else if (title && !tag && !dynasty)
+            {
+                // tag và dn
+                check = 8;
+            }
+            switch (check)
+            {
+                default:
+                case 1:
+                    post = db.postRepository.AllPosts()
                     .Where(m => m.status)
-                    .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
                     .OrderByDescending(m => m.create_date)
                     .Select(m => new lstPostViewModel
                     {
@@ -199,64 +186,215 @@ namespace DVCP.Controllers
                         create_date = m.create_date
                     }
                     ).ToPagedList(pageIndex, pageSize);
-
-            }
-            else if (model.Dynasty != null && taglist.Count == 0 && !String.IsNullOrWhiteSpace(model.title))
-            {
-                post = db.postRepository.AllPosts()
-                    .Where(m => m.status)
-                    .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
-                    .Where(m=> m.post_title.Contains(model.title))
-                    .OrderByDescending(m => m.post_title.Contains(model.title))
-                    .Select(m => new lstPostViewModel
+                    break;
+                case 2:
+                    using (DVCPContext conn = db.Context)
                     {
-                        post_id = m.post_id,
-                        post_title = m.post_title,
-                        post_teaser = m.post_teaser,
-                        ViewCount = m.ViewCount,
-                        AvatarImage = m.AvatarImage,
-                        create_date = m.create_date
+                        post = (
+                            // instance from context
+                            from z in taglist
+                                // join list tìm kiếm
+                            join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                            // instance from navigation property
+                            from b in a.Tbl_POST
+                                //join to bring useful data
+                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            where c.status == true
+                            where c.dynasty == model.Dynasty.ToString()
+                            where c.post_title.Contains(model.title)
+                            // sắp theo ngày đăng mới nhất
+                            orderby c.post_title.Contains(model.title)
+                            select new
+                            {
+                                c.post_id,
+                                c.post_title,
+                                c.post_teaser,
+                                c.ViewCount,
+                                c.AvatarImage,
+                                c.create_date
+                            })
+                            //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
+                            //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
+                            .Distinct().Select(c => new lstPostViewModel
+                            {
+                                post_id = c.post_id,
+                                post_title = c.post_title,
+                                post_teaser = c.post_teaser,
+                                ViewCount = c.ViewCount,
+                                AvatarImage = c.AvatarImage,
+                                create_date = c.create_date
+                            })
+                            .ToPagedList(pageIndex, pageSize);
                     }
-                    ).ToPagedList(pageIndex, pageSize);
-
-            }
-            else if (String.IsNullOrWhiteSpace(model.title))
-            {
-                post = db.postRepository.AllPosts()
-                    .Where(m => m.status)
-                    .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
-                    .OrderByDescending(m => m.create_date)
-                    .Select(m => new lstPostViewModel
+                    break;
+                case 3:
+                    post = db.postRepository.AllPosts()
+                 .Where(m => m.status)
+                 .Where(m => m.post_title.Contains(model.title))
+                 .OrderBy(m => m.post_title.Contains(model.title))
+                 .Select(m => new lstPostViewModel
+                 {
+                     post_id = m.post_id,
+                     post_title = m.post_title,
+                     post_teaser = m.post_teaser,
+                     ViewCount = m.ViewCount,
+                     AvatarImage = m.AvatarImage,
+                     create_date = m.create_date
+                 }
+                 ).ToPagedList(pageIndex, pageSize);
+                    break;
+                case 4:
+                    using (DVCPContext conn = db.Context)
                     {
-                        post_id = m.post_id,
-                        post_title = m.post_title,
-                        post_teaser = m.post_teaser,
-                        ViewCount = m.ViewCount,
-                        AvatarImage = m.AvatarImage,
-                        create_date = m.create_date
+                        post = (
+                            // instance from context
+                            from z in taglist
+                            // join list tìm kiếm
+                            join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                            // instance from navigation property
+                            from b in a.Tbl_POST
+                            //join to bring useful data
+                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            where c.status == true
+                            // sắp theo ngày đăng mới nhất
+                            orderby b.create_date descending
+                            select new
+                            {
+                                c.post_id,
+                                c.post_title,
+                                c.post_teaser,
+                                c.ViewCount,
+                                c.AvatarImage,
+                                c.create_date
+                            })
+                            //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
+                            //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
+                            .Distinct().Select(c => new lstPostViewModel
+                            {
+                                post_id = c.post_id,
+                                post_title = c.post_title,
+                                post_teaser = c.post_teaser,
+                                ViewCount = c.ViewCount,
+                                AvatarImage = c.AvatarImage,
+                                create_date = c.create_date
+                            })
+                            .ToPagedList(pageIndex, pageSize);
                     }
-                    ).ToPagedList(pageIndex, pageSize);
-                
-            }
-            else
-            {
-                post = db.postRepository.AllPosts()
-                    .Where(m => m.status && m.post_title.Contains(model.title))
-                    .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
-                    .OrderBy(m => m.post_title.Contains(model.title))
-                    .Select(m => new lstPostViewModel
+                    break;
+                case 5:
+                    post = db.postRepository.AllPosts()
+                 .Where(m => m.status)
+                 .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
+                 .OrderByDescending(m => m.create_date)
+                 .Select(m => new lstPostViewModel
+                 {
+                     post_id = m.post_id,
+                     post_title = m.post_title,
+                     post_teaser = m.post_teaser,
+                     ViewCount = m.ViewCount,
+                     AvatarImage = m.AvatarImage,
+                     create_date = m.create_date
+                 }
+                 ).ToPagedList(pageIndex, pageSize);
+                    break;
+                case 6:
+                    using (DVCPContext conn = db.Context)
                     {
-                        post_id = m.post_id,
-                        post_title = m.post_title,
-                        post_teaser = m.post_teaser,
-                        ViewCount = m.ViewCount,
-                        AvatarImage = m.AvatarImage,
-                        create_date = m.create_date
+                        post = (
+                            // instance from context
+                            from z in taglist
+                            // join list tìm kiếm
+                            join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                            // instance from navigation property
+                            from b in a.Tbl_POST
+                            //join to bring useful data
+                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            where c.post_title.Contains(model.title)
+                            where c.status == true
+                            // sắp theo so khớp
+                            orderby c.post_title.Contains(model.title)
+                            select new
+                            {
+                                c.post_id,
+                                c.post_title,
+                                c.post_teaser,
+                                c.ViewCount,
+                                c.AvatarImage,
+                                c.create_date
+                            })
+                            //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
+                            //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
+                            .Distinct().Select(c => new lstPostViewModel
+                            {
+                                post_id = c.post_id,
+                                post_title = c.post_title,
+                                post_teaser = c.post_teaser,
+                                ViewCount = c.ViewCount,
+                                AvatarImage = c.AvatarImage,
+                                create_date = c.create_date
+                            })
+                            .ToPagedList(pageIndex, pageSize);
                     }
-                    ).ToPagedList(pageIndex, pageSize);
+                    break;
+                case 7:
+                    post = db.postRepository.AllPosts()
+                 .Where(m => m.status)
+                 .Where(m => m.post_title.Contains(model.title))
+                 .Where(m => m.dynasty.Equals(model.Dynasty.ToString()))
+                 .OrderBy(m => m.post_title.Contains(model.title))
+                 .Select(m => new lstPostViewModel
+                 {
+                     post_id = m.post_id,
+                     post_title = m.post_title,
+                     post_teaser = m.post_teaser,
+                     ViewCount = m.ViewCount,
+                     AvatarImage = m.AvatarImage,
+                     create_date = m.create_date
+                 }
+                 ).ToPagedList(pageIndex, pageSize);
+                    break;
+                case 8:
+                    using (DVCPContext conn = db.Context)
+                    {
+                        post = (
+                            // instance from context
+                            from z in taglist
+                            // join list tìm kiếm
+                            join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                            // instance from navigation property
+                            from b in a.Tbl_POST
+                            //join to bring useful data
+                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            where c.dynasty == model.Dynasty.ToString()
+                            where c.status == true
+                            // sắp theo so khớp
+                            orderby c.create_date descending
+                            select new
+                            {
+                                c.post_id,
+                                c.post_title,
+                                c.post_teaser,
+                                c.ViewCount,
+                                c.AvatarImage,
+                                c.create_date
+                            })
+                            //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
+                            //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
+                            .Distinct().Select(c => new lstPostViewModel
+                            {
+                                post_id = c.post_id,
+                                post_title = c.post_title,
+                                post_teaser = c.post_teaser,
+                                ViewCount = c.ViewCount,
+                                AvatarImage = c.AvatarImage,
+                                create_date = c.create_date
+                            })
+                            .ToPagedList(pageIndex, pageSize);
+                    }
+                    break;
 
             }
-
+            
             return View(post);
         }
     }

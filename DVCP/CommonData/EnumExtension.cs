@@ -16,5 +16,5 @@ public static class EnumExtension
                         .GetName();
     }
 
-
+    
 }
