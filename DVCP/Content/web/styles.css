@@ -45,6 +45,18 @@
     transition: all .5s;
 }
     */
+/*BREADCrUMB*/
+.bread .breaditem {
+    text-decoration: none !important;
+    color: black;
+}
+.bread .breaditem:hover,.bread .breadlink:hover {
+    text-decoration: none !important;
+    color: #F9B500;
+}
+.bread .breadlink {
+    color: #aaa;
+}
 .txtSearch {
     color: #9f9f9f;
     background-color: #f5f5f5;

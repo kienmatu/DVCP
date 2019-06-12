@@ -1,7 +1,7 @@
 ﻿@model PagedList.PagedList<DVCP.ViewModel.lstPostViewModel>
 @using PagedList.Mvc;
 @{
-    ViewBag.Title =  ViewBag.stitle == "" ? "Kết quả tìm kiếm " : ViewBag.stitle;
+    ViewBag.Title =  String.IsNullOrEmpty(ViewBag.stitle) ? "Kết quả tìm kiếm " : ViewBag.stitle;
     Layout = "~/Views/Shared/_Layout.cshtml";
     GetData data = new GetData();
     string tt = String.IsNullOrWhiteSpace(ViewBag.stitle) ? "" : "CHO: " + ViewBag.stitle;

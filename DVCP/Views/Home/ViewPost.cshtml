@@ -2,55 +2,65 @@
 @{
     ViewBag.Title = Model.post_title;
     ViewBag.Description = Model.post_teaser;
-    ViewBag.Image = "~/Upload/images/"+Model.AvatarImage;
+    ViewBag.Image = "~/Upload/images/" + Model.AvatarImage;
     //ViewBag.Tag = Model.MetaTag != null ? Model.MetaTag : "INTEC,aptech,nghean-aptech,nghean-aptech.com, Aptech Việt nam,IT,programing, aptech, lập trình, tin học, đào tạo, tuyen sinh, ky thuat vien, programming, software, download, ebook, asp, jsp, dao tao lap trinh vien quoc te, lap trinh vien quoc te, lập trình, đào tạo, tuyển sinh,Aptech Services - IT Training &amp; Education,Web design, graphic, multimedia, e-commerce,VietNam, Aptech-Vietnam, Đào tạo lập trình, Dao tao lap trinh, Dao tao lap trinh vien, Đào tạo CNTT, Dao tao CNTT";
     GetData data = new GetData();
+    var slug = SlugGenerator.SlugGenerator.GenerateSlug(Model.post_title) +"-"+ Model.post_id;
 }
+<div class="mb-2 brdr-ash-1 opacty-5"></div>
 
 <div class="col-12  pl-md-0 pr-md-0">
     <section class="pt-md-4">
-            <div class="row">
-                <!-- Nội dung chính-->
-                <div class="col-md-8">
-                    <div id="title_post">@Model.post_title</div>
-                    <div id="author_time"><i class="fa fa-clock-o mr-1"></i>@String.Format("{0:dd/MM/yyyy}", Model.create_date)  - <i class="fa fa-eye mr-1"></i> @Model.ViewCount views</div>
-                    <hr />
-                    <div class="content">
-                        <div id="teaser-post">
-                            @Model.post_teaser
-                        </div>
-                        <div class="imagepost pb-3" style="max-width:80%;margin-left: auto;margin-right: auto;">
-                            <img src="~/Upload/images/@Model.AvatarImage" onerror="this.onerror=null;this.style.display = 'none';" alt="@SlugGenerator.SlugGenerator.GenerateSlug(Model.post_title," ")" />
-                        </div>
-                        <div id="main-content">
-                            @Html.Raw(Model.post_content)
-                        </div>
+        <div class="row">
+            <!-- Nội dung chính-->
+            <div class="col-md-8">
+                <!-- BREADCUMB -->
+                <section class="ptb-0 mb-4">
+                    <div class="container bread ml-0 pl-0">
+                        <a class="mt-10 breaditem" href="/"><i class="mr-2 fa fa-home"></i>Home </a><i class="mr-2 ml-2 fa fa-chevron-right"></i>
+                        <a class="mt-10 breaditem" href="/danh-muc/">@Model.Tbl_Tags.FirstOrDefault().TagName </a><i class="mr-2 ml-2 fa fa-chevron-right"></i>
+                        <a class="mt-10 breadlink" href="/bai-viet/@slug">@Model.post_title</a>
                     </div>
-                    <hr />
-                    @*@GetData.IncreaseView(Model.ID)*@
-                    <div class="float-left-right text-center mt-40 mt-sm-20">
-                        <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
-                            @foreach (var i in Model.Tbl_Tags)
-                            {
-                                <li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(i.TagName.ToLower())-@i.TagID">@i.TagName</a></li>
-                            }
-                        </ul>
-                        <ul class="mb-30 list-a-bg-grey list-a-hw-radial-35 list-a-hvr-primary list-li-ml-5">
-                            <li class="mr-10 ml-0">Share</li>
-                            <li><a onclick="return buildFbURL(this)" target="_blank" href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a onclick="return buildTwURL(this)" target="_blank" href="#"><i class="fa fa-twitter"></i></a></li>
-
-                        </ul>
-
-                    </div><!-- float-left-right -->
-                    @*@Html.Partial("_RelatedPost", data.GetRelatedPost())*@
+                </section>
+                <h1 id="title_post">@Model.post_title</h1>
+                <div id="author_time"><i class="fa fa-clock-o mr-1"></i>@String.Format("{0:dd/MM/yyyy}", Model.create_date)  - <i class="fa fa-eye mr-1"></i> @Model.ViewCount views</div>
+                <hr />
+                <div class="content">
+                    <div id="teaser-post">
+                        @Model.post_teaser
+                    </div>
+                    <div class="imagepost pb-3" style="max-width:80%;margin-left: auto;margin-right: auto;">
+                        <img src="~/Upload/images/@Model.AvatarImage" onerror="this.onerror=null;this.style.display = 'none';" alt="@SlugGenerator.SlugGenerator.GenerateSlug(Model.post_title," ")" />
+                    </div>
+                    <div id="main-content">
+                        @Html.Raw(Model.post_content)
+                    </div>
                 </div>
-                <!-- ./ Nội dung chính-->
-                <!-- Phổ biến -->
-                <div class="col-md-4">
-                    @Html.Partial("_PopularPost",data.GetPopularPost())
-                </div>
+                <hr />
+                @*@GetData.IncreaseView(Model.ID)*@
+                <div class="float-left-right text-center mt-40 mt-sm-20">
+                    <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
+                        @foreach (var i in Model.Tbl_Tags)
+                        {
+                            <li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(i.TagName.ToLower())-@i.TagID">@i.TagName</a></li>
+                        }
+                    </ul>
+                    <ul class="mb-30 list-a-bg-grey list-a-hw-radial-35 list-a-hvr-primary list-li-ml-5">
+                        <li class="mr-10 ml-0">Share</li>
+                        <li><a onclick="return buildFbURL(this)" target="_blank" href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a onclick="return buildTwURL(this)" target="_blank" href="#"><i class="fa fa-twitter"></i></a></li>
+
+                    </ul>
+
+                </div><!-- float-left-right -->
+                @*@Html.Partial("_RelatedPost", data.GetRelatedPost())*@
             </div>
+            <!-- ./ Nội dung chính-->
+            <!-- Phổ biến -->
+            <div class="col-md-4">
+                @Html.Partial("_PopularPost", data.GetPopularPost())
+            </div>
+        </div>
     </section>
 </div>
 <script>
