@@ -65,11 +65,11 @@
                     @for (int i = 0; i < Model.post_tag.Count; i++)
                     {
                         string title = Model.post_tag[i].Text;
-                    <div class="col-md-2 abc-checkbox abc-checkbox-primary">
-                        @Html.HiddenFor(model => model.post_tag[i].Value)
-                        @Html.CheckBoxFor(model => model.post_tag[i].Selected, new { @class = "form-check-input" })
-                        @Html.LabelFor(model => model.post_tag[i].Selected, title, new { @class = "form-check-label" })
-                    </div>
+                        <div class="col-md-2 abc-checkbox abc-checkbox-primary">
+                            @Html.HiddenFor(model => model.post_tag[i].Value)
+                            @Html.CheckBoxFor(model => model.post_tag[i].Selected, new { @class = "form-check-input" })
+                            @Html.LabelFor(model => model.post_tag[i].Selected, title, new { @class = "form-check-label" })
+                        </div>
 
                     }
                 </div>
@@ -116,7 +116,7 @@
         <div class="form-group">
             @Html.Label("Nội dung bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.post_content, new { @class = "form-control",cols=3 })
+                @Html.TextAreaFor(model => model.post_content, new { @class = "form-control", cols = 3 })
                 @Html.ValidationMessageFor(model => model.post_content, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -128,6 +128,13 @@
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.post_review, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.post_review, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Meta Keyword bài viết (không dấu, tách bằng dấu phẩy):", htmlAttributes: new { @class = "control-label col-md-8" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.meta_tag, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.meta_tag, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">

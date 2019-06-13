@@ -25,8 +25,8 @@ namespace DVCP
             );
             routes.MapRoute(
                 name: "Timkiem",
-                url: "tim-kiem/{title}",
-                defaults: new { controller = "Home", action = "Search", title = UrlParameter.Optional }
+                url: "tim-kiem/",
+                defaults: new { controller = "Home", action = "Search"}
             );
             routes.MapRoute(
                 name: "trieudai",

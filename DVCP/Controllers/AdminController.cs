@@ -86,6 +86,7 @@ namespace DVCP.Controllers
                         Rated = (int)model.Rated,
                         post_teaser = model.post_teaser,
                         status = model.Status,
+                        post_tag = model.meta_tag,
                     };
                     foreach(var i in taglist)
                     {
@@ -604,6 +605,7 @@ namespace DVCP.Controllers
                     pOST.Rated = (int)model.Rated;
                     pOST.post_teaser = model.post_teaser;
                     pOST.status = model.Status;
+                    pOST.post_tag = model.meta_tag;
                     foreach (var i in taglist)
                     {
                         Tbl_Tags tags = db.tagRepository.FindByID(i.TagID);

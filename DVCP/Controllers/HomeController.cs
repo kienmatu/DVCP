@@ -36,16 +36,44 @@ namespace DVCP.Controllers
 
             return View();
         }
-        public ActionResult ViewPost(int id)
+        public ActionResult ViewPost(int? id)
         {
-            Tbl_POST p = db.postRepository.FindByID(id);
-            if (p != null)
+            if(id!= null)
             {
-                p.ViewCount++;
-                db.Commit();
-                return View(p);
+                Tbl_POST p = db.postRepository.FindByID(id.Value);
+                if (p != null)
+                {
+                    p.ViewCount++;
+                    db.Commit();
+                    List<TagList> tagLists = p.Tbl_Tags.Select(m => new TagList
+                    {
+                        name = m.TagName,
+                        slug = SlugGenerator.SlugGenerator.GenerateSlug(m.TagName) + "-" + m.TagID
+                    }).ToList();
+                    return View(new ViewPostViewModel
+                    {
+                        post_id = p.post_id,
+                        dynasty = p.dynasty,
+                        create_date = p.create_date,
+                        //firstTag = tagLists.FirstOrDefault().name,
+                        post_review = p.post_review,
+                        post_tag = p.post_tag,
+                        AvatarImage = p.AvatarImage,
+                        edit_date = p.edit_date,
+                        post_content = p.post_content,
+                        post_teaser = p.post_teaser,
+                        post_title = p.post_title,
+                        post_type = p.post_type,
+                        Rated = p.Rated,
+                        userid = p.userid,
+                        ViewCount = p.ViewCount,
+                        tagLists = tagLists,
+
+                    });
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            return HttpNotFound();
         }
         public ActionResult Category(int id, int? page)
         {
@@ -173,10 +201,11 @@ namespace DVCP.Controllers
             {
                 default:
                 case 1:
-                    post = db.postRepository.AllPosts()
+                    IQueryable<Tbl_POST> x = db.postRepository.AllPosts()
                     .Where(m => m.status)
-                    .OrderByDescending(m => m.create_date)
-                    .Select(m => new lstPostViewModel
+                    .OrderByDescending(m => m.create_date);
+                    post =
+                    x.Select(m => new lstPostViewModel
                     {
                         post_id = m.post_id,
                         post_title = m.post_title,
@@ -188,21 +217,43 @@ namespace DVCP.Controllers
                     ).ToPagedList(pageIndex, pageSize);
                     break;
                 case 2:
+                    //post = taglist
+                    //    .Join(db.tagRepository.AllTags(),
+                    //    a => a.TagID,
+                    //    b => b.TagID, (a, b) => new { a.Tbl_POST }
+                    //    ).SelectMany(z => z.Tbl_POST)
+                    //    .Join(db.postRepository.AllPosts(),
+                    //    a => a.post_id,
+                    //    b => b.post_id,
+                    //    (a, b) => new { a }
+                    //    ).Distinct()
+                    //    .Select(c => new lstPostViewModel
+                    //{
+                    //    post_id = c.a.post_id,
+                    //    post_title = c.a.post_title,
+                    //    post_teaser = c.a.post_teaser,
+                    //    ViewCount = c.a.ViewCount,
+                    //    AvatarImage = c.a.AvatarImage,
+                    //    create_date = c.a.create_date
+                    //}).ToPagedList(pageIndex, pageSize);
+
+
+
                     using (DVCPContext conn = db.Context)
                     {
-                        post = (
+                        var query = (
                             // instance from context
                             from z in taglist
-                                // join list tìm kiếm
+                            // join list tìm kiếm
                             join a in conn.Tbl_Tags on z.TagID equals a.TagID
                             // instance from navigation property
                             from b in a.Tbl_POST
-                                //join to bring useful data
+                            // join to bring useful data
                             join c in conn.Tbl_POST on b.post_id equals c.post_id
                             where c.status == true
                             where c.dynasty == model.Dynasty.ToString()
-                            where c.post_title.Contains(model.title)
-                            // sắp theo ngày đăng mới nhất
+                            where c.post_title.ToLower().Contains(model.title.ToLower())
+                            // sắp theo 
                             orderby c.post_title.Contains(model.title)
                             select new
                             {
@@ -212,36 +263,51 @@ namespace DVCP.Controllers
                                 c.ViewCount,
                                 c.AvatarImage,
                                 c.create_date
-                            })
-                            //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
-                            //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
-                            .Distinct().Select(c => new lstPostViewModel
-                            {
-                                post_id = c.post_id,
-                                post_title = c.post_title,
-                                post_teaser = c.post_teaser,
-                                ViewCount = c.ViewCount,
-                                AvatarImage = c.AvatarImage,
-                                create_date = c.create_date
-                            })
-                            .ToPagedList(pageIndex, pageSize);
+                            }).Distinct();
+                        //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
+                        //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
+                        post = query.Select(c => new lstPostViewModel
+                        {
+                            post_id = c.post_id,
+                            post_title = c.post_title,
+                            post_teaser = c.post_teaser,
+                            ViewCount = c.ViewCount,
+                            AvatarImage = c.AvatarImage,
+                            create_date = c.create_date
+                        }).ToPagedList(pageIndex, pageSize);
+
                     }
                     break;
                 case 3:
-                    post = db.postRepository.AllPosts()
-                 .Where(m => m.status)
-                 .Where(m => m.post_title.Contains(model.title))
-                 .OrderBy(m => m.post_title.Contains(model.title))
-                 .Select(m => new lstPostViewModel
-                 {
-                     post_id = m.post_id,
-                     post_title = m.post_title,
-                     post_teaser = m.post_teaser,
-                     ViewCount = m.ViewCount,
-                     AvatarImage = m.AvatarImage,
-                     create_date = m.create_date
-                 }
-                 ).ToPagedList(pageIndex, pageSize);
+                    var p = db.postRepository.AllPosts()
+                    .Where(m => m.status)
+                    .Where(m => m.post_title.Contains(model.title))
+                    .OrderBy(m => m.post_title.Contains(model.title));
+                    post =
+                    p.Select(m => new lstPostViewModel
+                    {
+                        post_id = m.post_id,
+                        post_title = m.post_title,
+                        post_teaser = m.post_teaser,
+                        ViewCount = m.ViewCount,
+                        AvatarImage = m.AvatarImage,
+                        create_date = m.create_date
+                    }
+                    ).ToPagedList(pageIndex, pageSize);
+                 //   post = db.postRepository.AllPosts()
+                 //.Where(m => m.status)
+                 //.Where(m => m.post_title.Contains(model.title))
+                 //.OrderBy(m => m.post_title.Contains(model.title))
+                 //.Select(m => new lstPostViewModel
+                 //{
+                 //    post_id = m.post_id,
+                 //    post_title = m.post_title,
+                 //    post_teaser = m.post_teaser,
+                 //    ViewCount = m.ViewCount,
+                 //    AvatarImage = m.AvatarImage,
+                 //    create_date = m.create_date
+                 //}
+                 //).ToPagedList(pageIndex, pageSize);
                     break;
                 case 4:
                     using (DVCPContext conn = db.Context)
@@ -307,9 +373,9 @@ namespace DVCP.Controllers
                             join a in conn.Tbl_Tags on z.TagID equals a.TagID
                             // instance from navigation property
                             from b in a.Tbl_POST
-                            //join to bring useful data
+                                //join to bring useful data
                             join c in conn.Tbl_POST on b.post_id equals c.post_id
-                            where c.post_title.Contains(model.title)
+                            where c.post_title.ToLower().Contains(model.title.ToLower())
                             where c.status == true
                             // sắp theo so khớp
                             orderby c.post_title.Contains(model.title)

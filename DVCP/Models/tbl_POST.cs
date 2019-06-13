@@ -37,8 +37,8 @@ namespace DVCP.Models
 
         public int post_type { get; set; }
 
-        //[StringLength(200)]
-        //public string post_tag { get; set; }
+        [StringLength(200)]
+        public string post_tag { get; set; }
 
         public DateTime? create_date { get; set; }
 

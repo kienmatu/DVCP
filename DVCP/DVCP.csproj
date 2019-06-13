@@ -157,6 +157,10 @@
     <Compile Include="Migrations\201906100646568_collatelatin.Designer.cs">
       <DependentUpon>201906100646568_collatelatin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906130344357_addtag.cs" />
+    <Compile Include="Migrations\201906130344357_addtag.Designer.cs">
+      <DependentUpon>201906130344357_addtag.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DVCPContext.cs" />
     <Compile Include="Models\info.cs" />
@@ -186,6 +190,7 @@
     <Compile Include="ViewModel\SeriesPostViewModel.cs" />
     <Compile Include="ViewModel\uploadViewModel.cs" />
     <Compile Include="ViewModel\userListViewModel.cs" />
+    <Compile Include="ViewModel\ViewPostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AdminLTE\dist\css\adminlte.css" />
@@ -1385,6 +1390,29 @@
     <Content Include="Content\elfinder\sounds\rm.wav" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\js\share.js" />
+    <Content Include="Content\photoswipe\dist\default-skin\default-skin.css" />
+    <Content Include="Content\photoswipe\dist\default-skin\default-skin.png" />
+    <Content Include="Content\photoswipe\dist\default-skin\default-skin.svg" />
+    <Content Include="Content\photoswipe\dist\default-skin\preloader.gif" />
+    <Content Include="Content\photoswipe\dist\photoswipe-ui-default.js" />
+    <Content Include="Content\photoswipe\dist\photoswipe-ui-default.min.js" />
+    <Content Include="Content\photoswipe\dist\photoswipe.css" />
+    <Content Include="Content\photoswipe\dist\photoswipe.js" />
+    <Content Include="Content\photoswipe\dist\photoswipe.min.js" />
+    <Content Include="Content\photoswipe\init.js" />
+    <Content Include="Content\photoswipe\src\css\default-skin\default-skin.png" />
+    <Content Include="Content\photoswipe\src\css\default-skin\default-skin.svg" />
+    <Content Include="Content\photoswipe\src\css\default-skin\preloader.gif" />
+    <Content Include="Content\photoswipe\src\js\core.js" />
+    <Content Include="Content\photoswipe\src\js\desktop-zoom.js" />
+    <Content Include="Content\photoswipe\src\js\framework-bridge.js" />
+    <Content Include="Content\photoswipe\src\js\gestures.js" />
+    <Content Include="Content\photoswipe\src\js\history.js" />
+    <Content Include="Content\photoswipe\src\js\items-controller.js" />
+    <Content Include="Content\photoswipe\src\js\show-hide-transition.js" />
+    <Content Include="Content\photoswipe\src\js\tap.js" />
+    <Content Include="Content\photoswipe\src\js\ui\photoswipe-ui-default.js" />
     <Content Include="Content\images\apple-icon-120x120.png" />
     <Content Include="Content\images\dvcp.ico" />
     <Content Include="Content\images\no-image-available.jpg" />
@@ -1576,6 +1604,13 @@
     <Content Include="Content\ckeditor\plugins\wsc\README.md" />
     <Content Include="Content\ckeditor\skins\moono-lisa\readme.md" />
     <Content Include="Content\web\awesome-bootstrap-checkbox.css" />
+    <Content Include="Content\photoswipe\src\css\default-skin\default-skin-svg.sketch\Data" />
+    <Content Include="Content\photoswipe\src\css\default-skin\default-skin-svg.sketch\metadata" />
+    <Content Include="Content\photoswipe\src\css\default-skin\default-skin-svg.sketch\version" />
+    <Content Include="Content\photoswipe\src\css\default-skin\default-skin.psd" />
+    <Content Include="Content\photoswipe\src\css\default-skin\default-skin.scss" />
+    <Content Include="Content\photoswipe\src\css\main.scss" />
+    <Content Include="Content\photoswipe\src\css\_main-settings.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1689,6 +1724,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906100646568_collatelatin.resx">
       <DependentUpon>201906100646568_collatelatin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906130344357_addtag.resx">
+      <DependentUpon>201906130344357_addtag.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

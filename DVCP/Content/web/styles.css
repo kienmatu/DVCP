@@ -200,7 +200,7 @@ h1, h2, h3, h4, h5, h6, p, a, ul, span, li, img, inpot, button{ margin: 0; paddi
 
 h1,h2,h3,h4,h5,h6{ line-height: 1.5; font-weight: inherit; }
 
-h1,h2,h3{ font-family: 'Encode Sans Expanded', sans-serif; }
+h1,h2,h3{ font-family:'Arial', 'Encode Sans Expanded', sans-serif; }
 
 p{ line-height: 1.7; font-size: 1.05em; font-weight: 400; color: #555; }
 

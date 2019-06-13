@@ -101,7 +101,9 @@ namespace DVCP.ViewModel
         [Required(ErrorMessage ="Vui lòng chọn kiểu bài viết!")]
         public PostType post_type { get; set; }
 
-       
+
+        [StringLength(200)]
+        public string meta_tag { get; set; }
 
         public DateTime? create_date { get; set; }
 
