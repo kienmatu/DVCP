@@ -1,4 +1,4 @@
-
+﻿
 /*
 ====================================================
 
@@ -45,6 +45,19 @@
     transition: all .5s;
 }
     */
+
+/*Image bài viết*/
+#main-content img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80%;
+    height: auto;
+    text-align: center;
+}
+.imgpost img:hover {
+    cursor: pointer;
+}
 /*BREADCrUMB*/
 .bread .breaditem {
     text-decoration: none !important;

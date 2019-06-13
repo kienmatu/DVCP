@@ -3,19 +3,23 @@
         getItems = function () {
             var items = [];
             $pic.find('img').each(function () {
+                var width = this.naturalWidth;
+                var height = this.naturalHeight;
                 var $href = $(this).attr('src'),
                     //$size = $(this).data('size').split('x'),
-                    $width =  900,//$size[0],
-                    $height = 600;//$size[1];
+                    $width = width,//$size[0],
+                    $height = height;//$size[1];
+                if (width >= 50 && height >= 50) {
+                    var item = {
+                        src: $href,
+                        w: $width,
+                        h: $height
+                    }
 
-                var item = {
-                    src: $href,
-                    w: $width,
-                    h: $height
+                    items.push(item);
                 }
-
-                items.push(item);
-                //console.log(item);
+                
+                //console.log(width.toString());
             });
 
             return items;
@@ -26,7 +30,10 @@
     $pic.on('click', 'img', function (event) {
         event.preventDefault();
 
-        var $index = $(this).index();
+        var $index = $(this).index('img') - 1;
+        if (items.length < $index) {
+            $index = items.length - 1;
+        }
         var options = {
             index: $index,
             bgOpacity: 0.7,
