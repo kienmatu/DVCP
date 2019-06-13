@@ -25,18 +25,25 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
-            <div class="form-group col-md-6">
-                @Html.Label("Loại bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-8">
+            <div class="form-group col-md-4">
+                @Html.Label("Loại bài viết:", htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-12">
                     @Html.EnumDropDownListFor(x => x.post_type, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.post_type, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="form-group col-md-6">
-                @Html.Label("Triều đại:", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-8">
+            <div class="form-group col-md-4">
+                @Html.Label("Triều đại:", htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-12">
                     @Html.EnumDropDownListFor(x => x.dynasty, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.dynasty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("Đề xuất:", htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-12">
+                    @Html.EnumDropDownListFor(x => x.Rated, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Rated, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>

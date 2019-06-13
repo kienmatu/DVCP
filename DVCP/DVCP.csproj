@@ -1687,6 +1687,7 @@
     <Content Include="Views\Home\_Search.cshtml" />
     <Content Include="Views\Home\Dynasty.cshtml" />
     <Content Include="Views\Home\DynastyAll.cshtml" />
+    <Content Include="Views\Home\_ViewByCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

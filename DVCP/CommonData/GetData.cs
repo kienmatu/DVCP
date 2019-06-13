@@ -1,4 +1,5 @@
 ﻿using DVCP.Models;
+using DVCP.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,65 @@ namespace DVCP
         UnitOfWork db = new UnitOfWork(new DVCPContext());
         public List<Models.Tbl_POST> GetPopularPost()
         {
-            return db.postRepository.AllPosts().Take(5).Where(m => m.status == true).OrderByDescending(m => m.ViewCount).ToList();
+            return db.postRepository.AllPosts().Take(5)
+                .Where(m => m.status == true).OrderByDescending(m => m.ViewCount).ToList();
         }
-        public List<Models.Tbl_POST> GetPostByTag(int tag, int count)
+        public IEnumerable<lstPostViewModel> GetHighRatedPost()
+        {
+            List<lstPostViewModel> lstPosts = new List<lstPostViewModel>();
+
+            var x = db.postRepository.AllPosts()
+                .Where(m => m.status == true).OrderBy(m => m.Rated)
+                .Take(4)
+                .Select(c => new lstPostViewModel
+                {
+                    post_id = c.post_id,
+                    post_title = c.post_title,
+                    create_date = c.create_date,
+                });
+            return x.ToList();
+        }
+        public IEnumerable<ViewModel.ViewPostViewModel> GetPostByTag(int tag, int count = 4)
         {
             Tbl_Tags tags = db.tagRepository.FindByID(tag);
-            return db.postRepository.AllPosts().Take(count > 3 ? count : 3).Where(m => m.Tbl_Tags.Contains(tags) && m.status == true).ToList();
+            List<ViewModel.ViewPostViewModel> post = new List<ViewPostViewModel>();
+            
+                 post = (
+                            from a in db.Context.Tbl_Tags
+                                // instance from navigation property
+                            from b in a.Tbl_POST
+                                //join to bring useful data
+                            join c in db.Context.Tbl_POST on b.post_id equals c.post_id
+                            where a.TagID == tag
+                            where c.status == true
+                            // sắp theo so khớp
+                            orderby c.create_date descending
+                            select new
+                            {
+                                c.post_id,
+                                c.post_title,
+                                //c.post_teaser,
+                                c.ViewCount,
+                                c.AvatarImage,
+                                c.create_date
+                            })
+                    //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
+                    //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
+                    .Distinct().Take(count).Select(c => new ViewPostViewModel
+                    {
+                        post_id = c.post_id,
+                        firstTag = tags.TagName,
+                        post_title = c.post_title,
+                        //post_teaser = c.post_teaser,
+                        ViewCount = c.ViewCount,
+                        AvatarImage = c.AvatarImage,
+                        create_date = c.create_date
+                    })
+                    .ToList();
+               
+            
+            return post;
+
         }
         public Tbl_HotPost[] GetHotPosts()
         {

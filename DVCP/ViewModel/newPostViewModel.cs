@@ -118,7 +118,7 @@ namespace DVCP.ViewModel
 
         public Dynasty dynasty { get; set; }
 
-        public Rated Rated { get; set; }
+        public Rated Rated { get; set; } = Rated.Normal;
 
         public bool Status { get; set; }
     }

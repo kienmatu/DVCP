@@ -9,7 +9,7 @@ namespace DVCP.ViewModel
     public class ViewPostViewModel
     {
         public int post_id { get; set; }
-
+        public string firstTag { get; set; }
         public int? userid { get; set; }
 
         [Required]

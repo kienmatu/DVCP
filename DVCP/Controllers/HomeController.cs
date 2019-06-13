@@ -15,7 +15,8 @@ namespace DVCP.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = db.infoRepository.FindByID(1).web_name;
-            return View(db.postRepository.AllPosts().Where(m=>m.status==true).OrderByDescending(m=>m.create_date).Take(10).ToList());
+            return View(db.postRepository.AllPosts().Where(m=>m.status==true)
+                .OrderByDescending(m=>m.create_date).Take(7).ToList());
         }
 
         public ActionResult About()
@@ -217,28 +218,6 @@ namespace DVCP.Controllers
                     ).ToPagedList(pageIndex, pageSize);
                     break;
                 case 2:
-                    //post = taglist
-                    //    .Join(db.tagRepository.AllTags(),
-                    //    a => a.TagID,
-                    //    b => b.TagID, (a, b) => new { a.Tbl_POST }
-                    //    ).SelectMany(z => z.Tbl_POST)
-                    //    .Join(db.postRepository.AllPosts(),
-                    //    a => a.post_id,
-                    //    b => b.post_id,
-                    //    (a, b) => new { a }
-                    //    ).Distinct()
-                    //    .Select(c => new lstPostViewModel
-                    //{
-                    //    post_id = c.a.post_id,
-                    //    post_title = c.a.post_title,
-                    //    post_teaser = c.a.post_teaser,
-                    //    ViewCount = c.a.ViewCount,
-                    //    AvatarImage = c.a.AvatarImage,
-                    //    create_date = c.a.create_date
-                    //}).ToPagedList(pageIndex, pageSize);
-
-
-
                     using (DVCPContext conn = db.Context)
                     {
                         var query = (

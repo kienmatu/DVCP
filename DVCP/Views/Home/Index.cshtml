@@ -21,27 +21,29 @@
                         {
                             <a class="link row oflow-hidden pos-relative mb-md-2 mb-1 dplay-block ml-md-1" href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id">
                                 <div class="col-md-4 col-12 pl-md-0" style="height:auto">
-                                    <img src="~/Upload/images/@item.AvatarImage" alt="@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title," ")" onerror="this.onerror=null;this.src='/Content/web/images/top-post1.jpg';"/>
+                                    <img src="~/Upload/images/@item.AvatarImage" alt="@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title," ")" onerror="this.onerror=null;this.src='/Content/web/images/top-post1.jpg';" />
                                     @*<div style="background-image:url(/Content/web/images/top-post1.jpg);height:200px;width:100%" class="abs-tlr img-bg-head position-relative"></div>*@
                                 </div><div class="col-md-8 col-12">
-                                          <div class="min-h-100x">
-                                              <h5><b>@item.post_title</b></h5>
-                                              <p>@(item.post_teaser.Length >= 150 ? item.post_teaser.Substring(0, 150) : item.post_teaser + "..")</p>
-                                              <ul>
-                                                  <li class="latest"><span class="fa fa-calendar mr-1" style="color:#777777"></span>@String.Format("{0:dd-MM-yyyy}", item.create_date)</li>
-                                              </ul>
-                                              @*<h6 class="color-lite-black pt-2">Jan 25, 2018</h6>*@
-                                          </div>
+                                    <div class="min-h-100x">
+                                        <h5><b>@item.post_title</b></h5>
+                                        <p>@(item.post_teaser.Length >= 150 ? item.post_teaser.Substring(0, 150) : item.post_teaser + "..")</p>
+                                        <ul>
+                                            <li class="latest"><span class="fa fa-calendar mr-1" style="color:#777777"></span>@String.Format("{0:dd-MM-yyyy}", item.create_date)</li>
+                                        </ul>
+                                        @*<h6 class="color-lite-black pt-2">Jan 25, 2018</h6>*@
+                                    </div>
                                 </div>
                             </a>
                         }
+                        @*@Html.Partial("_ViewByCategory",data.GetPostByTag(7,4))*@
                     </div>
                     <!-- container -->
-                    
+                   
                     <div class="col-md-4">
                         <!-- Phổ biến -->
-                        @Html.Partial("_PopularPost",data.GetPopularPost())
-                    </div> 
+                        @Html.Partial("_PopularPost", data.GetPopularPost())
+
+                    </div>
                 </div>
             </div>
         </section>

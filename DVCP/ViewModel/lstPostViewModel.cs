@@ -43,5 +43,6 @@ namespace DVCP.ViewModel
         public string AvatarImage { get; set; }
 
         public bool status { get; set; }
+        public string slug { get; set; }
     }
 }

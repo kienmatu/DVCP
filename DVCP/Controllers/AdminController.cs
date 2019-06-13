@@ -61,7 +61,7 @@ namespace DVCP.Controllers
                             System.IO.Directory.CreateDirectory(subPath);
                         }
                         string extension = Path.GetExtension(model.avatarFile.FileName);
-                        model.AvatarImage = SlugGenerator.SlugGenerator.GenerateSlug(model.post_title) + extension;
+                        model.AvatarImage = SlugGenerator.SlugGenerator.GenerateSlug(model.post_title) +"-"+ new Random().Next(1,100) + extension;
                         model.avatarFile.SaveAs(Server.MapPath("~/Upload/images/") + model.AvatarImage);
                     }
                 }
@@ -580,7 +580,7 @@ namespace DVCP.Controllers
                         }
                         // lưu ảnh mới với tên là slug tiêu đề mới
                         string extension = Path.GetExtension(model.avatarFile.FileName);
-                        model.AvatarImage = SlugGenerator.SlugGenerator.GenerateSlug(model.post_title) + extension;
+                        model.AvatarImage = SlugGenerator.SlugGenerator.GenerateSlug(model.post_title) + "-" + model.post_id  + extension;
                         model.avatarFile.SaveAs(Server.MapPath("~/Upload/images/") + model.AvatarImage);
                     }
                 }

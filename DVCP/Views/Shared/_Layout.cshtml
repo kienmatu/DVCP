@@ -107,42 +107,40 @@
                                 Đại Việt Cổ Phong là hội chuyên nghiên cứu về văn hóa,phong tục,kiến trúc cũng như lịch sử của Việt Nam thời xưa.
                             </p>
                             <p class="color-ash">
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                 Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ion-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" rel="nofollow" style="color:#aaa">Colorlib</a>
+
                             </p>
                         </div><!-- mb-30 -->
                     </div><!-- col-md-4 -->
 
                     <div class="col-sm-4">
                         <div class="mb-30">
-                            <h5 class="color-primary mb-20"><b>MOST POPULAR</b></h5>
-                            <div class="mb-20">
-                                <a class="color-white" href="#"><b>Its Make or Break Time for Bitcoin</b></a>
-                                <h6 class="mt-10">Jan 25, 2018</h6>
-                            </div>
-                            <div class="brdr-ash-1 opacty-2 mr-30"></div>
-                            <div class="mt-20">
-                                <a class="color-white" href="#"><b>Bitcoin's roller coster ride is not over</b></a>
-                                <h6 class="mt-10">Jan 25, 2018</h6>
-                            </div>
+                            <h5 class="color-primary mb-20"><b>ĐỀ XUẤT CAO</b></h5>
+                            @{ var cnt = 2;}
+                            @foreach (var i in data.GetHighRatedPost())
+                            {
+
+                                <div class="mb-20">
+                                    <a class="color-white" href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(i.post_title)-@i.post_id"><b>@i.post_title</b></a>
+                                    <h6 class="mt-10">@String.Format("{0:dd/MM/yyyy}", i.create_date)</h6>
+                                </div>
+                                if (cnt % 2 == 0)
+                                {
+                                    <div class="brdr-ash-1 opacty-2 mr-30 mb-2 mt-2"></div>
+                                }
+                                cnt++;
+                            }
+
+
+
                         </div><!-- mb-30 -->
                     </div><!-- col-md-4 -->
 
                     <div class="col-sm-4">
                         <div class="mb-30">
-                            <h5 class="color-primary mb-20"><b>MOST POPULAR</b></h5>
-                            <div class="mb-20">
-                                <a class="color-white" href="#"><b>Its Make or Break Time for Bitcoin</b></a>
-                                <h6 class="mt-10">Jan 25, 2018</h6>
-                            </div>
-                            <div class="brdr-ash-1 opacty-2 mr-30"></div>
-                            <div class="mt-20">
-                                <a class="color-white" href="#"><b>Bitcoin's roller coster ride is not over</b></a>
-                                <h6 class="mt-10">Jan 25, 2018</h6>
-                            </div>
-                        </div><!-- mb-30 -->
+                            <h5 class="color-primary mb-20"><b>FACEBOOK</b></h5>
+                            <div class="fb-page" data-href="https://www.facebook.com/daivietcophong/" data-tabs="timeline" data-width="" data-height="300" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/daivietcophong/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/daivietcophong/">Đại Việt Cổ Phong - 大越古風 - VietnamAncient</a></blockquote></div>                        </div><!-- mb-30 -->
                     </div><!-- col-md-4 -->
 
                 </div><!-- row -->
@@ -152,24 +150,25 @@
 
             <div class="oflow-hidden color-ash font-9 text-sm-center ptb-sm-5">
 
-                <ul class="float-left float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-10">
-                    <li><a class="pl-0 pl-sm-10" href="#">Terms & Conditions</a></li>
-                    <li><a href="#">Privacy policy</a></li>
-                    <li><a href="#">Jobs advertising</a></li>
-                    <li><a href="#">Contact us</a></li>
-                </ul>
-                @*<ul class="float-right float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-5">
-                        <li><a class="pl-0 pl-sm-10" href="#"><i class="ion-social-facebook"></i></a></li>
-                        <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                        <li><a href="#"><i class="ion-social-google"></i></a></li>
-                        <li><a href="#"><i class="ion-social-instagram"></i></a></li>
-                        <li><a href="#"><i class="ion-social-bitcoin"></i></a></li>
-                    </ul>*@
+                @* <ul class="float-left float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-10">
+                        <li><a class="pl-0 pl-sm-10" href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                        <li><a href="#">Jobs advertising</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                    <ul class="float-right float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-5">
+                            <li><a class="pl-0 pl-sm-10" href="#"><i class="ion-social-facebook"></i></a></li>
+                            <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                            <li><a href="#"><i class="ion-social-google"></i></a></li>
+                            <li><a href="#"><i class="ion-social-instagram"></i></a></li>
+                            <li><a href="#"><i class="ion-social-bitcoin"></i></a></li>
+                        </ul>*@
 
             </div>
         </div>
     </footer>
-
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.3"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Content/web/tether.min.js"></script>
