@@ -76,40 +76,45 @@ namespace DVCP.Controllers
             }
             return HttpNotFound();
         }
-        public ActionResult Category(int id, int? page)
+        public ActionResult Category(int? id, int? page)
         {
-            int pageSize = 15;
-            int pageIndex = 1;
-            //IPagedList<Tbl_POST> post = null;
-            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            Tbl_Tags tag = db.tagRepository.FindByID(id);
-            if (tag != null)
+            if(id!=null)
             {
-                using (DVCPContext conn = db.Context)
+                int pageSize = 15;
+                int pageIndex = 1;
+                //IPagedList<Tbl_POST> post = null;
+                pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+                Tbl_Tags tag = db.tagRepository.FindByID(id.Value);
+                if (tag != null)
                 {
-                    var result = (
-                        // instance from context
-                        from a in conn.Tbl_Tags
-                            // instance from navigation property
+                    using (DVCPContext conn = db.Context)
+                    {
+                        var result = (
+                            // instance from context
+                            from a in conn.Tbl_Tags
+                                // instance from navigation property
                         from b in a.Tbl_POST
                             //join to bring useful data
                         join c in conn.Tbl_POST on b.post_id equals c.post_id
-                        where a.TagID == id && b.status == true
-                        orderby b.create_date descending
-                        select new lstPostViewModel
-                        {
-                            post_id = c.post_id,
-                            post_title = c.post_title,
-                            post_teaser = c.post_teaser,
-                            ViewCount = c.ViewCount,
-                            AvatarImage = c.AvatarImage,
-                            create_date = c.create_date
-                        }).ToPagedList(pageIndex, pageSize);
-                    ViewBag.catname = tag.TagName;
-                    return View(result);
+                            where a.TagID == id && b.status == true
+                            orderby b.create_date descending
+                            select new lstPostViewModel
+                            {
+                                post_id = c.post_id,
+                                post_title = c.post_title,
+                                post_teaser = c.post_teaser,
+                                ViewCount = c.ViewCount,
+                                AvatarImage = c.AvatarImage,
+                                create_date = c.create_date
+                            }).ToPagedList(pageIndex, pageSize);
+                        ViewBag.catname = tag.TagName;
+                        return View(result);
+                    }
                 }
+                return HttpNotFound();
             }
-            return HttpNotFound();
+
+            return View("CategoryAll");
 
         }
         public ActionResult Dynasty(int? dynasty, int? page)
@@ -233,7 +238,7 @@ namespace DVCP.Controllers
                             where c.dynasty == model.Dynasty.ToString()
                             where c.post_title.ToLower().Contains(model.title.ToLower())
                             // sắp theo 
-                            orderby c.post_title.Contains(model.title)
+                            orderby c.Rated
                             select new
                             {
                                 c.post_id,

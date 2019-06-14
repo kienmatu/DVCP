@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Duyệt theo các danh mục | Đại Việt Cổ Phong";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    GetData data = new GetData();
+}
+<div class="row">
+    <div class="col-12">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="p-title ml-md-1"><b>DUYỆT THEO DANH MỤC</b></h4>
+                        <div class="float-left-right text-center mt-40 mt-sm-20">
+                            <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
+                               
+                                @foreach (var i in data.GetListTags())
+                                {
+                                    <li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(i.TagName.ToLower())-@i.TagID">@i.TagName</a></li>
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!-- container -->
+
+                    <div class="col-md-4">
+                        <!-- Phổ biến -->
+                        @Html.Partial("_PopularPost", data.GetPopularPost())
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

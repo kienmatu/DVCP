@@ -1,15 +1,62 @@
 ﻿body {
-    font-family: 'Arial','Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-family: 'Times New Roman','Arial','Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+.poppost {
+    font-family: 'Droid Serif',Arial;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.5em;
 }
 
+.smallpop {
+    border-bottom: 1px solid #F5F5F5;
+    overflow: hidden;
+}
+.list-label-widget-content li {
+    display: block;
+    padding: 8px 0;
+    border-bottom: 1px solid #ebebeb;
+    position: relative;
+}
+
+    .list-label-widget-content li a:before {
+        content: '\203a';
+        position: absolute;
+        left: 0px;
+        top: 2px;
+        font-size: 22px;
+        color: #ebebeb
+    }
+
+    .list-label-widget-content li a {
+        font-family: Arial;
+        color: #2b2b2b;
+        font-size: 16px;
+        padding-left: 20px;
+        font-weight: 400;
+        text-transform: none
+    }
+
+        .list-label-widget-content li a:hover {
+            color: #F9B500;
+        }
+
+    .list-label-widget-content li span:last-child {
+        color: #ebebeb;
+        font-size: 12px;
+        font-weight: 700;
+        position: absolute;
+        top: 9px;
+        right: 0
+    }
 a:hover {
-    color: #032b71;
+    
     text-decoration: none !important;
 }
 
 .popular-post a, .popular-post h5 {
     color: black;
-    font-size: 1rem;
+    
 }
 
 .lstRPost h5 a {

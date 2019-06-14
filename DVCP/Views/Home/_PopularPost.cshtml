@@ -1,27 +1,42 @@
 ﻿@model IEnumerable<DVCP.Models.Tbl_POST>
+    @{ 
+        GetData data = new GetData();
+    }
 <div class="pl-20 pl-md-0">
     <div class="popular-post">
         <h4 class="p-title"><b>PHỔ BIẾN</b></h4>
-        @foreach(var item in Model)
+        @foreach (var item in Model)
         {
             <a class="link oflow-hidden pos-relative mb-20 dplay-block" href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id">
-            <div style="background-image:url(/Upload/images/@item.AvatarImage),url(/Content/web/images/top-post2.jpg)" class="wh-100x abs-tlr img-bg-head"></div>
-            <div class="ml-120 min-h-100x">
-                <h5><b>@item.post_title</b></h5>
-                <h6 class="color-lite-black pt-2"><i class="fa fa-calendar-o mr-1"></i>@String.Format("{0:dd/MM/yyyy}", item.create_date)  - <i class="fa fa-eye mr-1"></i> @item.ViewCount </h6>
-            </div>
-        </a> 
+                <div style="background-image:url(/Upload/images/@item.AvatarImage),url(/Content/web/images/top-post2.jpg)" class="wh-100x abs-tlr img-bg-head"></div>
+                <div class="ml-120 min-h-100x smallpop">
+                    <h5 class="poppost">@item.post_title</h5>
+                    <h6 class="color-lite-black pt-2 mb-1">
+                    <i class="fa fa-calendar-o mr-1"></i>@String.Format("{0:dd/MM/yyyy}", item.create_date)  <i class="fa fa-eye mr-1 ml-2"></i> @item.ViewCount </h6>
+                </div>
+            </a>
         }
-            </div>
+    </div>
     @*<div class="mtb-50 mb-md-0">
-        <h4 class="p-title"><b>CẬP NHẬT THÔNG TIN</b></h4>
-        <p class="mb-20">
-            Đăng ký để nhận những thông tin, cập nhật và những bài viết mới của chúng tôi
-        </p>
-        <form class="nwsltr-primary-1">
-            <input type="text" placeholder="Your email" />
-            <button type="submit"><i class="fa fa-send"></i></button>
-        </form>
-    </div>*@
-
+            <h4 class="p-title"><b>CẬP NHẬT THÔNG TIN</b></h4>
+            <p class="mb-20">
+                Đăng ký để nhận những thông tin, cập nhật và những bài viết mới của chúng tôi
+            </p>
+            <form class="nwsltr-primary-1">
+                <input type="text" placeholder="Your email" />
+                <button type="submit"><i class="fa fa-send"></i></button>
+            </form>
+        </div>*@
+    <div class="mtb-50 mb-md-0">
+        <h4 class="p-title"><b>DANH MỤC</b></h4>
+        <div class="widget-content list-label-widget-content mt-1">
+            <ul>
+                @foreach (var i in data.GetListTags())
+                {
+                    <li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(i.TagName.ToLower())-@i.TagID">@i.TagName</a></li>
+                }
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
 </div>

@@ -18,10 +18,16 @@ namespace DVCP
                 url: "bai-viet/{title}-{id}",
                 defaults: new { controller = "Home", action = "ViewPost", id = UrlParameter.Optional }
             );
+            //theo tag
             routes.MapRoute(
                 name: "Category",
                 url: "danh-muc/{title}-{id}",
                 defaults: new { controller = "Home", action = "Category", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "Category2",
+                url: "danh-muc/",
+                defaults: new { controller = "Home", action = "Category"}
             );
             routes.MapRoute(
                 name: "Timkiem",

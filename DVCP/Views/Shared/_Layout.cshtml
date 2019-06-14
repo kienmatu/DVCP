@@ -18,8 +18,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/Content/AdminLTE/plugins/font-awesome/css/font-awesome.min.css">
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="//fonts.googleapis.com/css?family=Merriweather:400,700%7CDroid+Serif:400,700" rel="stylesheet" type="text/css">
     @* @Scripts.Render("~/bundles/modernizr")*@
-    @{ 
+    @{
         GetData data = new GetData();
     }
 </head>
@@ -72,12 +73,13 @@
                     </ul>
                 </li>
                 <li class="drop-down">
-                    <a href="/">DANH MỤC<i class="fa fa-caret-down"></i></a>
+                    <a href="/danh-muc/">DANH MỤC<i class="fa fa-caret-down"></i></a>
                     <ul class="drop-down-menu drop-down-inner">
-                        @foreach (var i in data.GetListTags())
+                        @foreach (var i in data.GetListTags().Take(6))
                         {
                             <li><a href="/danh-muc/@SlugGenerator.SlugGenerator.GenerateSlug(i.TagName.ToLower())-@i.TagID">@i.TagName</a></li>
                         }
+                        <li><a href="/danh-muc/">XEM TẤT CẢ</a></li>
                     </ul>
                 </li>
                 <li><a href="/danh-muc/du-an-project-12">PROJECT</a></li>
