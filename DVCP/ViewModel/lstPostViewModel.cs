@@ -44,5 +44,6 @@ namespace DVCP.ViewModel
 
         public bool status { get; set; }
         public string slug { get; set; }
+        public string tagsname { get; set; }
     }
 }

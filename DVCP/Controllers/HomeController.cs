@@ -138,7 +138,8 @@ namespace DVCP.Controllers
                         post_teaser = c.post_teaser,
                         ViewCount = c.ViewCount,
                         AvatarImage = c.AvatarImage,
-                        create_date = c.create_date
+                        create_date = c.create_date,
+                        tagsname = c.Tbl_Tags.FirstOrDefault().TagName,
                     }).ToPagedList(pageIndex, pageSize);
 
                 return View(post);
@@ -218,7 +219,8 @@ namespace DVCP.Controllers
                         post_teaser = m.post_teaser,
                         ViewCount = m.ViewCount,
                         AvatarImage = m.AvatarImage,
-                        create_date = m.create_date
+                        create_date = m.create_date,
+                        tagsname = m.Tbl_Tags.FirstOrDefault().TagName,
                     }
                     ).ToPagedList(pageIndex, pageSize);
                     break;
@@ -246,7 +248,8 @@ namespace DVCP.Controllers
                                 c.post_teaser,
                                 c.ViewCount,
                                 c.AvatarImage,
-                                c.create_date
+                                c.create_date,
+                                c.Tbl_Tags.FirstOrDefault().TagName
                             }).Distinct();
                         //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                         //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -257,7 +260,8 @@ namespace DVCP.Controllers
                             post_teaser = c.post_teaser,
                             ViewCount = c.ViewCount,
                             AvatarImage = c.AvatarImage,
-                            create_date = c.create_date
+                            create_date = c.create_date,
+                            tagsname = c.TagName
                         }).ToPagedList(pageIndex, pageSize);
 
                     }
@@ -275,23 +279,10 @@ namespace DVCP.Controllers
                         post_teaser = m.post_teaser,
                         ViewCount = m.ViewCount,
                         AvatarImage = m.AvatarImage,
-                        create_date = m.create_date
+                        create_date = m.create_date,
+                        tagsname = m.Tbl_Tags.FirstOrDefault().TagName,
                     }
                     ).ToPagedList(pageIndex, pageSize);
-                 //   post = db.postRepository.AllPosts()
-                 //.Where(m => m.status)
-                 //.Where(m => m.post_title.Contains(model.title))
-                 //.OrderBy(m => m.post_title.Contains(model.title))
-                 //.Select(m => new lstPostViewModel
-                 //{
-                 //    post_id = m.post_id,
-                 //    post_title = m.post_title,
-                 //    post_teaser = m.post_teaser,
-                 //    ViewCount = m.ViewCount,
-                 //    AvatarImage = m.AvatarImage,
-                 //    create_date = m.create_date
-                 //}
-                 //).ToPagedList(pageIndex, pageSize);
                     break;
                 case 4:
                     using (DVCPContext conn = db.Context)
@@ -315,7 +306,8 @@ namespace DVCP.Controllers
                                 c.post_teaser,
                                 c.ViewCount,
                                 c.AvatarImage,
-                                c.create_date
+                                c.create_date,
+                                c.Tbl_Tags.FirstOrDefault().TagName,
                             })
                             //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                             //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -326,7 +318,9 @@ namespace DVCP.Controllers
                                 post_teaser = c.post_teaser,
                                 ViewCount = c.ViewCount,
                                 AvatarImage = c.AvatarImage,
-                                create_date = c.create_date
+                                create_date = c.create_date,
+                                tagsname = c.TagName
+                                
                             })
                             .ToPagedList(pageIndex, pageSize);
                     }
@@ -343,7 +337,8 @@ namespace DVCP.Controllers
                      post_teaser = m.post_teaser,
                      ViewCount = m.ViewCount,
                      AvatarImage = m.AvatarImage,
-                     create_date = m.create_date
+                     create_date = m.create_date,
+                     tagsname = m.Tbl_Tags.FirstOrDefault().TagName,
                  }
                  ).ToPagedList(pageIndex, pageSize);
                     break;
@@ -370,7 +365,8 @@ namespace DVCP.Controllers
                                 c.post_teaser,
                                 c.ViewCount,
                                 c.AvatarImage,
-                                c.create_date
+                                c.create_date,
+                                c.Tbl_Tags.FirstOrDefault().TagName,
                             })
                             //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                             //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -381,7 +377,8 @@ namespace DVCP.Controllers
                                 post_teaser = c.post_teaser,
                                 ViewCount = c.ViewCount,
                                 AvatarImage = c.AvatarImage,
-                                create_date = c.create_date
+                                create_date = c.create_date,
+                                tagsname = c.TagName
                             })
                             .ToPagedList(pageIndex, pageSize);
                     }
@@ -399,7 +396,8 @@ namespace DVCP.Controllers
                      post_teaser = m.post_teaser,
                      ViewCount = m.ViewCount,
                      AvatarImage = m.AvatarImage,
-                     create_date = m.create_date
+                     create_date = m.create_date,
+                    tagsname = m.Tbl_Tags.FirstOrDefault().TagName,
                  }
                  ).ToPagedList(pageIndex, pageSize);
                     break;
@@ -426,7 +424,8 @@ namespace DVCP.Controllers
                                 c.post_teaser,
                                 c.ViewCount,
                                 c.AvatarImage,
-                                c.create_date
+                                c.create_date,
+                                c.Tbl_Tags.FirstOrDefault().TagName,
                             })
                             //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                             //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -437,7 +436,8 @@ namespace DVCP.Controllers
                                 post_teaser = c.post_teaser,
                                 ViewCount = c.ViewCount,
                                 AvatarImage = c.AvatarImage,
-                                create_date = c.create_date
+                                create_date = c.create_date,
+                                tagsname = c.TagName
                             })
                             .ToPagedList(pageIndex, pageSize);
                     }

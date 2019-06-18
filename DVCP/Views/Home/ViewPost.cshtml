@@ -18,7 +18,7 @@
                 <!-- BREADCUMB -->
                 <section class="ptb-0 mb-4">
                     <div class="container bread ml-0 pl-0">
-                        <a class="mt-10 breaditem" href="/"><i class="mr-2 fa fa-home"></i>Home </a><i class="mr-2 ml-2 fa fa-chevron-right"></i>
+                        <i class="mr-2 fa fa-home"></i><a class="mt-10 breaditem" href="/">Home </a><i class="mr-2 ml-2 fa fa-chevron-right"></i>
                         <a class="mt-10 breaditem" href="/danh-muc/@Model.tagLists.FirstOrDefault().slug">@Model.tagLists.FirstOrDefault().name </a><i class="mr-2 ml-2 fa fa-chevron-right"></i>
                         <a class="mt-10 breadlink" href="/bai-viet/@slug">@Model.post_title</a>
                     </div>
@@ -38,9 +38,12 @@
                             @Html.Raw(Model.post_content)
                         </div>
                     </div>
+                    <div id="teaser-post">
+                        @Model.post_review
+                    </div>
                 </div>
                 <hr />
-                @*@GetData.IncreaseView(Model.ID)*@
+                
                 <div class="float-left-right text-center mt-40 mt-sm-20">
                     <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
                         @foreach (var i in Model.tagLists)
