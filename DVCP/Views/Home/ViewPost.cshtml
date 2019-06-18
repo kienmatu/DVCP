@@ -58,11 +58,9 @@
 
                     </ul>
 
-                </div><!-- float-left-right -->
-                @*@Html.Partial("_RelatedPost", data.GetRelatedPost())*@
+                </div>
+                @Html.Partial("_RelatedPost", data.GetRelatedPost(Model.tagLists.FirstOrDefault().id))
             </div>
-            <!-- ./ Nội dung chính-->
-            <!-- Phổ biến -->
             <div class="col-md-4">
                 @Html.Partial("_PopularPost", data.GetPopularPost())
             </div>

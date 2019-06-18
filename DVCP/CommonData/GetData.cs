@@ -10,6 +10,33 @@ namespace DVCP
     public class GetData
     {
         UnitOfWork db = new UnitOfWork(new DVCPContext());
+        public IEnumerable<ViewModel.lstPostViewModel> GetRelatedPost(int tag, int count = 6)
+        {
+            Tbl_Tags tags = db.tagRepository.FindByID(tag);
+            List<ViewModel.lstPostViewModel> post = new List<lstPostViewModel>();
+
+            post = (
+                       from a in db.Context.Tbl_Tags
+                           // instance from navigation property
+                       from b in a.Tbl_POST
+                           //join to bring useful data
+                       join c in db.Context.Tbl_POST on b.post_id equals c.post_id
+                       where a.TagID == tag
+                       where c.status == true
+                       // sắp theo so khớp
+                       orderby c.create_date descending
+                       select new lstPostViewModel
+                       {
+                           post_id = c.post_id,
+                           post_title = c.post_title,
+                           ViewCount = c.ViewCount,
+                           AvatarImage = c.AvatarImage,
+                           create_date = c.create_date,
+                       }).Take(count)
+               .ToList();
+            return post;
+
+        }
         public List<Models.Tbl_POST> GetPopularPost()
         {
             return db.postRepository.AllPosts().Take(5)
@@ -64,7 +91,7 @@ namespace DVCP
                         //post_teaser = c.post_teaser,
                         ViewCount = c.ViewCount,
                         AvatarImage = c.AvatarImage,
-                        create_date = c.create_date
+                        create_date = c.create_date,
                     })
                     .ToList();
                

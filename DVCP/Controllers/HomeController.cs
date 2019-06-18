@@ -48,6 +48,7 @@ namespace DVCP.Controllers
                     db.Commit();
                     List<TagList> tagLists = p.Tbl_Tags.Select(m => new TagList
                     {
+                        id = m.TagID,
                         name = m.TagName,
                         slug = SlugGenerator.SlugGenerator.GenerateSlug(m.TagName) + "-" + m.TagID
                     }).ToList();

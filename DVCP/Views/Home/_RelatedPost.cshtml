@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DVCP.Models.Tbl_POST>
+﻿@model IEnumerable<DVCP.ViewModel.lstPostViewModel>
 
 <div class="brdr-ash-1 opacty-5"></div>
 
@@ -7,8 +7,9 @@
     @foreach (var item in Model)
     {
         <div class="col-sm-4 lstRPost">
-            <img class="relatedimg" src="~/Upload/images/@item.AvatarImage" alt="@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title," ")" onerror="this.onerror=null;this.src='/Content/images/thumbnail-default.jpg';">
-            <h5 class="pt-20"><a href="/Post/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id"><b>@item.post_title</b></a></h5>
+            <img class="relatedimg" src="~/Upload/images/@item.AvatarImage" alt="@item.post_title" 
+                 onerror="this.onerror=null;this.src='/Content/images/thumbnail-default.jpg';">
+            <h5 class="pt-20"><a href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title)-@item.post_id"><b>@item.post_title</b></a></h5>
 
             @*<ul>
                     <li class="latest"><span class="fa fa-calendar mr-1" style="color:#777777"></span>@String.Format("{0:dd/MM/yyyy}", item.CreateDate)</li>
