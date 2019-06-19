@@ -1,4 +1,4 @@
-<%@ Control Language="C#" EnableViewState="false" AutoEventWireup="false" Inherits="CKFinder.Settings.ConfigFile" %>
+﻿<%@ Control Language="C#" EnableViewState="false" AutoEventWireup="false" Inherits="CKFinder.Settings.ConfigFile" %>
 <%@ Import Namespace="CKFinder.Settings" %>
 <script runat="server">
 
@@ -12,7 +12,7 @@
         // "anyone" to upload and list the files in your server. You must implement
         // some kind of session validation here. Even something very simple as...
         //
-        		return ( Request.IsAuthenticated);
+        		return  Request.IsAuthenticated;
         //
         // ... where Session[ "IsAuthorized" ] is set to "true" as soon as the
         // user logs on your system.
@@ -27,8 +27,8 @@
     {
         // Paste your license name and key here. If left blank, CKFinder will
         // be fully functional, in Demo Mode.
-        LicenseName = "";
-        LicenseKey = "";
+        LicenseName = "Kiên Đinh";
+        LicenseKey = "AE177D8VU718KF2RLR7MJS6NMQR8UJHR";
 
         // The base URL used to reach files in CKFinder through the browser.
         BaseUrl = "/Upload/Files/";
