@@ -72,7 +72,7 @@
                     @for (int i = 0; i < Model.post_tag.Count; i++)
                     {
                         string title = Model.post_tag[i].Text;
-                        <div class="col-md-2 abc-checkbox abc-checkbox-primary">
+                        <div class="col-md-3 abc-checkbox abc-checkbox-primary">
                             @Html.HiddenFor(model => model.post_tag[i].Value)
                             @Html.CheckBoxFor(model => model.post_tag[i].Selected, new { @class = "form-check-input" })
                             @Html.LabelFor(model => model.post_tag[i].Selected, title, new { @class = "form-check-label" })
@@ -122,13 +122,19 @@
 
         <div class="form-group">
             @Html.Label("Nội dung bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
+            <div class="col-md-12">
                 @Html.TextAreaFor(model => model.post_content, new { @class = "form-control", cols = 3 })
                 @Html.ValidationMessageFor(model => model.post_content, "", new { @class = "text-danger" })
             </div>
         </div>
         <script>
-            var editor = CKEDITOR.replace('post_content', { width: '100%', height: '450' });
+            var editor = CKEDITOR.replace('post_content',
+                {
+                    filebrowserImageBrowseUrl: '/Content/ckfinder/ckfinder.html?type=Images',
+                    width: '100%',
+                    height: '450'
+                }
+            );
         </script>
         <div class="form-group">
             @Html.Label("Đánh giá bài viết:", htmlAttributes: new { @class = "control-label col-md-4" })

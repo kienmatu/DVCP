@@ -9,6 +9,9 @@
 //	// config.uiColor = '#AADC6E';
 //};
 CKEDITOR.editorConfig = function (config) {
+    // add these line
+    //config.extraPlugins = 'custimage'; //enable custimage tool button
+    //config.removePlugins = 'image'; //disable default image tool button
     config.toolbarGroups = [
         { name: 'document', groups: ['mode', 'document', 'doctools'] },
         { name: 'clipboard', groups: ['clipboard', 'undo'] },
@@ -26,6 +29,7 @@ CKEDITOR.editorConfig = function (config) {
         { name: 'others', groups: ['others'] },
         { name: 'about', groups: ['about'] }
     ];
+    config.image_prefillDimensions = false;
     config.fontSize_defaultLabel = '14'; 
     config.removeButtons = 'SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,NewPage,Print,Preview,Save,Templates,Language,BidiLtr,BidiRtl,Replace,Anchor,Flash,Iframe,About';
 };
