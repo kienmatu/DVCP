@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" EnableViewState="false" AutoEventWireup="false" Inherits="CKFinder.Settings.ConfigFile" %>
 <%@ Import Namespace="CKFinder.Settings" %>
+<%@ Import Namespace="System.Security.Principal" %>
 <script runat="server">
 
     /**
@@ -12,7 +13,7 @@
         // "anyone" to upload and list the files in your server. You must implement
         // some kind of session validation here. Even something very simple as...
         //
-        		return  Request.IsAuthenticated;
+        return  Request.IsAuthenticated;
         //
         // ... where Session[ "IsAuthorized" ] is set to "true" as soon as the
         // user logs on your system.
@@ -134,14 +135,20 @@
         acl.Folder = "/";
 
         acl.FolderView = true;
-        acl.FolderCreate = false;
-        acl.FolderRename = false;
+        acl.FolderCreate = true;
+        acl.FolderRename = true;
         acl.FolderDelete = false;
 
         acl.FileView = true;
         acl.FileUpload = true;
         acl.FileRename = true;
-        acl.FileDelete = true;
+        acl.FileDelete = false;
+        //acl.FolderCreate = true;
+        // acl.FolderRename = true;
+        // acl.FolderDelete = true;
+        // acl.FileDelete = true;
+
+
 
         // Resource Type settings.
         // A resource type is nothing more than a way to group files under
@@ -176,7 +183,7 @@
         type.AllowedExtensions = new string[] { "7z", "aiff", "asf", "avi", "bmp", "csv", "doc", "docx", "fla", "flv", "gif", "gz", "gzip", "jpeg", "jpg", "mid", "mov", "mp3", "mp4", "mpc", "mpeg", "mpg", "ods", "odt", "pdf", "png", "ppt", "pptx", "pxd", "qt", "ram", "rar", "rm", "rmi", "rmvb", "rtf", "sdc", "sitd", "swf", "sxc", "sxw", "tar", "tgz", "tif", "tiff", "txt", "vsd", "wav", "wma", "wmv", "xls", "xlsx", "zip" };
         type.DeniedExtensions = new string[] { "exe","msi" };
 
-        
+
 
         //type = ResourceType.Add( "Flash" );
         //type.Url = BaseUrl + "flash/";

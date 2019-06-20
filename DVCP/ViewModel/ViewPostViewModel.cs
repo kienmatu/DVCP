@@ -25,6 +25,7 @@ namespace DVCP.ViewModel
 
         
         public string post_content { get; set; }
+        public string post_slug { get; set; }
 
         public int post_type { get; set; }
 

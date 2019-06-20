@@ -15,8 +15,8 @@ namespace DVCP
             routes.MapRoute(null, "connector", new { controller = "File", action = "Index" });
             routes.MapRoute(
                 name: "Baiviet",
-                url: "bai-viet/{title}-{id}",
-                defaults: new { controller = "Home", action = "ViewPost", id = UrlParameter.Optional }
+                url: "bai-viet/{title}",
+                defaults: new { controller = "Home", action = "ViewPost", title = UrlParameter.Optional }
             );
             //theo tag
             routes.MapRoute(

@@ -21,13 +21,13 @@
                         {
                             <div class="link row oflow-hidden pos-relative mb-md-2 mb-1 dplay-block ml-md-1">
                                 <div class="col-md-4 col-12 pl-md-0 pb-sm-2" style="height:auto">
-                                    <a href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id">
+                                    <a href="/bai-viet/@item.post_slug">
                                         <img src="~/Upload/images/@item.AvatarImage" alt="@item.post_title"
                                              onerror="this.onerror=null;this.src='/Content/web/images/top-post1.jpg';" />
                                     </a>
                                 </div><div class="col-md-8 col-12 pt-sm-2 pt-md-0">
                                     <div class="min-h-100x">
-                                        <h5> <a class="font-weight-bold" href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id">@item.post_title</a></h5>
+                                        <h5> <a class="font-weight-bold" href="/bai-viet/@item.post_slug">@item.post_title</a></h5>
                                         <p>@(item.post_teaser.Length >= 150 ? item.post_teaser.Substring(0, 150) : item.post_teaser + "..")</p>
                                         @if (!String.IsNullOrWhiteSpace(item.post_review))
                                         {<p>

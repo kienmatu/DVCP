@@ -32,6 +32,7 @@ namespace DVCP
                            ViewCount = c.ViewCount,
                            AvatarImage = c.AvatarImage,
                            create_date = c.create_date,
+                           slug = c.post_slug
                        }).Take(count)
                .ToList();
             return post;
@@ -54,6 +55,7 @@ namespace DVCP
                     post_id = c.post_id,
                     post_title = c.post_title,
                     create_date = c.create_date,
+                    slug = c.post_slug,
                 });
             return x.ToList();
         }
@@ -79,7 +81,8 @@ namespace DVCP
                                 //c.post_teaser,
                                 c.ViewCount,
                                 c.AvatarImage,
-                                c.create_date
+                                c.create_date,
+                                c.post_slug
                             })
                     //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                     //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -92,6 +95,7 @@ namespace DVCP
                         ViewCount = c.ViewCount,
                         AvatarImage = c.AvatarImage,
                         create_date = c.create_date,
+                        post_slug = c.post_slug
                     })
                     .ToList();
                

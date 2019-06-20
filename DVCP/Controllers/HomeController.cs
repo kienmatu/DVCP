@@ -37,11 +37,11 @@ namespace DVCP.Controllers
 
             return View();
         }
-        public ActionResult ViewPost(int? id)
+        public ActionResult ViewPost(string title)
         {
-            if(id!= null)
+            if(!String.IsNullOrWhiteSpace(title))
             {
-                Tbl_POST p = db.postRepository.FindByID(id.Value);
+                Tbl_POST p = db.postRepository.FindBySlug(title);
                 if (p != null)
                 {
                     p.ViewCount++;
@@ -141,6 +141,7 @@ namespace DVCP.Controllers
                         AvatarImage = c.AvatarImage,
                         create_date = c.create_date,
                         tagsname = c.Tbl_Tags.FirstOrDefault().TagName,
+                        slug = c.post_slug
                     }).ToPagedList(pageIndex, pageSize);
 
                 return View(post);
@@ -222,6 +223,7 @@ namespace DVCP.Controllers
                         AvatarImage = m.AvatarImage,
                         create_date = m.create_date,
                         tagsname = m.Tbl_Tags.FirstOrDefault().TagName,
+                        slug = m.post_slug
                     }
                     ).ToPagedList(pageIndex, pageSize);
                     break;
@@ -250,7 +252,9 @@ namespace DVCP.Controllers
                                 c.ViewCount,
                                 c.AvatarImage,
                                 c.create_date,
-                                c.Tbl_Tags.FirstOrDefault().TagName
+                                c.Tbl_Tags.FirstOrDefault().TagName,
+                                c.post_slug
+
                             }).Distinct();
                         //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                         //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -262,7 +266,8 @@ namespace DVCP.Controllers
                             ViewCount = c.ViewCount,
                             AvatarImage = c.AvatarImage,
                             create_date = c.create_date,
-                            tagsname = c.TagName
+                            tagsname = c.TagName,
+                            slug = c.post_slug
                         }).ToPagedList(pageIndex, pageSize);
 
                     }
@@ -282,6 +287,7 @@ namespace DVCP.Controllers
                         AvatarImage = m.AvatarImage,
                         create_date = m.create_date,
                         tagsname = m.Tbl_Tags.FirstOrDefault().TagName,
+                        slug = m.post_slug
                     }
                     ).ToPagedList(pageIndex, pageSize);
                     break;
@@ -309,6 +315,7 @@ namespace DVCP.Controllers
                                 c.AvatarImage,
                                 c.create_date,
                                 c.Tbl_Tags.FirstOrDefault().TagName,
+                                c.post_slug
                             })
                             //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                             //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -320,7 +327,8 @@ namespace DVCP.Controllers
                                 ViewCount = c.ViewCount,
                                 AvatarImage = c.AvatarImage,
                                 create_date = c.create_date,
-                                tagsname = c.TagName
+                                tagsname = c.TagName,
+                                slug = c.post_slug
                                 
                             })
                             .ToPagedList(pageIndex, pageSize);
@@ -340,6 +348,7 @@ namespace DVCP.Controllers
                      AvatarImage = m.AvatarImage,
                      create_date = m.create_date,
                      tagsname = m.Tbl_Tags.FirstOrDefault().TagName,
+                     slug = m.post_slug
                  }
                  ).ToPagedList(pageIndex, pageSize);
                     break;
@@ -368,6 +377,7 @@ namespace DVCP.Controllers
                                 c.AvatarImage,
                                 c.create_date,
                                 c.Tbl_Tags.FirstOrDefault().TagName,
+                                c.post_slug
                             })
                             //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                             //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -379,7 +389,9 @@ namespace DVCP.Controllers
                                 ViewCount = c.ViewCount,
                                 AvatarImage = c.AvatarImage,
                                 create_date = c.create_date,
-                                tagsname = c.TagName
+                                tagsname = c.TagName,
+                                slug = c.post_slug
+
                             })
                             .ToPagedList(pageIndex, pageSize);
                     }
@@ -399,6 +411,7 @@ namespace DVCP.Controllers
                      AvatarImage = m.AvatarImage,
                      create_date = m.create_date,
                     tagsname = m.Tbl_Tags.FirstOrDefault().TagName,
+                    slug = m.post_slug
                  }
                  ).ToPagedList(pageIndex, pageSize);
                     break;
@@ -408,11 +421,11 @@ namespace DVCP.Controllers
                         post = (
                             // instance from context
                             from z in taglist
-                            // join list tìm kiếm
+                                // join list tìm kiếm
                             join a in conn.Tbl_Tags on z.TagID equals a.TagID
                             // instance from navigation property
                             from b in a.Tbl_POST
-                            //join to bring useful data
+                                //join to bring useful data
                             join c in conn.Tbl_POST on b.post_id equals c.post_id
                             where c.dynasty == model.Dynasty.ToString()
                             where c.status == true
@@ -427,6 +440,7 @@ namespace DVCP.Controllers
                                 c.AvatarImage,
                                 c.create_date,
                                 c.Tbl_Tags.FirstOrDefault().TagName,
+                                c.post_slug
                             })
                             //DISTINCT ĐỂ SAU KHI SELECT ĐỐI TƯỢNG MỚI ĐƯỢC
                             //VÌ THẰNG DƯỚI KHÔNG EQUAL HASHCODE
@@ -438,7 +452,8 @@ namespace DVCP.Controllers
                                 ViewCount = c.ViewCount,
                                 AvatarImage = c.AvatarImage,
                                 create_date = c.create_date,
-                                tagsname = c.TagName
+                                tagsname = c.TagName,
+                                slug = c.post_slug
                             })
                             .ToPagedList(pageIndex, pageSize);
                     }

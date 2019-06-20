@@ -15,7 +15,7 @@
                         <h4 class="p-title ml-md-1"><b>@ViewBag.catname</b></h4>
                         @foreach (var item in Model)
                         {
-                            <a class="link row oflow-hidden pos-relative mb-md-2 mb-1 dplay-block ml-md-1" href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id">
+                            <a class="link row oflow-hidden pos-relative mb-md-2 mb-1 dplay-block ml-md-1" href="/bai-viet/@item.slug">
                                 <div class="col-md-4 col-12 pl-md-0" style="height:auto">
                                     <img src="~/Upload/images/@item.AvatarImage" alt="@item.post_title" onerror="this.onerror=null;this.src='/Content/web/images/top-post1.jpg';" />
                                 </div><div class="col-md-8 col-12">

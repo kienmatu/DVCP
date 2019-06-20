@@ -7,7 +7,7 @@
         <h4 class="p-title"><b>PHỔ BIẾN</b></h4>
         @foreach (var item in Model)
         {
-            <a class="link oflow-hidden pos-relative mb-20 dplay-block" href="/bai-viet/@SlugGenerator.SlugGenerator.GenerateSlug(item.post_title.ToLower())-@item.post_id">
+            <a class="link oflow-hidden pos-relative mb-20 dplay-block" href="/bai-viet/@item.post_slug">
                 <div style="background-image:url(/Upload/images/@item.AvatarImage),url(/Content/web/images/top-post2.jpg)" class="wh-100x abs-tlr img-bg-head"></div>
                 <div class="ml-120 min-h-100x smallpop">
                     <h5 class="poppost">@item.post_title</h5>

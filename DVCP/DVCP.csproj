@@ -205,6 +205,14 @@
     <Compile Include="Migrations\201906130344357_addtag.Designer.cs">
       <DependentUpon>201906130344357_addtag.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906200734118_addslig.cs" />
+    <Compile Include="Migrations\201906200734118_addslig.Designer.cs">
+      <DependentUpon>201906200734118_addslig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906200803041_addslUg.cs" />
+    <Compile Include="Migrations\201906200803041_addslUg.Designer.cs">
+      <DependentUpon>201906200803041_addslUg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DVCPContext.cs" />
     <Compile Include="Models\info.cs" />
@@ -2360,6 +2368,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906130344357_addtag.resx">
       <DependentUpon>201906130344357_addtag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906200734118_addslig.resx">
+      <DependentUpon>201906200734118_addslig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906200803041_addslUg.resx">
+      <DependentUpon>201906200803041_addslUg.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

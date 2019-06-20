@@ -94,6 +94,12 @@ namespace DVCP.Controllers
                         pOST.Tbl_Tags.Add(tags);
                         tags.Tbl_POST.Add(pOST);
                     }
+                    string slug = SlugGenerator.SlugGenerator.GenerateSlug(pOST.post_title.ToLower());
+                    pOST.post_slug = slug;
+                    if(db.postRepository.AllPosts().Any(m=>m.post_slug == slug))
+                    {
+                        pOST.post_slug = slug + "-" + 1;
+                    }
                     db.postRepository.AddPost(pOST);
                     db.Commit();
                     if (model.post_type.Equals(PostType.Slide))
@@ -630,6 +636,15 @@ namespace DVCP.Controllers
                             tags.Tbl_POST.Remove(pOST);
                         }
                     }
+                    if(model.UpdateSlug)
+                    {
+                        string slug = SlugGenerator.SlugGenerator.GenerateSlug(model.post_title.ToLower());
+                        pOST.post_slug = slug;
+                        if (db.postRepository.AllPosts().Any(m => m.post_slug == slug))
+                        {
+                            pOST.post_slug = slug + "-" + 1;
+                        }
+                    }
                     db.postRepository.UpdatePost(pOST);
                     db.Commit();
                     if (model.post_type.Equals(PostType.Slide))
@@ -737,6 +752,7 @@ namespace DVCP.Controllers
                                     create_date = b.create_date,
                                 userfullname = b.tbl_User.fullname,
                                 username = b.tbl_User.username,
+                                slug = b.post_slug
                             }).ToList();
                         SeriesPostViewModel postViewModel = new SeriesPostViewModel
                         {

@@ -23,5 +23,6 @@ namespace DVCP.ViewModel
         public bool status { get; set; }
         public string userfullname { get; set; }
         public string username { get; set; }
+        public string slug { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace DVCP.Repository
             IQueryable<Tbl_POST> query = entity.Tbl_POST;
             return query.AsQueryable();
         }
+        
         public void DeletePost(Tbl_POST post)
         {
             //entity.Tbl_Tags.Remove(post.Tbl_Tags);
@@ -36,6 +37,10 @@ namespace DVCP.Repository
         public Tbl_POST FindByID(int id)
         {
             return entity.Tbl_POST.Find(id);
+        }
+        public Tbl_POST FindBySlug(string slug)
+        {
+            return entity.Tbl_POST.Where(m => m.post_slug == slug).FirstOrDefault();
         }
         public void SaveChanges()
         {

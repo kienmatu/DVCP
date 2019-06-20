@@ -119,6 +119,15 @@
     background-color: #007bff;
     border-color: #007bff;
 }
+.abc-checkbox-primary input[type="checkbox"]:checked + input[type="hidden"] + label::after,
+.abc-checkbox-primary input[type="radio"]:checked + label::after {
+    color: #fff;
+}
+.abc-checkbox-primary input[type="checkbox"]:checked + input[type="hidden"] + label::before,
+.abc-checkbox-primary input[type="radio"]:checked + input[type="hidden"] + label::before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
 .abc-checkbox-primary input[type="checkbox"]:checked + label::before,
 .abc-checkbox-primary input[type="radio"]:checked + label::before {
     background-color: #007bff;
@@ -162,7 +171,16 @@
 .abc-checkbox-warning input[type="radio"]:checked + label::after {
     color: #fff;
 }
+.abc-checkbox-warning input[type="checkbox"]:checked + input[type="hidden"] + label::after,
+.abc-checkbox-warning input[type="radio"]:checked + label::after {
+    color: #fff;
+}
 
+.abc-checkbox-warning input[type="checkbox"]:checked + input[type="hidden"] + label::before,
+.abc-checkbox-warning input[type="radio"]:checked + input[type="hidden"] + label::before {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
 .abc-checkbox-success input[type="checkbox"]:checked + label::before,
 .abc-checkbox-success input[type="radio"]:checked + label::before {
     background-color: #28a745;

@@ -24,6 +24,9 @@ namespace DVCP.Models
         [Required]
         [StringLength(200)]
         public string post_title { get; set; }
+        [Index(IsUnique = true)]
+        [StringLength(200)]
+        public string post_slug { get; set; }
 
         [Required]
         [StringLength(500)]

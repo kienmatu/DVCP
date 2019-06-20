@@ -121,5 +121,6 @@ namespace DVCP.ViewModel
         public Rated Rated { get; set; } = Rated.Normal;
 
         public bool Status { get; set; }
+        public bool UpdateSlug { get; set; } = false;
     }
 }
