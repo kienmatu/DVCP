@@ -24,7 +24,12 @@
                     </div>
                 </section>
                 <h1 id="title_post">@Model.post_title</h1>
-                <div id="author_time"><i class="fa fa-clock-o mr-1"></i>@String.Format("{0:dd/MM/yyyy}", Model.create_date)  - <i class="fa fa-eye mr-1"></i> @Model.ViewCount views</div>
+                <div id="author_time">
+                <i class="fa fa-clock-o mr-1"></i>
+                @String.Format("{0:dd/MM/yyyy}", Model.create_date)  - 
+                <i class="fa fa-eye mr-1"></i> @Model.ViewCount views
+                   
+                </div>
                 <hr />
                 <div class="content">
                     <div id="teaser-post">

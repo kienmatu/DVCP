@@ -106,7 +106,8 @@ namespace DVCP.Controllers
                                 post_teaser = c.post_teaser,
                                 ViewCount = c.ViewCount,
                                 AvatarImage = c.AvatarImage,
-                                create_date = c.create_date
+                                create_date = c.create_date,
+                                slug = c.post_slug
                             }).ToPagedList(pageIndex, pageSize);
                         ViewBag.catname = tag.TagName;
                         return View(result);
