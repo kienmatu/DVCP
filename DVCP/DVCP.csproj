@@ -189,40 +189,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906070311035_khoi_tao.cs" />
-    <Compile Include="Migrations\201906070311035_khoi_tao.Designer.cs">
-      <DependentUpon>201906070311035_khoi_tao.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906070408490_fix.cs" />
-    <Compile Include="Migrations\201906070408490_fix.Designer.cs">
-      <DependentUpon>201906070408490_fix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906100646568_collatelatin.cs" />
-    <Compile Include="Migrations\201906100646568_collatelatin.Designer.cs">
-      <DependentUpon>201906100646568_collatelatin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906130344357_addtag.cs" />
-    <Compile Include="Migrations\201906130344357_addtag.Designer.cs">
-      <DependentUpon>201906130344357_addtag.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906200734118_addslig.cs" />
-    <Compile Include="Migrations\201906200734118_addslig.Designer.cs">
-      <DependentUpon>201906200734118_addslig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906200803041_addslUg.cs" />
-    <Compile Include="Migrations\201906200803041_addslUg.Designer.cs">
-      <DependentUpon>201906200803041_addslUg.cs</DependentUpon>
+    <Compile Include="Migrations\202012141408180_Initialization.cs" />
+    <Compile Include="Migrations\202012141408180_Initialization.Designer.cs">
+      <DependentUpon>202012141408180_Initialization.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DVCPContext.cs" />
-    <Compile Include="Models\info.cs" />
-    <Compile Include="Models\Tbl_PostTags.cs" />
-    <Compile Include="Models\Tbl_HotPost.cs" />
-    <Compile Include="Models\Tbl_POST.cs" />
-    <Compile Include="Models\Tbl_Series.cs" />
-    <Compile Include="Models\Tbl_SeriesPost.cs" />
-    <Compile Include="Models\Tbl_Tags.cs" />
-    <Compile Include="Models\tbl_User.cs" />
+    <Compile Include="Models\WebInfo.cs" />
+    <Compile Include="Models\PostTag.cs" />
+    <Compile Include="Models\StickyPost.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Series.cs" />
+    <Compile Include="Models\SeriesPost.cs" />
+    <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Repository\HotPostRepository.cs" />
     <Compile Include="Repository\InfoRepository.cs" />
     <Compile Include="Repository\SeriesRepository.cs" />
@@ -2357,23 +2337,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906070311035_khoi_tao.resx">
-      <DependentUpon>201906070311035_khoi_tao.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906070408490_fix.resx">
-      <DependentUpon>201906070408490_fix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906100646568_collatelatin.resx">
-      <DependentUpon>201906100646568_collatelatin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906130344357_addtag.resx">
-      <DependentUpon>201906130344357_addtag.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906200734118_addslig.resx">
-      <DependentUpon>201906200734118_addslig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906200803041_addslUg.resx">
-      <DependentUpon>201906200803041_addslUg.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202012141408180_Initialization.resx">
+      <DependentUpon>202012141408180_Initialization.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

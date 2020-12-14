@@ -14,26 +14,26 @@ namespace DVCP.Repository
         {
             this.entity = context;
         }
-        public void AddTag(Tbl_Tags tag)
+        public void AddTag(Tag tag)
         {
-            entity.Tbl_Tags.Add(tag);
+            entity.Tags.Add(tag);
         }
-        public IQueryable<Tbl_Tags> AllTags()
+        public IQueryable<Tag> AllTags()
         {
-            IQueryable<Tbl_Tags> query = entity.Tbl_Tags;
+            IQueryable<Tag> query = entity.Tags;
             return query.AsQueryable();
         }
-        public void DeleteTag(Tbl_Tags post)
+        public void DeleteTag(Tag post)
         {
-            entity.Tbl_Tags.Remove(post);
+            entity.Tags.Remove(post);
         }
-        public void UpdateTag(Tbl_Tags tag)
+        public void UpdateTag(Tag tag)
         {
             entity.Entry(tag).State = EntityState.Modified;
         }
-        public Tbl_Tags FindByID(int id)
+        public Tag FindByID(int id)
         {
-            return entity.Tbl_Tags.Find(id);
+            return entity.Tags.Find(id);
         }
         public void SaveChanges()
         {

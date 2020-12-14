@@ -6,12 +6,12 @@ namespace DVCP.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Tbl_Series
+    public partial class Series
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tbl_Series()
+        public Series()
         {
-            Tbl_POST = new HashSet<Tbl_POST>();
+            Tbl_POST = new HashSet<Post>();
         }
 
         [Key]
@@ -22,6 +22,6 @@ namespace DVCP.Models
         public string seriesName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tbl_POST> Tbl_POST { get; set; }
+        public virtual ICollection<Post> Tbl_POST { get; set; }
     }
 }

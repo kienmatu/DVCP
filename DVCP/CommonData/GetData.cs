@@ -12,15 +12,15 @@ namespace DVCP
         UnitOfWork db = new UnitOfWork(new DVCPContext());
         public IEnumerable<ViewModel.lstPostViewModel> GetRelatedPost(int tag, int count = 6)
         {
-            Tbl_Tags tags = db.tagRepository.FindByID(tag);
+            Tag tags = db.tagRepository.FindByID(tag);
             List<ViewModel.lstPostViewModel> post = new List<lstPostViewModel>();
 
             post = (
-                       from a in db.Context.Tbl_Tags
+                       from a in db.Context.Tags
                            // instance from navigation property
                        from b in a.Tbl_POST
                            //join to bring useful data
-                       join c in db.Context.Tbl_POST on b.post_id equals c.post_id
+                       join c in db.Context.Posts on b.post_id equals c.post_id
                        where a.TagID == tag
                        where c.status == true
                        // sắp theo so khớp
@@ -38,7 +38,7 @@ namespace DVCP
             return post;
 
         }
-        public List<Models.Tbl_POST> GetPopularPost()
+        public List<Models.Post> GetPopularPost()
         {
             return db.postRepository.AllPosts().Take(5)
                 .Where(m => m.status == true).OrderByDescending(m => m.ViewCount).ToList();
@@ -61,15 +61,15 @@ namespace DVCP
         }
         public IEnumerable<ViewModel.ViewPostViewModel> GetPostByTag(int tag, int count = 4)
         {
-            Tbl_Tags tags = db.tagRepository.FindByID(tag);
+            Tag tags = db.tagRepository.FindByID(tag);
             List<ViewModel.ViewPostViewModel> post = new List<ViewPostViewModel>();
             
                  post = (
-                            from a in db.Context.Tbl_Tags
+                            from a in db.Context.Tags
                                 // instance from navigation property
                             from b in a.Tbl_POST
                                 //join to bring useful data
-                            join c in db.Context.Tbl_POST on b.post_id equals c.post_id
+                            join c in db.Context.Posts on b.post_id equals c.post_id
                             where a.TagID == tag
                             where c.status == true
                             // sắp theo so khớp
@@ -103,9 +103,9 @@ namespace DVCP
             return post;
 
         }
-        public Tbl_HotPost[] GetHotPosts()
+        public StickyPost[] GetHotPosts()
         {
-            Tbl_HotPost[] post = db.hotPostRepository.AllPosts().Where(m => m.Tbl_POST.status == true).OrderBy(m => m.priority).Take(3).ToArray();
+            StickyPost[] post = db.hotPostRepository.AllPosts().Where(m => m.Tbl_POST.status == true).OrderBy(m => m.priority).Take(3).ToArray();
             return post;
         }
         public IEnumerable<ViewModel.ListTagViewModel> GetListTags()

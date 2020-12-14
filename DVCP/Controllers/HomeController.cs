@@ -41,7 +41,7 @@ namespace DVCP.Controllers
         {
             if(!String.IsNullOrWhiteSpace(title))
             {
-                Tbl_POST p = db.postRepository.FindBySlug(title);
+                Post p = db.postRepository.FindBySlug(title);
                 if (p != null)
                 {
                     p.ViewCount++;
@@ -85,18 +85,18 @@ namespace DVCP.Controllers
                 int pageIndex = 1;
                 //IPagedList<Tbl_POST> post = null;
                 pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-                Tbl_Tags tag = db.tagRepository.FindByID(id.Value);
+                Tag tag = db.tagRepository.FindByID(id.Value);
                 if (tag != null)
                 {
                     using (DVCPContext conn = db.Context)
                     {
                         var result = (
                             // instance from context
-                            from a in conn.Tbl_Tags
+                            from a in conn.Tags
                                 // instance from navigation property
                         from b in a.Tbl_POST
                             //join to bring useful data
-                        join c in conn.Tbl_POST on b.post_id equals c.post_id
+                        join c in conn.Posts on b.post_id equals c.post_id
                             where a.TagID == id && b.status == true
                             orderby b.create_date descending
                             select new lstPostViewModel
@@ -158,9 +158,9 @@ namespace DVCP.Controllers
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             IPagedList<lstPostViewModel> post = new List<lstPostViewModel>().ToPagedList(pageIndex, pageSize);
-            List<Tbl_Tags> taglist = new List<Tbl_Tags>();
+            List<Tag> taglist = new List<Tag>();
             taglist.AddRange(model.post_tag.Where(m => m.Selected)
-                .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
+                .Select(m => new Tag { TagID = int.Parse(m.Value), TagName = m.Text })
                 );
             ViewBag.stitle = model.title;
             bool title = String.IsNullOrWhiteSpace(model.title);
@@ -211,7 +211,7 @@ namespace DVCP.Controllers
             {
                 default:
                 case 1:
-                    IQueryable<Tbl_POST> x = db.postRepository.AllPosts()
+                    IQueryable<Post> x = db.postRepository.AllPosts()
                     .Where(m => m.status)
                     .OrderByDescending(m => m.create_date);
                     post =
@@ -235,11 +235,11 @@ namespace DVCP.Controllers
                             // instance from context
                             from z in taglist
                             // join list tìm kiếm
-                            join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                            join a in conn.Tags on z.TagID equals a.TagID
                             // instance from navigation property
                             from b in a.Tbl_POST
                             // join to bring useful data
-                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            join c in conn.Posts on b.post_id equals c.post_id
                             where c.status == true
                             where c.dynasty == model.Dynasty.ToString()
                             where c.post_title.ToLower().Contains(model.title.ToLower())
@@ -299,11 +299,11 @@ namespace DVCP.Controllers
                             // instance from context
                             from z in taglist
                             // join list tìm kiếm
-                            join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                            join a in conn.Tags on z.TagID equals a.TagID
                             // instance from navigation property
                             from b in a.Tbl_POST
                             //join to bring useful data
-                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            join c in conn.Posts on b.post_id equals c.post_id
                             where c.status == true
                             // sắp theo ngày đăng mới nhất
                             orderby b.create_date descending
@@ -360,11 +360,11 @@ namespace DVCP.Controllers
                             // instance from context
                             from z in taglist
                             // join list tìm kiếm
-                            join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                            join a in conn.Tags on z.TagID equals a.TagID
                             // instance from navigation property
                             from b in a.Tbl_POST
                                 //join to bring useful data
-                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            join c in conn.Posts on b.post_id equals c.post_id
                             where c.post_title.ToLower().Contains(model.title.ToLower())
                             where c.status == true
                             // sắp theo so khớp
@@ -423,11 +423,11 @@ namespace DVCP.Controllers
                             // instance from context
                             from z in taglist
                                 // join list tìm kiếm
-                            join a in conn.Tbl_Tags on z.TagID equals a.TagID
+                            join a in conn.Tags on z.TagID equals a.TagID
                             // instance from navigation property
                             from b in a.Tbl_POST
                                 //join to bring useful data
-                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            join c in conn.Posts on b.post_id equals c.post_id
                             where c.dynasty == model.Dynasty.ToString()
                             where c.status == true
                             // sắp theo so khớp

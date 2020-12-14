@@ -14,33 +14,33 @@ namespace DVCP.Repository
         {
             this.entity = context;
         }
-        public void AddPost(Tbl_POST post)
+        public void AddPost(Post post)
         {
-            entity.Tbl_POST.Add(post);
+            entity.Posts.Add(post);
         }
-        public IQueryable<Tbl_POST> AllPosts()
+        public IQueryable<Post> AllPosts()
         {
-            IQueryable<Tbl_POST> query = entity.Tbl_POST;
+            IQueryable<Post> query = entity.Posts;
             return query.AsQueryable();
         }
         
-        public void DeletePost(Tbl_POST post)
+        public void DeletePost(Post post)
         {
             //entity.Tbl_Tags.Remove(post.Tbl_Tags);
-            entity.Tbl_POST.Remove(post);
+            entity.Posts.Remove(post);
            
         }
-        public void UpdatePost(Tbl_POST post)
+        public void UpdatePost(Post post)
         {
             entity.Entry(post).State = EntityState.Modified;
         }
-        public Tbl_POST FindByID(int id)
+        public Post FindByID(int id)
         {
-            return entity.Tbl_POST.Find(id);
+            return entity.Posts.Find(id);
         }
-        public Tbl_POST FindBySlug(string slug)
+        public Post FindBySlug(string slug)
         {
-            return entity.Tbl_POST.Where(m => m.post_slug == slug).FirstOrDefault();
+            return entity.Posts.Where(m => m.post_slug == slug).FirstOrDefault();
         }
         public void SaveChanges()
         {

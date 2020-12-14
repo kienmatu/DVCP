@@ -14,30 +14,30 @@ namespace DVCP.Repository
         {
             this.entity = context;
         }
-        public void Add(tbl_User user)
+        public void Add(User user)
         {
-            entity.tbl_User.Add(user);
+            entity.Users.Add(user);
         }
-        public tbl_User FindByUsername(string user)
+        public User FindByUsername(string user)
         {
-            tbl_User u = entity.tbl_User.Where(x => x.username == user).FirstOrDefault();
+            User u = entity.Users.Where(x => x.username == user).FirstOrDefault();
             return u;
         }
-        public tbl_User FindByID(int id)
+        public User FindByID(int id)
         {
-            tbl_User u = entity.tbl_User.Find(id);
+            User u = entity.Users.Find(id);
             return u;
         }
-        public IQueryable<tbl_User> AllUsers()
+        public IQueryable<User> AllUsers()
         {
-            IQueryable<tbl_User> query = entity.tbl_User;
+            IQueryable<User> query = entity.Users;
             return query.AsQueryable();
         }
-        public void Delete(tbl_User user)
+        public void Delete(User user)
         {
-            entity.tbl_User.Remove(user);
+            entity.Users.Remove(user);
         }
-        public void Update(tbl_User u)
+        public void Update(User u)
         {
             entity.Entry(u).State = EntityState.Modified;
         }

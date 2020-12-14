@@ -14,26 +14,26 @@ namespace DVCP.Repository
         {
             this.entity = context;
         }
-        public void AddSeries(Tbl_Series series)
+        public void AddSeries(Series series)
         {
-            entity.Tbl_Series.Add(series);
+            entity.Series.Add(series);
         }
-        public IQueryable<Tbl_Series> AllSeries()
+        public IQueryable<Series> AllSeries()
         {
-            IQueryable<Tbl_Series> query = entity.Tbl_Series;
+            IQueryable<Series> query = entity.Series;
             return query.AsQueryable();
         }
-        public void Delete(Tbl_Series post)
+        public void Delete(Series post)
         {
-            entity.Tbl_Series.Remove(post);
+            entity.Series.Remove(post);
         }
-        public void Update(Tbl_Series post)
+        public void Update(Series post)
         {
             entity.Entry(post).State = EntityState.Modified;
         }
-        public Tbl_Series FindByID(int id)
+        public Series FindByID(int id)
         {
-            return entity.Tbl_Series.Find(id);
+            return entity.Series.Find(id);
         }
         public void SaveChanges()
         {

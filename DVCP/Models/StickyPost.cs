@@ -6,7 +6,7 @@ namespace DVCP.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Tbl_HotPost
+    public partial class StickyPost
     {
         public int id { get; set; }
 
@@ -14,6 +14,6 @@ namespace DVCP.Models
 
         public int? post_id { get; set; }
 
-        public virtual Tbl_POST Tbl_POST { get; set; }
+        public virtual Post Tbl_POST { get; set; }
     }
 }

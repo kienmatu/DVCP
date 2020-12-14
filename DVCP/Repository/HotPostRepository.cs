@@ -14,27 +14,27 @@ namespace DVCP.Repository
         {
             this.entity = context;
         }
-        public void AddHotPost(Tbl_HotPost post)
+        public void AddHotPost(StickyPost post)
         {
-            entity.Tbl_HotPost.Add(post);
+            entity.StickyPosts.Add(post);
         }
-        public IQueryable<Tbl_HotPost> AllPosts()
+        public IQueryable<StickyPost> AllPosts()
         {
-            IQueryable<Tbl_HotPost> query = entity.Tbl_HotPost;
+            IQueryable<StickyPost> query = entity.StickyPosts;
             return query.AsQueryable();
         }
-        public void DeletePost(Tbl_HotPost post)
+        public void DeletePost(StickyPost post)
         {
-            entity.Tbl_HotPost.Remove(post);
+            entity.StickyPosts.Remove(post);
 
         }
-        public void UpdatePost(Tbl_HotPost post)
+        public void UpdatePost(StickyPost post)
         {
             entity.Entry(post).State = EntityState.Modified;
         }
-        public Tbl_HotPost FindByID(int id)
+        public StickyPost FindByID(int id)
         {
-            return entity.Tbl_HotPost.Find(id);
+            return entity.StickyPosts.Find(id);
         }
         public void SaveChanges()
         {

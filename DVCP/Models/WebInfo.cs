@@ -7,7 +7,7 @@ namespace DVCP.Models
     using System.Data.Entity.Spatial;
 
     [Table("info")]
-    public partial class info
+    public partial class WebInfo
     {
         public int id { get; set; }
 

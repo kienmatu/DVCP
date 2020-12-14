@@ -6,7 +6,7 @@ namespace DVCP.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Tbl_SeriesPost
+    public partial class SeriesPost
     {
         //[Key]
         //[Column(Order = 0)]

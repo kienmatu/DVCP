@@ -36,9 +36,9 @@ namespace DVCP.Controllers
         [HttpPost]
         public ActionResult newPost(newPostViewModel model)
         {
-            List<Tbl_Tags> taglist = new List<Tbl_Tags>();
+            List<Tag> taglist = new List<Tag>();
             taglist.AddRange(model.post_tag.Where(m => m.Selected)
-                .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
+                .Select(m => new Tag { TagID = int.Parse(m.Value), TagName = m.Text })
                 );
            
             if (ModelState.IsValid && taglist.Count > 0)
@@ -71,8 +71,8 @@ namespace DVCP.Controllers
                 }
                 if (isSavedSuccessfully == true)
                 {
-                    tbl_User user = db.userRepository.FindByUsername(User.Identity.Name);
-                    Tbl_POST pOST = new Tbl_POST
+                    User user = db.userRepository.FindByUsername(User.Identity.Name);
+                    Post pOST = new Post
                     {
                         userid = user.userid,
                         dynasty = model.dynasty.ToString(),
@@ -90,7 +90,7 @@ namespace DVCP.Controllers
                     };
                     foreach(var i in taglist)
                     {
-                        Tbl_Tags tags = db.tagRepository.FindByID(i.TagID);
+                        Tag tags = db.tagRepository.FindByID(i.TagID);
                         pOST.Tbl_Tags.Add(tags);
                         tags.Tbl_POST.Add(pOST);
                     }
@@ -127,7 +127,7 @@ namespace DVCP.Controllers
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortOrder;
             sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
-            IPagedList<Tbl_POST> post = null;
+            IPagedList<Post> post = null;
             ViewBag.Sort = "tăng dần";
             if (String.IsNullOrWhiteSpace(titleStr))
             {
@@ -249,9 +249,9 @@ namespace DVCP.Controllers
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortOrder;
             sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
-            IPagedList<Tbl_POST> post = null;
+            IPagedList<Post> post = null;
             ViewBag.Sort = "tăng dần";
-            tbl_User user = db.userRepository.FindByUsername(User.Identity.Name);
+            User user = db.userRepository.FindByUsername(User.Identity.Name);
             if (String.IsNullOrWhiteSpace(titleStr))
             {
                 switch (sortOrder)
@@ -372,9 +372,9 @@ namespace DVCP.Controllers
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortOrder;
             sortOrder = String.IsNullOrEmpty(sortOrder) ? "Title" : sortOrder;
-            IPagedList<Tbl_POST> post = null;
+            IPagedList<Post> post = null;
             ViewBag.Sort = "tăng dần";
-            tbl_User user = db.userRepository.FindByID(id);
+            User user = db.userRepository.FindByID(id);
             if (user != null)
             {
                 if (String.IsNullOrWhiteSpace(titleStr))
@@ -498,7 +498,7 @@ namespace DVCP.Controllers
         }
         public ActionResult editPost(int id)
         {
-            Tbl_POST post = db.postRepository.FindByID(id);
+            Post post = db.postRepository.FindByID(id);
             if (post == null)
             {
                 return RedirectToAction("ListPost");
@@ -550,13 +550,13 @@ namespace DVCP.Controllers
         [HttpPost]
         public ActionResult editPost(newPostViewModel model)
         {
-            List<Tbl_Tags> taglist = new List<Tbl_Tags>();
+            List<Tag> taglist = new List<Tag>();
             taglist.AddRange(model.post_tag.Where(m => m.Selected)
-                .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
+                .Select(m => new Tag { TagID = int.Parse(m.Value), TagName = m.Text })
                 );
-            List<Tbl_Tags> untaglist = new List<Tbl_Tags>();
+            List<Tag> untaglist = new List<Tag>();
             untaglist.AddRange(model.post_tag.Where(m => m.Selected == false)
-                .Select(m => new Tbl_Tags { TagID = int.Parse(m.Value), TagName = m.Text })
+                .Select(m => new Tag { TagID = int.Parse(m.Value), TagName = m.Text })
                 );
             if (ModelState.IsValid && taglist.Count > 0)
             {
@@ -596,7 +596,7 @@ namespace DVCP.Controllers
                 }
                 if (isSavedSuccessfully)
                 {
-                    Tbl_POST pOST = db.postRepository.FindByID(model.post_id);
+                    Post pOST = db.postRepository.FindByID(model.post_id);
                     if (pOST.tbl_User.username != User.Identity.Name)
                     {
                         return RedirectToAction("ListPost");
@@ -614,7 +614,7 @@ namespace DVCP.Controllers
                     pOST.post_tag = model.meta_tag;
                     foreach (var i in taglist)
                     {
-                        Tbl_Tags tags = db.tagRepository.FindByID(i.TagID);
+                        Tag tags = db.tagRepository.FindByID(i.TagID);
                         if (!pOST.Tbl_Tags.Contains(tags))
                         {
                             pOST.Tbl_Tags.Add(tags);
@@ -629,7 +629,7 @@ namespace DVCP.Controllers
                     }
                     foreach(var i in untaglist)
                     {
-                        Tbl_Tags tags = db.tagRepository.FindByID(i.TagID);
+                        Tag tags = db.tagRepository.FindByID(i.TagID);
                         if (pOST.Tbl_Tags.Contains(tags))
                         {
                             pOST.Tbl_Tags.Remove(tags);
@@ -669,7 +669,7 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult DeleteConfirmed(int id)
         {
-            Tbl_POST Tbl_POST = db.postRepository.FindByID(id);
+            Post Tbl_POST = db.postRepository.FindByID(id);
             string title = Tbl_POST.post_title;
             if ((Tbl_POST.tbl_User.username == User.Identity.Name) || User.IsInRole("admin"))
             {
@@ -698,7 +698,7 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult changeStatus(int id, bool state = false)
         {
-            Tbl_POST Tbl_POST = db.postRepository.FindByID(id);
+            Post Tbl_POST = db.postRepository.FindByID(id);
             string title = Tbl_POST.post_title;
             Tbl_POST.status = state;
             string prefix = state == true ? "Đăng" : "Hủy đăng";
@@ -710,7 +710,7 @@ namespace DVCP.Controllers
             int pageSize = 100;
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            IPagedList<Tbl_Series> sr = null;
+            IPagedList<Series> sr = null;
             if (!String.IsNullOrWhiteSpace(name))
             {
                 ViewBag.name = name;
@@ -724,7 +724,7 @@ namespace DVCP.Controllers
         }
         public ActionResult SerieDetail(int id, string name)
         {
-            Tbl_Series sr = db.seriesRepository.FindByID(id);
+            Series sr = db.seriesRepository.FindByID(id);
             if (sr != null)
             {
 
@@ -734,15 +734,15 @@ namespace DVCP.Controllers
                     {
                         var result = (
                                 // instance from context
-                            from a in conn.Tbl_Series
+                            from a in conn.Series
                                     // instance from navigation property
                             from b in a.Tbl_POST
                                     //join to bring useful data
-                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            join c in conn.Posts on b.post_id equals c.post_id
                                 //where a.seriesID == c.Tbl_Series.s
                             where a.seriesID.Equals(id)
                             where b.post_title.Contains(name)
-                            select new SeriesPost
+                            select new ViewModel.SeriesPost
                                 {
                                     post_id = b.post_id,
                                     post_title = b.post_title,
@@ -771,14 +771,14 @@ namespace DVCP.Controllers
                     {
                         var result = (
                             // instance from context
-                            from a in conn.Tbl_Series
+                            from a in conn.Series
                                 // instance from navigation property
                             from b in a.Tbl_POST
                                 //join to bring useful data
-                            join c in conn.Tbl_POST on b.post_id equals c.post_id
+                            join c in conn.Posts on b.post_id equals c.post_id
                             //where a.seriesID == c.Tbl_Series.s
                             where a.seriesID.Equals(id)
-                            select new SeriesPost
+                            select new ViewModel.SeriesPost
                             {
                                 post_id = b.post_id,
                                 post_title = b.post_title,
@@ -820,7 +820,7 @@ namespace DVCP.Controllers
             }
             else
             {
-                db.seriesRepository.AddSeries(new Tbl_Series
+                db.seriesRepository.AddSeries(new Series
                 {
                     seriesName = name,
                 });
@@ -839,7 +839,7 @@ namespace DVCP.Controllers
             }
             else
             {
-                Tbl_Series series = db.seriesRepository.FindByID(id);
+                Series series = db.seriesRepository.FindByID(id);
                 series.seriesName = name;
                 db.Commit();
                 return Json(new { Message = "Edit series" + " \"" + series.seriesName + "\" thành công" }, JsonRequestBehavior.AllowGet);
@@ -848,7 +848,7 @@ namespace DVCP.Controllers
         }
         public JsonResult DeleteSeries(int id)
         {
-            Tbl_Series cate = db.seriesRepository.FindByID(id);
+            Series cate = db.seriesRepository.FindByID(id);
             string title = cate.seriesName;
             db.seriesRepository.Delete(cate);
             db.Commit();
@@ -866,8 +866,8 @@ namespace DVCP.Controllers
             {
                 using (DVCPContext conn = new DVCPContext())
                 {
-                    Tbl_Series sr = conn.Tbl_Series.Find(seriid);
-                    Tbl_POST post = conn.Tbl_POST.Find(id);
+                    Series sr = conn.Series.Find(seriid);
+                    Post post = conn.Posts.Find(id);
                     foreach(var x in sr.Tbl_POST)
                     {
                         if(x.post_id.Equals(id))
@@ -886,7 +886,7 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult checkPost(int id)
         {
-            Tbl_POST p = db.postRepository.FindByID(id);
+            Post p = db.postRepository.FindByID(id);
             if (p != null)
             {
                 return Json(new { valid = true, Message = p.post_title }, JsonRequestBehavior.AllowGet);
@@ -906,8 +906,8 @@ namespace DVCP.Controllers
             {
                 using (DVCPContext conn = new DVCPContext())
                 {
-                    Tbl_Series sr = conn.Tbl_Series.Find(seriid);
-                    Tbl_POST post = conn.Tbl_POST.Find(id);
+                    Series sr = conn.Series.Find(seriid);
+                    Post post = conn.Posts.Find(id);
                     sr.Tbl_POST.Remove(post);
                     post.Tbl_Series.Remove(sr);
                     conn.SaveChanges();
@@ -976,7 +976,7 @@ namespace DVCP.Controllers
         [Authorize(Roles ="admin")]
         public ActionResult InfoChange()
         {
-            info info = db.infoRepository.FindByID();
+            WebInfo info = db.infoRepository.FindByID();
             infoViewModel model = new infoViewModel
             {
                 web_name = info.web_name,
@@ -991,7 +991,7 @@ namespace DVCP.Controllers
         {
             if(ModelState.IsValid)
             {
-                info info = db.infoRepository.FindByID();
+                WebInfo info = db.infoRepository.FindByID();
                 info.web_des = model.web_des;
                 info.web_name = model.web_name;
                 info.web_about = model.web_about;
@@ -1014,7 +1014,7 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult DeleteTag(int id)
         {
-            Tbl_Tags tags = db.tagRepository.FindByID(id);
+            Tag tags = db.tagRepository.FindByID(id);
             if(tags.Tbl_POST.Count > 0)
             {
                 Response.StatusCode = 500;
@@ -1027,7 +1027,7 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult UpdateTag(int id,string name)
         {
-            Tbl_Tags tags = db.tagRepository.FindByID(id);
+            Tag tags = db.tagRepository.FindByID(id);
             if(String.IsNullOrWhiteSpace(name))
             {
                 Response.StatusCode = 500;
@@ -1045,7 +1045,7 @@ namespace DVCP.Controllers
                 Response.StatusCode = 500;
                 return Json(new { reload = true, Message = "Chưa nhập tên" }, JsonRequestBehavior.AllowGet);
             }
-            Tbl_Tags tags = new Tbl_Tags
+            Tag tags = new Tag
             {
                 TagName = name,
             };
@@ -1056,13 +1056,13 @@ namespace DVCP.Controllers
         [Authorize(Roles = "admin")]
         public ViewResult HotPostManager()
         {
-            List<Tbl_HotPost> posts = db.hotPostRepository.AllPosts().ToList();
+            List<StickyPost> posts = db.hotPostRepository.AllPosts().ToList();
             return View(posts);
         }
         [HttpPost]
         public JsonResult editHotPost(int id, int priority)
         {
-            Tbl_HotPost hotPost = db.hotPostRepository.FindByID(id);
+            StickyPost hotPost = db.hotPostRepository.FindByID(id);
             hotPost.priority = priority;
             db.hotPostRepository.SaveChanges();
             return Json(new { reload = true, Message = "Sửa '" + hotPost.Tbl_POST.post_title + "' thành công" }, JsonRequestBehavior.AllowGet);
@@ -1071,7 +1071,7 @@ namespace DVCP.Controllers
         public JsonResult deleteHotPost(int id)
         {
             
-            Tbl_HotPost hotPost =  db.hotPostRepository.FindByID(id);
+            StickyPost hotPost =  db.hotPostRepository.FindByID(id);
             string tit = hotPost.Tbl_POST.post_title;
             db.hotPostRepository.DeletePost(hotPost);
             db.hotPostRepository.SaveChanges();
@@ -1080,7 +1080,7 @@ namespace DVCP.Controllers
         [HttpPost]
         public JsonResult addhotPost(int id, int priority)
         {
-            Tbl_HotPost hotPost = new Tbl_HotPost
+            StickyPost hotPost = new StickyPost
             {
                 post_id = id,
                 priority = priority,

@@ -15,13 +15,13 @@ namespace DVCP.Repository
             this.entity = context;
         }
         
-        public info FindByID(int id = 1)
+        public WebInfo FindByID(int id = 1)
         {
-            info u = entity.info.Find(id);
+            WebInfo u = entity.WebInfo.Find(id);
             return u;
         }
        
-        public void Update(info u)
+        public void Update(WebInfo u)
         {
             entity.Entry(u).State = EntityState.Modified;
         }

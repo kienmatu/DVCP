@@ -12,35 +12,35 @@ namespace DVCP.Models
         {
         }
 
-        public virtual DbSet<info> info { get; set; }
+        public virtual DbSet<WebInfo> WebInfo { get; set; }
      
-        public virtual DbSet<Tbl_HotPost> Tbl_HotPost { get; set; }
-        public virtual DbSet<Tbl_Tags> Tbl_Tags { get; set; }
-        public virtual DbSet<Tbl_POST> Tbl_POST { get; set; }
-        public virtual DbSet<Tbl_Series> Tbl_Series { get; set; }
-        public virtual DbSet<tbl_User> tbl_User { get; set; }
+        public virtual DbSet<StickyPost> StickyPosts { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Series> Series { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Tbl_POST>()
+            modelBuilder.Entity<Post>()
                 .HasMany(e => e.Tbl_Series)
                 .WithMany(e => e.Tbl_POST)
                 .Map(m => m.ToTable("Tbl_SeriesPost").MapLeftKey("PostID").MapRightKey("seriesID"));
 
-            modelBuilder.Entity<Tbl_POST>()
+            modelBuilder.Entity<Post>()
                 .HasMany(e => e.Tbl_Tags)
                 .WithMany(e => e.Tbl_POST)
                 .Map(m => m.ToTable("Tbl_PostTags").MapLeftKey("PostID").MapRightKey("TagID"));
 
-            modelBuilder.Entity<tbl_User>()
+            modelBuilder.Entity<User>()
                 .Property(e => e.username)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<tbl_User>()
+            modelBuilder.Entity<User>()
                 .Property(e => e.password)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<tbl_User>()
+            modelBuilder.Entity<User>()
                 .Property(e => e.userrole)
                 .IsUnicode(false);
         }

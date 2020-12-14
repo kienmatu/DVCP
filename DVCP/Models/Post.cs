@@ -6,14 +6,14 @@ namespace DVCP.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Tbl_POST
+    public partial class Post
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tbl_POST()
+        public Post()
         {
-            Tbl_HotPost = new HashSet<Tbl_HotPost>();
-            Tbl_Series = new HashSet<Tbl_Series>();
-            Tbl_Tags = new HashSet<Tbl_Tags>();
+            Tbl_HotPost = new HashSet<StickyPost>();
+            Tbl_Series = new HashSet<Series>();
+            Tbl_Tags = new HashSet<Tag>();
         }
 
         [Key]
@@ -61,14 +61,14 @@ namespace DVCP.Models
         
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tbl_HotPost> Tbl_HotPost { get; set; }
+        public virtual ICollection<StickyPost> Tbl_HotPost { get; set; }
 
-        public virtual tbl_User tbl_User { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tbl_Series> Tbl_Series { get; set; }
+        public virtual User tbl_User { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tbl_Tags> Tbl_Tags { get; set; }
+        public virtual ICollection<Series> Tbl_Series { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tag> Tbl_Tags { get; set; }
     }
 }

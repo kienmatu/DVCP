@@ -29,7 +29,7 @@ namespace DVCP.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult UserManager()
         {
-           List<tbl_User> lstUser = UnitOfWork.userRepository.AllUsers().ToList();
+           List<User> lstUser = UnitOfWork.userRepository.AllUsers().ToList();
            return View(lstUser);
         }
         public void setCookie(string username, bool rememberme = false, string role = "normal")
@@ -55,7 +55,7 @@ namespace DVCP.Controllers
 
             if (ModelState.IsValid)
             {
-                tbl_User user = UnitOfWork.userRepository.FindByUsername(model.Username);
+                User user = UnitOfWork.userRepository.FindByUsername(model.Username);
                 if (user != null)
                 {
                     if (user.password == CommonData.CommonFunction.CalculateMD5Hash(model.Password) && user.status == true)
@@ -84,10 +84,10 @@ namespace DVCP.Controllers
         {
             if(ModelState.IsValid)
             {
-                tbl_User user = UnitOfWork.userRepository.FindByUsername(model.username);
+                User user = UnitOfWork.userRepository.FindByUsername(model.username);
                 if(user == null)
                 {
-                    tbl_User nuser = new tbl_User
+                    User nuser = new User
                     {
                         username = model.username,
                         fullname = model.fullname,
@@ -124,7 +124,7 @@ namespace DVCP.Controllers
                 }
                 else
                 {
-                    tbl_User user = UnitOfWork.userRepository.FindByUsername(User.Identity.Name);
+                    User user = UnitOfWork.userRepository.FindByUsername(User.Identity.Name);
                     if(user != null)
                     {
                         user.password = CommonData.CommonFunction.CalculateMD5Hash(model.password);
@@ -139,7 +139,7 @@ namespace DVCP.Controllers
         public JsonResult changeStatus(int userid,bool state = true)
         {
             string prefix = state ? "Đã bỏ cấm" : "Đã cấm";
-            tbl_User u = UnitOfWork.userRepository.FindByID(userid);
+            User u = UnitOfWork.userRepository.FindByID(userid);
             if(u.username != "admin")
             {
                 u.status = state;
